@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalhes do Veículo | Autogémeos</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { background-color: #0A0A0A; color: white; font-family: 'Inter', sans-serif; }
+        .accent-color { color: #F06418; }
+        .bg-accent { background-color: #F06418; }
+        .glass { background: rgba(20, 20, 20, 0.8); backdrop-filter: blur(10px); }
+        .spec-card { background: #111; border: 1px solid rgba(255,255,255,0.05); padding: 1.5rem; rounded: 1rem; }
+    </style>
+</head>
+<body>
+
+    <nav class="flex justify-between items-center px-6 md:px-12 py-6 glass fixed w-full z-50 border-b border-white/5">
+        <div class="flex items-center gap-2">
+            <a href="index.html" class="text-2xl font-bold tracking-tighter uppercase italic">Auto<span class="accent-color">Gémeos</span></a>
+        </div>
+        <div class="hidden md:flex gap-8 text-gray-400 font-medium">
+            <a href="index.html" class="hover:text-white transition">Início</a>
+            <a href="index.html#stock" class="hover:text-white transition">Veículos</a>
+            <a href="contacto.html" class="hover:text-white transition">Contacto</a>
+        </div>
+        <button class="bg-accent text-white px-6 py-2 rounded-lg font-bold">Ligar Agora</button>
+    </nav>
+
+    <main class="pt-32 pb-20 px-6 md:px-12 max-w-7xl mx-auto">
+        
+        <div class="flex flex-col md:flex-row justify-between items-start mb-8 gap-4">
+            <div>
+                <a href="index.html#stock" class="text-gray-500 hover:text-white text-sm mb-4 inline-block">← Voltar ao Stock</a>
+                <h1 id="car-title" class="text-4xl md:text-6xl font-bold italic uppercase">BMW M4 <span class="accent-color">Competition</span></h1>
+                <p class="text-gray-400 mt-2">Ref: #AG202601</p>
+            </div>
+            <div class="text-left md:text-right">
+                <p class="text-sm text-gray-500 uppercase font-bold tracking-widest">Preço Especial</p>
+                <p id="car-price" class="text-5xl font-bold accent-color">89.900 €</p>
+                <p class="text-xs text-gray-400 mt-1">IVA Discriminado | Financiamento desde 850€/mês</p>
+            </div>
+        </div>
+
+        <div class="grid lg:grid-cols-3 gap-12">
+            
+            <div class="lg:col-span-2 space-y-4">
+                <div class="rounded-3xl overflow-hidden border border-white/10 aspect-video">
+                    <img id="main-img" src="https://images.unsplash.com/photo-1617531653332-bd46c24f2068?w=1200" class="w-full h-full object-cover">
+                </div>
+                <div class="grid grid-cols-4 gap-4">
+                    <img src="https://images.unsplash.com/photo-1617531653332-bd46c24f2068?w=400" class="rounded-xl cursor-pointer hover:opacity-50 transition border border-white/10">
+                    <div class="rounded-xl bg-[#111] flex items-center justify-center border border-white/10 text-gray-500">+12 Fotos</div>
+                </div>
+
+                <div class="mt-12">
+                    <h2 class="text-2xl font-bold mb-4 border-b border-white/5 pb-2">Equipamento de Série</h2>
+                    <p class="text-gray-400 leading-relaxed">
+                        Este exemplar conta com um histórico completo de manutenção na marca. Equipado com Pack Carbono exterior, Travões Cerâmicos, Sistema de Som Harman Kardon e Bancos Desportivos M-Tech em pele Merino. Garantia total de 24 meses incluída.
+                    </p>
+                </div>
+            </div>
+
+            <div class="space-y-6">
+                <div class="bg-[#111] rounded-3xl p-8 border border-white/5 space-y-6">
+                    <h3 class="font-bold text-xl mb-4">Especificações</h3>
+                    
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="spec-card text-center">
+                            <p class="text-xs text-gray-500 uppercase">Ano</p>
+                            <p class="font-bold">2023</p>
+                        </div>
+                        <div class="spec-card text-center">
+                            <p class="text-xs text-gray-500 uppercase">Kms</p>
+                            <p class="font-bold">12.500</p>
+                        </div>
+                        <div class="spec-card text-center">
+                            <p class="text-xs text-gray-500 uppercase">Potência</p>
+                            <p class="font-bold">510 cv</p>
+                        </div>
+                        <div class="spec-card text-center">
+                            <p class="text-xs text-gray-500 uppercase">Transmissão</p>
+                            <p class="font-bold">Auto</p>
+                        </div>
+                    </div>
+
+                    <div class="pt-6 border-t border-white/5 space-y-4">
+                        <button class="w-full bg-accent py-4 rounded-xl font-bold text-lg hover:scale-[1.02] transition shadow-lg shadow-orange-900/20">
+                            Pedir Cotação Online
+                        </button>
+                        <a href="https://wa.me/351210000000" class="w-full border border-green-500/50 text-green-500 py-4 rounded-xl font-bold text-lg flex justify-center items-center gap-2 hover:bg-green-500/10 transition">
+                            💬 Contactar via WhatsApp
+                        </a>
+                    </div>
+                </div>
+
+                <div class="bg-white/5 rounded-3xl p-6 border border-white/5 flex items-center gap-4">
+                    <div class="w-12 h-12 bg-accent rounded-full flex items-center justify-center font-bold">AG</div>
+                    <div>
+                        <p class="font-bold">Autogémeos Lisboa</p>
+                        <p class="text-xs text-gray-500">Aberto hoje até às 19:00</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+</body>
+</html>

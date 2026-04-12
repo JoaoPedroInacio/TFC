@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sobre Nós | Autogémeos</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { background-color: #0A0A0A; color: white; font-family: 'Inter', sans-serif; }
+        .accent-color { color: #F06418; }
+        .bg-accent { background-color: #F06418; }
+        .glass { background: rgba(20, 20, 20, 0.8); backdrop-filter: blur(10px); }
+        .bg-dots {
+            background-image: radial-gradient(#333 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="flex justify-between items-center px-6 md:px-12 py-6 glass fixed w-full z-50 border-b border-white/5">
+        <div class="flex items-center gap-2">
+            <a href="index.html" class="text-2xl font-bold tracking-tighter uppercase italic">Auto<span class="accent-color">Gémeos</span></a>
+        </div>
+        <div class="hidden md:flex gap-8 text-gray-400 font-medium">
+            <a href="index.html" class="hover:text-white transition">Início</a>
+            <a href="index.html#stock" class="hover:text-white transition">Veículos</a>
+            <a href="sobre.html" class="text-white">Sobre Nós</a>
+            <a href="contacto.html" class="hover:text-white transition">Contacto</a>
+        </div>
+        <a href="index.html#stock" class="bg-accent text-white px-6 py-2 rounded-lg font-bold hover:opacity-90 transition">Ver Stock</a>
+    </nav>
+
+    <section class="pt-40 pb-20 px-6 md:px-12 bg-dots">
+        <div class="max-w-4xl mx-auto text-center">
+            <p class="accent-color font-bold uppercase tracking-widest text-sm mb-4">A Nossa História</p>
+            <h1 class="text-5xl md:text-7xl font-bold mb-8">Mais de <span class="accent-color">15 Anos</span> a Realizar Sonhos Sobre Rodas</h1>
+            <p class="text-gray-400 text-xl leading-relaxed">
+                A Autogémeos nasceu da paixão pelo automóvel e do compromisso em oferecer uma experiência de compra diferenciada. Somos mais do que um stand – somos parceiros na sua jornada automóvel.
+            </p>
+        </div>
+    </section>
+
+    <section class="py-20 border-y border-white/5 bg-black">
+        <div class="max-w-6xl mx-auto px-6">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-12 text-center">
+                <div>
+                    <p class="text-5xl font-bold accent-color mb-2">15+</p>
+                    <p class="text-gray-500 uppercase text-xs font-bold">Anos de Experiência</p>
+                </div>
+                <div>
+                    <p class="text-5xl font-bold accent-color mb-2">500+</p>
+                    <p class="text-gray-500 uppercase text-xs font-bold">Veículos Vendidos</p>
+                </div>
+                <div>
+                    <p class="text-5xl font-bold accent-color mb-2">98%</p>
+                    <p class="text-gray-500 uppercase text-xs font-bold">Clientes Satisfeitos</p>
+                </div>
+                <div>
+                    <p class="text-5xl font-bold accent-color mb-2">50+</p>
+                    <p class="text-gray-500 uppercase text-xs font-bold">Veículos em Stock</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-24 px-6 md:px-12">
+        <div class="max-w-6xl mx-auto grid md:grid-cols-2 gap-16 items-center">
+            <div class="space-y-6">
+                <h2 class="text-4xl font-bold">Uma Paixão Que Se <br> Tornou Refer
