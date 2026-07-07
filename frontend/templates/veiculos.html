@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stock de Veículos | Autogémeos</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { background-color: #0A0A0A; color: #FFFFFF; font-family: 'Inter', sans-serif; }
+        .accent-color { color: #F06418; }
+        .bg-accent { background-color: #F06418; }
+        .glass { background: rgba(15, 15, 15, 0.75); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
+    </style>
+</head>
+<body class="antialiased">
+
+    <nav class="flex justify-between items-center px-6 md:px-12 py-5 glass fixed w-full z-50 border-b border-white/[0.06]">
+        <div class="flex items-center gap-2">
+            <a href="/" class="text-2xl font-black tracking-tighter uppercase italic">Auto<span class="accent-color">Gémeos</span></a>
+        </div>
+        <div class="hidden md:flex gap-8 text-sm text-gray-400 font-medium tracking-wide">
+            <a href="/" class="hover:text-white transition">Início</a>
+            <a href="/veiculos" class="text-white border-b-2 border-accent pb-1 transition">Veículos</a>
+            <a href="/sobre" class="hover:text-white transition">Sobre Nós</a>
+            <a href="/contacto" class="hover:text-white transition">Contacto</a>
+        </div>
+        <div>
+            <a href="/veiculos" class="bg-accent text-white px-6 py-2.5 rounded-xl text-sm font-bold shadow-lg shadow-orange-600/10">Ver Stock</a>
+        </div>
+    </nav>
+
+    <section class="pt-32 pb-28 px-6 md:px-12 bg-[#0A0A0A]">
+        <div class="max-w-7xl mx-auto">
+            <div class="flex flex-col lg:flex-row gap-10">
+                
+                <aside class="w-full lg:w-80 space-y-6 bg-[#111111] p-6 rounded-2xl h-fit border border-white/[0.05]">
+                    <div class="flex items-center gap-2.5 pb-4 border-b border-white/[0.05]">
+                        <svg class="w-5 h-5 accent-color" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"/></svg>
+                        <h2 class="text-lg font-bold tracking-wide uppercase">Filtrar Stock</h2>
+                    </div>
+
+                    <div>
+                        <label class="text-[11px] uppercase font-bold text-gray-500 mb-2 block tracking-wider">Pesquisa Global</label>
+                        <input type="text" id="filtro-pesquisa" placeholder="Ex: BMW M4, RS6..." class="w-full bg-black border border-white/[0.08] rounded-xl p-3 text-sm focus:border-accent outline-none text-white placeholder-gray-600 transition-colors">
+                    </div>
+
+                    <div>
+                        <label class="text-[11px] uppercase font-bold text-gray-500 mb-2 block tracking-wider">Marca</label>
+                        <select id="filtro-marca" class="w-full bg-black border border-white/[0.08] rounded-xl p-3 text-sm outline-none text-gray-300 focus:border-accent transition-colors">
+                            <option>Todas as Marcas</option>
+                            <option>BMW</option>
+                            <option>Mercedes-Benz</option>
+                            <option>Audi</option>
+                            <option>Porsche</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="text-[11px] uppercase font-bold text-gray-500 mb-3 block tracking-wider">Combustível</label>
+                        <div class="space-y-2.5">
+                            <label class="flex items-center gap-3 text-sm text-gray-400 cursor-pointer hover:text-white transition-colors">
+                                <input type="checkbox" name="combustivel" value="Gasolina" class="w-4 h-4 rounded bg-black accent-orange-600"> Gasolina
+                            </label>
+                            <label class="flex items-center gap-3 text-sm text-gray-400 cursor-pointer hover:text-white transition-colors">
+                                <input type="checkbox" name="combustivel" value="Diesel" class="w-4 h-4 rounded bg-black accent-orange-600"> Diesel
+                            </label>
+                            <label class="flex items-center gap-3 text-sm text-gray-400 cursor-pointer hover:text-white transition-colors">
+                                <input type="checkbox" name="combustivel" value="Elétrico / Híbrido" class="w-4 h-4 rounded bg-black accent-orange-600"> Elétrico / Híbrido
+                            </label>
+                        </div>
+                    </div>
+
+                    <button onclick="aplicarFiltros()" class="w-full bg-accent text-white py-3.5 rounded-xl font-bold text-sm tracking-wide shadow-lg shadow-orange-600/10 hover:bg-opacity-90 transition-all">
+                        Aplicar Filtros
+                    </button>
+                </aside>
+
+                <div class="flex-1">
+                    <div class="flex justify-between items-center mb-8 bg-[#111111]/40 p-4 rounded-xl border border-white/[0.03]">
+                        <h2 class="text-xl font-medium text-gray-300">
+                            <span id="total-veiculos" class="accent-color font-bold text-2xl">0</span> veículos encontrados
+                        </h2>
+                    </div>
+
+                    <div id="grid-veiculos" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <script>
+        const container = document.getElementById('grid-veiculos');
+
+        async function aplicarFiltros() {
+            const pesquisa = document.getElementById('filtro-pesquisa').value;
+            const marca = document.getElementById('filtro-marca').value;
+            
+            const checkboxes = document.querySelectorAll('input[name="combustivel"]:checked');
+            let queryCombustiveis = '';
+            checkboxes.forEach(cb => {
+                queryCombustiveis += `&combustivel=${encodeURIComponent(cb.value)}`;
+            });
+
+            const url = `/api/veiculos?pesquisa=${encodeURIComponent(pesquisa)}&marca=${encodeURIComponent(marca)}${queryCombustiveis}`;
+
+            try {
+                container.innerHTML = "<div class='col-span-full text-center py-12 text-gray-500 font-light'>A atualizar stock...</div>";
+                
+                const response = await fetch(url);
+                const stock = await response.json();
+                
+                document.getElementById('total-veiculos').textContent = stock.length;
+
+                if (!stock.length) {
+                    container.innerHTML = "<div class='col-span-full py-12 text-center text-gray-500 bg-[#111] rounded-2xl border border-white/[0.05]'><p class='text-lg font-medium mb-1'>Nenhum veículo encontrado</p></div>";
+                    return;
+                }
+
+                container.innerHTML = stock.map(carro => `
+                    <div class="bg-[#111111] rounded-2xl overflow-hidden border border-white/[0.04] group hover:border-accent/40 transition-all duration-500 flex flex-col justify-between">
+                        <div class="relative h-56 overflow-hidden bg-black">
+                            <img src="${carro.img}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 opacity-90 group-hover:opacity-100" alt="${carro.modelo}">
+                        </div>
+                        <div class="p-6 flex-1 flex flex-col justify-between">
+                            <div class="mb-4">
+                                <p class="text-[11px] text-gray-500 uppercase tracking-widest font-bold mb-1">${carro.marca}</p>
+                                <h3 class="text-xl font-bold text-white tracking-tight group-hover:text-accent transition-colors">${carro.modelo}</h3>
+                                <p class="accent-color font-black text-2xl mt-2 tracking-tight">${carro.preco} €</p>
+                            </div>
+                            <div class="flex justify-between border-t border-white/[0.05] pt-4 text-gray-400 text-xs font-medium">
+                                <span>📅 ${carro.ano}</span>
+                                <span>🛣️ ${carro.kms} km</span>
+                                <span>⛽ ${carro.combustivel}</span>
+                            </div>
+                            <a href="/veiculo/${carro.id}" class="block text-center w-full mt-6 py-3.5 bg-white/[0.03] border border-white/[0.08] rounded-xl text-xs font-bold uppercase tracking-wider text-white group-hover:bg-accent group-hover:border-accent transition-all duration-300">
+                                Ver detalhes →
+                            </a>
+                        </div>
+                    </div>
+                `).join('');
+            } catch (error) {
+                console.error(error);
+                container.innerHTML = "<div class='col-span-full text-center py-12 text-red-500'>Erro de rede ao carregar viaturas.</div>";
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", aplicarFiltros);
+    </script>
+</body>
+</html>
