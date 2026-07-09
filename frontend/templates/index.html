@@ -5,11 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Autogémeos | Stand de Veículos Premium</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
     <style>
         body { background-color: #0A0A0A; color: #FFFFFF; font-family: 'Inter', sans-serif; }
         .accent-color { color: #F06418; }
         .bg-accent { background-color: #F06418; }
+        .border-accent { border-color: #F06418; }
         .glass { background: rgba(15, 15, 15, 0.75); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
     </style>
 </head>
@@ -19,11 +20,12 @@
         <div class="flex items-center gap-2">
             <a href="/" class="text-2xl font-black tracking-tighter uppercase italic">Auto<span class="accent-color">Gémeos</span></a>
         </div>
+
         <div class="hidden md:flex gap-8 text-sm text-gray-400 font-medium tracking-wide">
-          <a href="/" class="text-white border-b-2 border-accent pb-1 transition">Início</a>
-<a href="/veiculos/" class="hover:text-white transition">Veículos</a>
-<a href="/sobre/" class="hover:text-white transition">Sobre Nós</a>
-<a href="/contacto/" class="hover:text-white transition">Contacto</a>
+            <a href="/" class="text-white border-b-2 border-accent pb-1 transition">Início</a>
+            <a href="/veiculos/" class="hover:text-white transition">Veículos</a>
+            <a href="/sobre/" class="hover:text-white transition">Sobre Nós</a>
+            <a href="/contacto/" class="hover:text-white transition">Contacto</a>
         </div>
     </nav>
 
@@ -39,14 +41,19 @@
                 <span class="w-2 h-2 rounded-full bg-accent animate-pulse"></span>
                 <span class="text-xs font-bold uppercase tracking-widest text-gray-300">Stand Premium em Lisboa</span>
             </div>
+
             <h1 class="text-5xl md:text-7xl lg:text-8xl font-black leading-tight mb-6 uppercase tracking-tight">
-                O Seu Próximo <br> <span class="accent-color italic">Veículo de Sonho</span> <br> Está Aqui
+                O Seu Próximo <br>
+                <span class="accent-color italic">Veículo de Sonho</span> <br>
+                Está Aqui
             </h1>
+
             <p class="text-gray-400 text-lg md:text-xl max-w-xl mb-10 leading-relaxed font-light">
                 Descubra a nossa seleção exclusiva de veículos de luxo e performance. Garantia certificada e soluções de financiamento personalizadas.
             </p>
+
             <div class="flex flex-wrap gap-4">
-                <a href="/veiculos" class="bg-accent text-white px-8 py-4 rounded-xl font-bold flex items-center gap-2 hover:bg-opacity-90 transition-all shadow-lg shadow-orange-600/20 group">
+                <a href="/veiculos/" class="bg-accent text-white px-8 py-4 rounded-xl font-bold flex items-center gap-2 hover:bg-opacity-90 transition-all shadow-lg shadow-orange-600/20 group">
                     Explorar Stock Completo <span class="group-hover:translate-x-1 transition-transform">→</span>
                 </a>
             </div>
@@ -62,35 +69,85 @@
             </div>
 
             <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {% for carro in carros %}
+                {% for carro in carros|slice:":3" %}
                 <div class="bg-[#111111] rounded-2xl overflow-hidden border border-white/[0.04] group hover:border-accent/40 transition-all duration-500 flex flex-col justify-between">
                     <div class="relative h-56 overflow-hidden bg-black">
                         <img src="{{ carro.img }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 opacity-90 group-hover:opacity-100" alt="{{ carro.modelo }}">
-                        <div class="absolute top-4 left-4 bg-accent text-white text-[10px] font-extrabold tracking-widest px-2.5 py-1 rounded-md uppercase">Novo</div>
+                        <div class="absolute top-4 left-4 bg-accent text-white text-[10px] font-extrabold tracking-widest px-2.5 py-1 rounded-md uppercase">Destaque</div>
                     </div>
+
                     <div class="p-6 flex-1 flex flex-col justify-between">
                         <div class="mb-4">
                             <p class="text-[11px] text-gray-500 uppercase tracking-widest font-bold mb-1">{{ carro.marca }}</p>
                             <h3 class="text-xl font-bold text-white tracking-tight group-hover:text-accent transition-colors">{{ carro.modelo }}</h3>
                             <p class="accent-color font-black text-2xl mt-2 tracking-tight">{{ carro.preco }} €</p>
                         </div>
+
                         <div class="flex justify-between border-t border-white/[0.05] pt-4 text-gray-400 text-xs font-medium">
                             <span>📅 {{ carro.ano }}</span>
                             <span>🛣️ {{ carro.kms }} km</span>
                             <span>⛽ {{ carro.combustivel }}</span>
                         </div>
-                        <a href="/veiculo/{{ carro.id }}" class="block text-center w-full mt-6 py-3.5 bg-white/[0.03] border border-white/[0.08] rounded-xl text-xs font-bold uppercase tracking-wider text-white group-hover:bg-accent group-hover:border-accent transition-all duration-300">
+
+                        <a href="/veiculo/{{ carro.id }}/" class="block text-center w-full mt-6 py-3.5 bg-white/[0.03] border border-white/[0.08] rounded-xl text-xs font-bold uppercase tracking-wider text-white group-hover:bg-accent group-hover:border-accent transition-all duration-300">
                             Ver detalhes →
                         </a>
                     </div>
                 </div>
                 {% endfor %}
             </div>
+
+            <div class="text-center mt-12">
+                <a href="/veiculos/" class="inline-flex items-center gap-2 bg-white/[0.03] border border-white/[0.08] text-white px-8 py-4 rounded-xl text-sm font-bold hover:bg-accent hover:border-accent transition-all">
+                    Ver todos os veículos <span>→</span>
+                </a>
+            </div>
         </div>
     </section>
 
-    <footer class="bg-[#0A0A0A] border-t border-white/[0.05] py-12 px-6 text-center text-sm text-gray-500">
-        <p>&copy; 2026 AutoGémeos. Todos os direitos reservados. Stand Automóvel Premium.</p>
+    <footer class="bg-[#070707] border-t border-white/[0.06] px-6 md:px-12 py-14">
+        <div class="max-w-7xl mx-auto grid md:grid-cols-3 gap-10">
+            
+            <div>
+                <a href="/" class="text-2xl font-black tracking-tighter uppercase italic">
+                    Auto<span class="accent-color">Gémeos</span>
+                </a>
+                <p class="text-gray-500 text-sm mt-4 leading-relaxed max-w-sm">
+                    Stand automóvel premium especializado em veículos selecionados, com garantia e acompanhamento personalizado.
+                </p>
+            </div>
+
+            <div>
+                <h3 class="text-white font-bold uppercase tracking-wider text-sm mb-4">Contactos</h3>
+                <div class="space-y-3 text-sm text-gray-400">
+                    <p>📍 Lisboa, Portugal</p>
+                    <p>📞 <a href="tel:+351900000000" class="hover:text-white transition">+351 900 000 000</a></p>
+                    <p>✉️ <a href="mailto:geral@autogemeosinacio.pt" class="hover:text-white transition">geral@autogemeosinacio.pt</a></p>
+                    <p>🕒 Segunda a Sábado: 09h00 - 19h00</p>
+                </div>
+            </div>
+
+            <div>
+                <h3 class="text-white font-bold uppercase tracking-wider text-sm mb-4">Redes Sociais</h3>
+                <div class="flex flex-wrap gap-3">
+                    <a href="#" target="_blank" class="px-4 py-2 rounded-xl bg-white/[0.03] border border-white/[0.08] text-sm text-gray-300 hover:bg-accent hover:text-white hover:border-accent transition">
+                        Instagram
+                    </a>
+                    <a href="#" target="_blank" class="px-4 py-2 rounded-xl bg-white/[0.03] border border-white/[0.08] text-sm text-gray-300 hover:bg-accent hover:text-white hover:border-accent transition">
+                        Facebook
+                    </a>
+                    <a href="#" target="_blank" class="px-4 py-2 rounded-xl bg-white/[0.03] border border-white/[0.08] text-sm text-gray-300 hover:bg-accent hover:text-white hover:border-accent transition">
+                        WhatsApp
+                    </a>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="max-w-7xl mx-auto border-t border-white/[0.06] mt-10 pt-6 flex flex-col md:flex-row justify-between gap-4 text-xs text-gray-600">
+            <p>&copy; 2026 AutoGémeos. Todos os direitos reservados.</p>
+            <p>Stand Automóvel Premium</p>
+        </div>
     </footer>
 
 </body>

@@ -5,11 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Stock de Veículos | Autogémeos</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
     <style>
         body { background-color: #0A0A0A; color: #FFFFFF; font-family: 'Inter', sans-serif; }
         .accent-color { color: #F06418; }
         .bg-accent { background-color: #F06418; }
+        .border-accent { border-color: #F06418; }
         .glass { background: rgba(15, 15, 15, 0.75); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
     </style>
 </head>
@@ -17,29 +18,51 @@
 
     <nav class="flex justify-between items-center px-6 md:px-12 py-5 glass fixed w-full z-50 border-b border-white/[0.06]">
         <div class="flex items-center gap-2">
-            <a href="/" class="text-2xl font-black tracking-tighter uppercase italic">Auto<span class="accent-color">Gémeos</span></a>
+            <a href="/" class="text-2xl font-black tracking-tighter uppercase italic">
+                Auto<span class="accent-color">Gémeos</span>
+            </a>
         </div>
+
         <div class="hidden md:flex gap-8 text-sm text-gray-400 font-medium tracking-wide">
-    <a href="/" class="hover:text-white transition">Início</a>
-<a href="/veiculos/" class="text-white border-b-2 border-accent pb-1 transition">Veículos</a>
-<a href="/sobre/" class="hover:text-white transition">Sobre Nós</a>
-<a href="/contacto/" class="hover:text-white transition">Contacto</a>
+            <a href="/" class="hover:text-white transition">Início</a>
+            <a href="/veiculos/" class="text-white border-b-2 border-accent pb-1 transition">Veículos</a>
+            <a href="/sobre/" class="hover:text-white transition">Sobre Nós</a>
+            <a href="/contacto/" class="hover:text-white transition">Contacto</a>
         </div>
     </nav>
 
-    <section class="pt-32 pb-28 px-6 md:px-12 bg-[#0A0A0A]">
+    <section class="relative pt-44 pb-16 px-6 md:px-12 overflow-hidden">
+        <div class="absolute inset-0 z-0">
+            <img src="https://images.unsplash.com/photo-1617814076367-b759c7d7e738?auto=format&fit=crop&q=80&w=1920" class="w-full h-full object-cover opacity-20" alt="Stock Autogémeos">
+            <div class="absolute inset-0 bg-gradient-to-b from-[#0A0A0A]/70 via-[#0A0A0A] to-[#0A0A0A]"></div>
+        </div>
+
+        <div class="relative z-10 max-w-7xl mx-auto text-center">
+            <p class="accent-color font-bold uppercase tracking-widest text-xs mb-4">Stock disponível</p>
+            <h1 class="text-5xl md:text-7xl font-black uppercase tracking-tight mb-6">
+                Encontre o seu <span class="accent-color italic">Próximo Veículo</span>
+            </h1>
+            <p class="text-gray-400 text-lg md:text-xl leading-relaxed font-light max-w-3xl mx-auto">
+                Explore a nossa seleção de veículos disponíveis e utilize os filtros para encontrar o modelo ideal.
+            </p>
+        </div>
+    </section>
+
+    <section class="pb-28 px-6 md:px-12 bg-[#0A0A0A]">
         <div class="max-w-7xl mx-auto">
             <div class="flex flex-col lg:flex-row gap-10">
                 
-                <aside class="w-full lg:w-80 space-y-6 bg-[#111111] p-6 rounded-2xl h-fit border border-white/[0.05]">
-                    <div class="flex items-center gap-2.5 pb-4 border-b border-white/[0.05]">
-                        <svg class="w-5 h-5 accent-color" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"/></svg>
+                <aside class="w-full lg:w-80 space-y-6 bg-[#111111] p-6 rounded-3xl h-fit border border-white/[0.06]">
+                    <div class="flex items-center gap-2.5 pb-4 border-b border-white/[0.06]">
+                        <svg class="w-5 h-5 accent-color" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"/>
+                        </svg>
                         <h2 class="text-lg font-bold tracking-wide uppercase">Filtrar Stock</h2>
                     </div>
 
                     <div>
                         <label class="text-[11px] uppercase font-bold text-gray-500 mb-2 block tracking-wider">Pesquisa Global</label>
-                        <input type="text" id="filtro-pesquisa" placeholder="Ex: BMW M4, RS6..." class="w-full bg-black border border-white/[0.08] rounded-xl p-3 text-sm focus:border-accent outline-none text-white placeholder-gray-600 transition-colors">
+                        <input type="text" id="filtro-pesquisa" placeholder="Ex: BMW M4, Audi RS6..." class="w-full bg-black border border-white/[0.08] rounded-xl p-3 text-sm focus:border-accent outline-none text-white placeholder-gray-600 transition-colors">
                     </div>
 
                     <div>
@@ -71,22 +94,77 @@
                     <button onclick="aplicarFiltros()" class="w-full bg-accent text-white py-3.5 rounded-xl font-bold text-sm tracking-wide shadow-lg shadow-orange-600/10 hover:bg-opacity-90 transition-all">
                         Aplicar Filtros
                     </button>
+
+                    <button onclick="limparFiltros()" class="w-full bg-white/[0.03] border border-white/[0.08] text-white py-3.5 rounded-xl font-bold text-sm tracking-wide hover:border-accent hover:bg-accent transition-all">
+                        Limpar Filtros
+                    </button>
                 </aside>
 
                 <div class="flex-1">
-                    <div class="flex justify-between items-center mb-8 bg-[#111111]/40 p-4 rounded-xl border border-white/[0.03]">
-                        <h2 class="text-xl font-medium text-gray-300">
-                            <span id="total-veiculos" class="accent-color font-bold text-2xl">0</span> veículos encontrados
-                        </h2>
+                    <div class="flex flex-col md:flex-row md:justify-between md:items-center gap-4 mb-8 bg-[#111111]/60 p-5 rounded-2xl border border-white/[0.06]">
+                        <div>
+                            <p class="text-xs uppercase tracking-widest text-gray-500 font-bold mb-1">Resultados</p>
+                            <h2 class="text-xl font-medium text-gray-300">
+                                <span id="total-veiculos" class="accent-color font-black text-3xl">0</span> veículos encontrados
+                            </h2>
+                        </div>
+
+                        <a href="/contacto/" class="inline-flex justify-center items-center bg-white/[0.03] border border-white/[0.08] rounded-xl px-5 py-3 text-xs font-bold uppercase tracking-wider text-white hover:bg-accent hover:border-accent transition">
+                            Falar com a equipa
+                        </a>
                     </div>
 
-                    <div id="grid-veiculos" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        </div>
+                    <div id="grid-veiculos" class="grid md:grid-cols-2 xl:grid-cols-3 gap-6"></div>
                 </div>
 
             </div>
         </div>
     </section>
+
+    <footer class="bg-[#070707] border-t border-white/[0.06] px-6 md:px-12 py-14">
+        <div class="max-w-7xl mx-auto grid md:grid-cols-3 gap-10">
+            
+            <div>
+                <a href="/" class="text-2xl font-black tracking-tighter uppercase italic">
+                    Auto<span class="accent-color">Gémeos</span>
+                </a>
+                <p class="text-gray-500 text-sm mt-4 leading-relaxed max-w-sm">
+                    Stand automóvel premium especializado em veículos selecionados, com garantia e acompanhamento personalizado.
+                </p>
+            </div>
+
+            <div>
+                <h3 class="text-white font-bold uppercase tracking-wider text-sm mb-4">Contactos</h3>
+                <div class="space-y-3 text-sm text-gray-400">
+                    <p>📍 Lisboa, Portugal</p>
+                    <p>📞 <a href="tel:+351900000000" class="hover:text-white transition">+351 900 000 000</a></p>
+                    <p>✉️ <a href="mailto:geral@autogemeosinacio.pt" class="hover:text-white transition">geral@autogemeosinacio.pt</a></p>
+                    <p>🕒 Segunda a Sábado: 09h00 - 19h00</p>
+                </div>
+            </div>
+
+            <div>
+                <h3 class="text-white font-bold uppercase tracking-wider text-sm mb-4">Redes Sociais</h3>
+                <div class="flex flex-wrap gap-3">
+                    <a href="#" target="_blank" class="px-4 py-2 rounded-xl bg-white/[0.03] border border-white/[0.08] text-sm text-gray-300 hover:bg-accent hover:text-white hover:border-accent transition">
+                        Instagram
+                    </a>
+                    <a href="#" target="_blank" class="px-4 py-2 rounded-xl bg-white/[0.03] border border-white/[0.08] text-sm text-gray-300 hover:bg-accent hover:text-white hover:border-accent transition">
+                        Facebook
+                    </a>
+                    <a href="#" target="_blank" class="px-4 py-2 rounded-xl bg-white/[0.03] border border-white/[0.08] text-sm text-gray-300 hover:bg-accent hover:text-white hover:border-accent transition">
+                        WhatsApp
+                    </a>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="max-w-7xl mx-auto border-t border-white/[0.06] mt-10 pt-6 flex flex-col md:flex-row justify-between gap-4 text-xs text-gray-600">
+            <p>&copy; 2026 AutoGémeos. Todos os direitos reservados.</p>
+            <p>Stand Automóvel Premium</p>
+        </div>
+    </footer>
 
     <script>
         const container = document.getElementById('grid-veiculos');
@@ -97,6 +175,7 @@
             
             const checkboxes = document.querySelectorAll('input[name="combustivel"]:checked');
             let queryCombustiveis = '';
+
             checkboxes.forEach(cb => {
                 queryCombustiveis += `&combustivel=${encodeURIComponent(cb.value)}`;
             });
@@ -104,7 +183,7 @@
             const url = `/api/veiculos?pesquisa=${encodeURIComponent(pesquisa)}&marca=${encodeURIComponent(marca)}${queryCombustiveis}`;
 
             try {
-                container.innerHTML = "<div class='col-span-full text-center py-12 text-gray-500 font-light'>A atualizar stock...</div>";
+                container.innerHTML = "<div class='col-span-full text-center py-16 text-gray-500 font-light bg-[#111111] rounded-3xl border border-white/[0.06]'>A atualizar stock...</div>";
                 
                 const response = await fetch(url);
                 const stock = await response.json();
@@ -112,7 +191,12 @@
                 document.getElementById('total-veiculos').textContent = stock.length;
 
                 if (!stock.length) {
-                    container.innerHTML = "<div class='col-span-full py-12 text-center text-gray-500 bg-[#111] rounded-2xl border border-white/[0.05]'><p class='text-lg font-medium mb-1'>Nenhum veículo encontrado</p></div>";
+                    container.innerHTML = `
+                        <div class='col-span-full py-16 text-center text-gray-500 bg-[#111111] rounded-3xl border border-white/[0.06]'>
+                            <p class='text-xl text-white font-bold mb-2'>Nenhum veículo encontrado</p>
+                            <p class='text-sm'>Tente ajustar os filtros ou fale connosco para procurarmos uma solução à medida.</p>
+                        </div>
+                    `;
                     return;
                 }
 
@@ -120,19 +204,23 @@
                     <div class="bg-[#111111] rounded-2xl overflow-hidden border border-white/[0.04] group hover:border-accent/40 transition-all duration-500 flex flex-col justify-between">
                         <div class="relative h-56 overflow-hidden bg-black">
                             <img src="${carro.img}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 opacity-90 group-hover:opacity-100" alt="${carro.modelo}">
+                            <div class="absolute top-4 left-4 bg-accent text-white text-[10px] font-extrabold tracking-widest px-2.5 py-1 rounded-md uppercase">Disponível</div>
                         </div>
+
                         <div class="p-6 flex-1 flex flex-col justify-between">
                             <div class="mb-4">
                                 <p class="text-[11px] text-gray-500 uppercase tracking-widest font-bold mb-1">${carro.marca}</p>
                                 <h3 class="text-xl font-bold text-white tracking-tight group-hover:text-accent transition-colors">${carro.modelo}</h3>
                                 <p class="accent-color font-black text-2xl mt-2 tracking-tight">${carro.preco} €</p>
                             </div>
+
                             <div class="flex justify-between border-t border-white/[0.05] pt-4 text-gray-400 text-xs font-medium">
                                 <span>📅 ${carro.ano}</span>
                                 <span>🛣️ ${carro.kms} km</span>
                                 <span>⛽ ${carro.combustivel}</span>
                             </div>
-                            <a href="/veiculo/${carro.id}" class="block text-center w-full mt-6 py-3.5 bg-white/[0.03] border border-white/[0.08] rounded-xl text-xs font-bold uppercase tracking-wider text-white group-hover:bg-accent group-hover:border-accent transition-all duration-300">
+
+                            <a href="/veiculo/${carro.id}/" class="block text-center w-full mt-6 py-3.5 bg-white/[0.03] border border-white/[0.08] rounded-xl text-xs font-bold uppercase tracking-wider text-white group-hover:bg-accent group-hover:border-accent transition-all duration-300">
                                 Ver detalhes →
                             </a>
                         </div>
@@ -140,11 +228,23 @@
                 `).join('');
             } catch (error) {
                 console.error(error);
-                container.innerHTML = "<div class='col-span-full text-center py-12 text-red-500'>Erro de rede ao carregar viaturas.</div>";
+                container.innerHTML = "<div class='col-span-full text-center py-16 text-red-500 bg-[#111111] rounded-3xl border border-white/[0.06]'>Erro de rede ao carregar viaturas.</div>";
             }
+        }
+
+        function limparFiltros() {
+            document.getElementById('filtro-pesquisa').value = '';
+            document.getElementById('filtro-marca').value = 'Todas as Marcas';
+
+            document.querySelectorAll('input[name="combustivel"]').forEach(cb => {
+                cb.checked = false;
+            });
+
+            aplicarFiltros();
         }
 
         document.addEventListener("DOMContentLoaded", aplicarFiltros);
     </script>
+
 </body>
 </html>

@@ -5,11 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sobre Nós | Autogémeos</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
     <style>
         body { background-color: #0A0A0A; color: #FFFFFF; font-family: 'Inter', sans-serif; }
         .accent-color { color: #F06418; }
         .bg-accent { background-color: #F06418; }
+        .border-accent { border-color: #F06418; }
         .glass { background: rgba(15, 15, 15, 0.75); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
     </style>
 </head>
@@ -17,23 +18,169 @@
 
     <nav class="flex justify-between items-center px-6 md:px-12 py-5 glass fixed w-full z-50 border-b border-white/[0.06]">
         <div class="flex items-center gap-2">
-            <a href="/" class="text-2xl font-black tracking-tighter uppercase italic">Auto<span class="accent-color">Gémeos</span></a>
+            <a href="/" class="text-2xl font-black tracking-tighter uppercase italic">
+                Auto<span class="accent-color">Gémeos</span>
+            </a>
         </div>
+
         <div class="hidden md:flex gap-8 text-sm text-gray-400 font-medium tracking-wide">
             <a href="/" class="hover:text-white transition">Início</a>
-<a href="/veiculos/" class="hover:text-white transition">Veículos</a>
-<a href="/sobre/" class="text-white border-b-2 border-accent pb-1 transition">Sobre Nós</a>
-<a href="/contacto/" class="hover:text-white transition">Contacto</a>
+            <a href="/veiculos/" class="hover:text-white transition">Veículos</a>
+            <a href="/sobre/" class="text-white border-b-2 border-accent pb-1 transition">Sobre Nós</a>
+            <a href="/contacto/" class="hover:text-white transition">Contacto</a>
         </div>
     </nav>
 
-    <section class="pt-44 pb-24 px-6 md:px-12 max-w-4xl mx-auto text-center">
-        <p class="accent-color font-bold uppercase tracking-widest text-xs mb-4">Compromisso e Confiança</p>
-        <h1 class="text-5xl md:text-7xl font-black mb-8 tracking-tight uppercase">Mais de <span class="accent-color italic">15 Anos</span> a Realizar Sonhos</h1>
-        <p class="text-gray-400 text-lg md:text-xl leading-relaxed font-light">
-            A Autogémeos nasceu da paixão pelo universo automóvel. Somos focados em trazer transparência, procedência garantida e atendimento premium para quem procura um veículo especial.
-        </p>
+    <section class="relative pt-44 pb-28 px-6 md:px-12 overflow-hidden">
+        <div class="absolute inset-0 z-0">
+            <img src="https://images.unsplash.com/photo-1562141961-b5d8e24e3c5f?auto=format&fit=crop&q=80&w=1920" class="w-full h-full object-cover opacity-20" alt="Oficina automóvel premium">
+            <div class="absolute inset-0 bg-gradient-to-b from-[#0A0A0A]/70 via-[#0A0A0A] to-[#0A0A0A]"></div>
+        </div>
+
+        <div class="relative z-10 max-w-5xl mx-auto text-center">
+            <p class="accent-color font-bold uppercase tracking-widest text-xs mb-4">Compromisso e Confiança</p>
+            <h1 class="text-5xl md:text-7xl font-black mb-8 tracking-tight uppercase">
+                Mais de <span class="accent-color italic">15 Anos</span> a Realizar Sonhos
+            </h1>
+            <p class="text-gray-400 text-lg md:text-xl leading-relaxed font-light max-w-3xl mx-auto">
+                A Autogémeos nasceu da paixão pelo universo automóvel. Trabalhamos todos os dias para oferecer veículos selecionados, atendimento transparente e uma experiência de compra segura, próxima e personalizada.
+            </p>
+        </div>
     </section>
+
+    <section class="px-6 md:px-12 pb-24">
+        <div class="max-w-7xl mx-auto grid lg:grid-cols-2 gap-12 items-center">
+            <div class="rounded-3xl overflow-hidden border border-white/[0.06] bg-[#111111]">
+                <img src="https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?auto=format&fit=crop&q=80&w=1200" class="w-full h-[420px] object-cover opacity-90" alt="Stand automóvel">
+            </div>
+
+            <div>
+                <span class="text-xs font-bold uppercase tracking-widest accent-color">A nossa história</span>
+                <h2 class="text-3xl md:text-5xl font-black uppercase tracking-tight mt-3 mb-6">
+                    Uma relação construída com confiança
+                </h2>
+                <p class="text-gray-400 leading-relaxed mb-5">
+                    Ao longo dos anos, crescemos com base na confiança dos nossos clientes e na exigência com que selecionamos cada veículo. Cada automóvel passa por uma análise cuidada, para garantir qualidade, segurança e transparência.
+                </p>
+                <p class="text-gray-400 leading-relaxed mb-8">
+                    Mais do que vender carros, queremos ajudar cada cliente a encontrar a solução certa para o seu estilo de vida, orçamento e objetivos.
+                </p>
+
+                <div class="grid sm:grid-cols-3 gap-4">
+                    <div class="bg-white/[0.03] border border-white/[0.06] rounded-2xl p-5">
+                        <p class="text-3xl font-black accent-color">15+</p>
+                        <p class="text-xs text-gray-400 uppercase tracking-widest mt-1">Anos de experiência</p>
+                    </div>
+                    <div class="bg-white/[0.03] border border-white/[0.06] rounded-2xl p-5">
+                        <p class="text-3xl font-black accent-color">100%</p>
+                        <p class="text-xs text-gray-400 uppercase tracking-widest mt-1">Transparência</p>
+                    </div>
+                    <div class="bg-white/[0.03] border border-white/[0.06] rounded-2xl p-5">
+                        <p class="text-3xl font-black accent-color">Premium</p>
+                        <p class="text-xs text-gray-400 uppercase tracking-widest mt-1">Atendimento</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="px-6 md:px-12 pb-24">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-14">
+                <span class="text-xs font-bold uppercase tracking-widest accent-color">Os nossos valores</span>
+                <h2 class="text-3xl md:text-4xl font-black uppercase tracking-tight mt-2">
+                    Porque escolher a Autogémeos?
+                </h2>
+                <div class="w-12 h-1 bg-accent mx-auto mt-4 rounded-full"></div>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-6">
+                <div class="bg-[#111111] border border-white/[0.06] rounded-3xl p-8 hover:border-accent/40 transition">
+                    <div class="w-12 h-12 rounded-2xl bg-accent flex items-center justify-center text-xl mb-6">✓</div>
+                    <h3 class="text-xl font-bold mb-3">Veículos selecionados</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">
+                        Escolhemos cada veículo com atenção ao estado, histórico, qualidade e potencial de valorização.
+                    </p>
+                </div>
+
+                <div class="bg-[#111111] border border-white/[0.06] rounded-3xl p-8 hover:border-accent/40 transition">
+                    <div class="w-12 h-12 rounded-2xl bg-accent flex items-center justify-center text-xl mb-6">★</div>
+                    <h3 class="text-xl font-bold mb-3">Acompanhamento próximo</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">
+                        Ajudamos em todas as fases do processo, desde a escolha do veículo até à entrega final.
+                    </p>
+                </div>
+
+                <div class="bg-[#111111] border border-white/[0.06] rounded-3xl p-8 hover:border-accent/40 transition">
+                    <div class="w-12 h-12 rounded-2xl bg-accent flex items-center justify-center text-xl mb-6">↗</div>
+                    <h3 class="text-xl font-bold mb-3">Soluções à medida</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">
+                        Procuramos apresentar soluções flexíveis, adaptadas às necessidades de cada cliente.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="px-6 md:px-12 pb-28">
+        <div class="max-w-7xl mx-auto rounded-3xl border border-white/[0.06] bg-white/[0.03] p-8 md:p-12 text-center">
+            <p class="accent-color font-bold uppercase tracking-widest text-xs mb-4">Visite-nos</p>
+            <h2 class="text-3xl md:text-5xl font-black uppercase tracking-tight mb-6">
+                Estamos prontos para o ajudar
+            </h2>
+            <p class="text-gray-400 max-w-2xl mx-auto mb-8 leading-relaxed">
+                Fale connosco para saber mais sobre os nossos veículos, serviços, garantias ou para marcar uma visita à nossa oficina/stand.
+            </p>
+            <a href="/contacto/" class="inline-flex items-center gap-2 bg-accent text-white px-8 py-4 rounded-xl text-sm font-bold hover:bg-opacity-90 transition-all">
+                Entrar em contacto <span>→</span>
+            </a>
+        </div>
+    </section>
+
+    <footer class="bg-[#070707] border-t border-white/[0.06] px-6 md:px-12 py-14">
+        <div class="max-w-7xl mx-auto grid md:grid-cols-3 gap-10">
+            
+            <div>
+                <a href="/" class="text-2xl font-black tracking-tighter uppercase italic">
+                    Auto<span class="accent-color">Gémeos</span>
+                </a>
+                <p class="text-gray-500 text-sm mt-4 leading-relaxed max-w-sm">
+                    Stand automóvel premium especializado em veículos selecionados, com garantia e acompanhamento personalizado.
+                </p>
+            </div>
+
+            <div>
+                <h3 class="text-white font-bold uppercase tracking-wider text-sm mb-4">Contactos</h3>
+                <div class="space-y-3 text-sm text-gray-400">
+                    <p>📍 Lisboa, Portugal</p>
+                    <p>📞 <a href="tel:+351900000000" class="hover:text-white transition">+351 900 000 000</a></p>
+                    <p>✉️ <a href="mailto:geral@autogemeosinacio.pt" class="hover:text-white transition">geral@autogemeosinacio.pt</a></p>
+                    <p>🕒 Segunda a Sábado: 09h00 - 19h00</p>
+                </div>
+            </div>
+
+            <div>
+                <h3 class="text-white font-bold uppercase tracking-wider text-sm mb-4">Redes Sociais</h3>
+                <div class="flex flex-wrap gap-3">
+                    <a href="#" target="_blank" class="px-4 py-2 rounded-xl bg-white/[0.03] border border-white/[0.08] text-sm text-gray-300 hover:bg-accent hover:text-white hover:border-accent transition">
+                        Instagram
+                    </a>
+                    <a href="#" target="_blank" class="px-4 py-2 rounded-xl bg-white/[0.03] border border-white/[0.08] text-sm text-gray-300 hover:bg-accent hover:text-white hover:border-accent transition">
+                        Facebook
+                    </a>
+                    <a href="#" target="_blank" class="px-4 py-2 rounded-xl bg-white/[0.03] border border-white/[0.08] text-sm text-gray-300 hover:bg-accent hover:text-white hover:border-accent transition">
+                        WhatsApp
+                    </a>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="max-w-7xl mx-auto border-t border-white/[0.06] mt-10 pt-6 flex flex-col md:flex-row justify-between gap-4 text-xs text-gray-600">
+            <p>&copy; 2026 AutoGémeos. Todos os direitos reservados.</p>
+            <p>Stand Automóvel Premium</p>
+        </div>
+    </footer>
 
 </body>
 </html>

@@ -5,78 +5,247 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Detalhes | Autogémeos</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
     <style>
         body { background-color: #0A0A0A; color: #FFFFFF; font-family: 'Inter', sans-serif; }
         .accent-color { color: #F06418; }
         .bg-accent { background-color: #F06418; }
+        .border-accent { border-color: #F06418; }
         .glass { background: rgba(15, 15, 15, 0.75); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
-        .spec-card { background: #111111; border: 1px solid rgba(255,255,255,0.04); padding: 1.25rem; rounded: 1rem; }
     </style>
 </head>
 <body class="antialiased">
 
     <nav class="flex justify-between items-center px-6 md:px-12 py-5 glass fixed w-full z-50 border-b border-white/[0.06]">
         <div class="flex items-center gap-2">
-            <a href="/" class="text-2xl font-black tracking-tighter uppercase italic">Auto<span class="accent-color">Gémeos</span></a>
+            <a href="/" class="text-2xl font-black tracking-tighter uppercase italic">
+                Auto<span class="accent-color">Gémeos</span>
+            </a>
         </div>
-       <div class="hidden md:flex gap-8 text-sm text-gray-400 font-medium tracking-wide">
-    <a href="/" class="hover:text-white transition">Início</a>
-    <a href="/veiculos/" class="hover:text-white transition">Veículos</a>
-    <a href="/sobre/" class="hover:text-white transition">Sobre Nós</a>
-    <a href="/contacto/" class="hover:text-white transition">Contacto</a>
-</div>
+
+        <div class="hidden md:flex gap-8 text-sm text-gray-400 font-medium tracking-wide">
+            <a href="/" class="hover:text-white transition">Início</a>
+            <a href="/veiculos/" class="text-white border-b-2 border-accent pb-1 transition">Veículos</a>
+            <a href="/sobre/" class="hover:text-white transition">Sobre Nós</a>
+            <a href="/contacto/" class="hover:text-white transition">Contacto</a>
+        </div>
     </nav>
 
     <main class="pt-32 pb-24 px-6 md:px-12 max-w-7xl mx-auto">
         {% if carro %}
-        <div class="flex flex-col lg:flex-row justify-between items-start mb-10 gap-6">
-            <div>
-                <a href="/veiculos" class="text-gray-500 hover:text-accent text-xs font-bold uppercase tracking-wider mb-3 inline-flex items-center gap-1 transition-colors">
-                    ← Voltar ao Stock
-                </a>
-                <h1 class="text-4xl md:text-5xl lg:text-6xl font-black italic uppercase tracking-tight">{{ carro.marca }} <span class="accent-color">{{ carro.modelo }}</span></h1>
-            </div>
-            <div class="bg-[#111] p-5 rounded-2xl border border-white/[0.04] min-w-[280px]">
-                <p class="text-[10px] text-gray-500 uppercase font-bold tracking-widest mb-1">Preço Chave na Mão</p>
-                <p class="text-4xl font-black accent-color tracking-tight">{{ carro.preco }} €</p>
-            </div>
+
+        <div class="mb-8">
+            <a href="/veiculos/" class="text-gray-500 hover:text-accent text-xs font-bold uppercase tracking-wider inline-flex items-center gap-1 transition-colors">
+                ← Voltar ao Stock
+            </a>
         </div>
 
-        <div class="grid lg:grid-cols-3 gap-10">
-            <div class="lg:col-span-2 space-y-6">
-                <div class="rounded-2xl overflow-hidden border border-white/[0.08] aspect-video bg-[#111]">
-                    <img src="{{ carro.img }}" class="w-full h-full object-cover" alt="Veículo">
+        <section class="grid lg:grid-cols-2 gap-10 items-start mb-14">
+            <div>
+                <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/[0.04] border border-white/[0.08] mb-5">
+                    <span class="w-2 h-2 rounded-full bg-accent"></span>
+                    <span class="text-xs font-bold uppercase tracking-widest text-gray-300">Viatura disponível</span>
+                </div>
+
+                <h1 class="text-4xl md:text-6xl lg:text-7xl font-black uppercase tracking-tight leading-tight mb-6">
+                    {{ carro.marca }} <br>
+                    <span class="accent-color italic">{{ carro.modelo }}</span>
+                </h1>
+
+                <p class="text-gray-400 text-lg leading-relaxed max-w-2xl mb-8">
+                    Conheça os detalhes desta viatura selecionada pela Autogémeos. Para mais informações, disponibilidade ou marcação de visita, fale diretamente com a nossa equipa.
+                </p>
+
+                <div class="flex flex-wrap gap-4">
+                    <a href="/contacto/" class="bg-accent text-white px-7 py-4 rounded-xl font-bold text-sm uppercase tracking-wider hover:bg-opacity-90 transition-all">
+                        Pedir informações
+                    </a>
+
+                    <a href="tel:+351900000000" class="bg-white/[0.03] border border-white/[0.08] text-white px-7 py-4 rounded-xl font-bold text-sm uppercase tracking-wider hover:bg-white/[0.08] transition-all">
+                        Ligar agora
+                    </a>
                 </div>
             </div>
 
-            <div class="space-y-6">
-                <div class="bg-[#111111] rounded-2xl p-6 border border-white/[0.05] space-y-6">
-                    <h3 class="font-bold text-lg uppercase tracking-wider pb-3 border-b border-white/[0.05]">Ficha Técnica</h3>
-                    <div class="grid grid-cols-2 gap-4">
-                        <div class="spec-card text-center bg-black/40 rounded-xl">
-                            <p class="text-[10px] text-gray-500 uppercase font-bold tracking-wider">Ano</p>
-                            <p class="font-bold text-white text-lg">{{ carro.ano }}</p>
-                        </div>
-                        <div class="spec-card text-center bg-black/40 rounded-xl">
-                            <p class="text-[10px] text-gray-500 uppercase font-bold tracking-wider">Quilómetros</p>
-                            <p class="font-bold text-white text-lg">{{ carro.kms }}</p>
-                        </div>
-                        <div class="spec-card text-center bg-black/40 rounded-xl">
-                            <p class="text-[10px] text-gray-500 uppercase font-bold tracking-wider">Combustível</p>
-                            <p class="font-bold text-white text-sm mt-1">{{ carro.combustivel }}</p>
-                        </div>
+            <div class="bg-[#111111] p-6 rounded-3xl border border-white/[0.06]">
+                <p class="text-[10px] text-gray-500 uppercase font-bold tracking-widest mb-2">Preço chave na mão</p>
+                <p class="text-5xl font-black accent-color tracking-tight mb-6">{{ carro.preco }} €</p>
+
+                <div class="grid grid-cols-3 gap-3 border-t border-white/[0.06] pt-6">
+                    <div class="bg-black/40 rounded-2xl p-4 text-center border border-white/[0.04]">
+                        <p class="text-[10px] text-gray-500 uppercase font-bold tracking-wider mb-1">Ano</p>
+                        <p class="font-bold text-white text-lg">{{ carro.ano }}</p>
+                    </div>
+
+                    <div class="bg-black/40 rounded-2xl p-4 text-center border border-white/[0.04]">
+                        <p class="text-[10px] text-gray-500 uppercase font-bold tracking-wider mb-1">Kms</p>
+                        <p class="font-bold text-white text-lg">{{ carro.kms }}</p>
+                    </div>
+
+                    <div class="bg-black/40 rounded-2xl p-4 text-center border border-white/[0.04]">
+                        <p class="text-[10px] text-gray-500 uppercase font-bold tracking-wider mb-1">Combustível</p>
+                        <p class="font-bold text-white text-sm mt-1">{{ carro.combustivel }}</p>
                     </div>
                 </div>
             </div>
-        </div>
+        </section>
+
+        <section class="grid lg:grid-cols-3 gap-10 mb-20">
+            <div class="lg:col-span-2">
+                <div class="rounded-3xl overflow-hidden border border-white/[0.08] aspect-video bg-[#111111]">
+                    <img src="{{ carro.img }}" class="w-full h-full object-cover" alt="{{ carro.marca }} {{ carro.modelo }}">
+                </div>
+            </div>
+
+            <aside class="space-y-6">
+                <div class="bg-[#111111] rounded-3xl p-6 border border-white/[0.06]">
+                    <h3 class="font-bold text-lg uppercase tracking-wider pb-4 border-b border-white/[0.06]">
+                        Ficha Técnica
+                    </h3>
+
+                    <div class="space-y-4 mt-5 text-sm">
+                        <div class="flex justify-between gap-4">
+                            <span class="text-gray-500">Marca</span>
+                            <span class="font-semibold text-white text-right">{{ carro.marca }}</span>
+                        </div>
+
+                        <div class="flex justify-between gap-4">
+                            <span class="text-gray-500">Modelo</span>
+                            <span class="font-semibold text-white text-right">{{ carro.modelo }}</span>
+                        </div>
+
+                        <div class="flex justify-between gap-4">
+                            <span class="text-gray-500">Ano</span>
+                            <span class="font-semibold text-white text-right">{{ carro.ano }}</span>
+                        </div>
+
+                        <div class="flex justify-between gap-4">
+                            <span class="text-gray-500">Quilómetros</span>
+                            <span class="font-semibold text-white text-right">{{ carro.kms }} km</span>
+                        </div>
+
+                        <div class="flex justify-between gap-4">
+                            <span class="text-gray-500">Combustível</span>
+                            <span class="font-semibold text-white text-right">{{ carro.combustivel }}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-[#111111] rounded-3xl p-6 border border-white/[0.06]">
+                    <h3 class="font-bold text-lg uppercase tracking-wider mb-4">
+                        Interessado?
+                    </h3>
+
+                    <p class="text-gray-400 text-sm leading-relaxed mb-6">
+                        Envie-nos uma mensagem com a referência desta viatura ou contacte-nos diretamente para confirmar disponibilidade.
+                    </p>
+
+                    <a href="/contacto/" class="block text-center w-full bg-accent text-white py-3.5 rounded-xl font-bold text-sm uppercase tracking-wider hover:bg-opacity-90 transition">
+                        Contactar sobre esta viatura
+                    </a>
+                </div>
+            </aside>
+        </section>
+
+        <section class="mb-20">
+            <div class="bg-[#111111] border border-white/[0.06] rounded-3xl p-8 md:p-10">
+                <span class="text-xs font-bold uppercase tracking-widest accent-color">Garantia Autogémeos</span>
+                <h2 class="text-3xl md:text-4xl font-black uppercase tracking-tight mt-2 mb-6">
+                    Compra segura e acompanhamento personalizado
+                </h2>
+
+                <div class="grid md:grid-cols-3 gap-6">
+                    <div class="bg-black/30 border border-white/[0.04] rounded-2xl p-6">
+                        <div class="w-12 h-12 rounded-2xl bg-accent flex items-center justify-center text-xl mb-5">✓</div>
+                        <h3 class="font-bold text-lg mb-2">Viatura selecionada</h3>
+                        <p class="text-gray-400 text-sm leading-relaxed">
+                            Cada veículo é escolhido com atenção ao estado, histórico e qualidade geral.
+                        </p>
+                    </div>
+
+                    <div class="bg-black/30 border border-white/[0.04] rounded-2xl p-6">
+                        <div class="w-12 h-12 rounded-2xl bg-accent flex items-center justify-center text-xl mb-5">★</div>
+                        <h3 class="font-bold text-lg mb-2">Apoio ao cliente</h3>
+                        <p class="text-gray-400 text-sm leading-relaxed">
+                            Acompanhamos o cliente desde o primeiro contacto até à entrega da viatura.
+                        </p>
+                    </div>
+
+                    <div class="bg-black/30 border border-white/[0.04] rounded-2xl p-6">
+                        <div class="w-12 h-12 rounded-2xl bg-accent flex items-center justify-center text-xl mb-5">↗</div>
+                        <h3 class="font-bold text-lg mb-2">Soluções flexíveis</h3>
+                        <p class="text-gray-400 text-sm leading-relaxed">
+                            Ajudamos a encontrar a melhor solução para avançar com segurança e confiança.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         {% else %}
-        <div class="text-center py-24">
-            <p class="text-xl text-gray-500">Veículo não encontrado.</p>
-            <a href="/veiculos" class="accent-color mt-4 inline-block underline">Voltar para o Stock</a>
-        </div>
+
+        <section class="text-center py-28">
+            <div class="max-w-xl mx-auto bg-[#111111] border border-white/[0.06] rounded-3xl p-10">
+                <div class="w-16 h-16 rounded-2xl bg-accent flex items-center justify-center text-2xl mx-auto mb-6">!</div>
+                <h1 class="text-3xl md:text-4xl font-black uppercase tracking-tight mb-4">
+                    Veículo não encontrado
+                </h1>
+                <p class="text-gray-400 mb-8">
+                    A viatura que procura pode já não estar disponível ou o endereço pode estar incorreto.
+                </p>
+                <a href="/veiculos/" class="inline-flex bg-accent text-white px-8 py-4 rounded-xl font-bold text-sm uppercase tracking-wider hover:bg-opacity-90 transition">
+                    Voltar ao Stock
+                </a>
+            </div>
+        </section>
+
         {% endif %}
     </main>
+
+    <footer class="bg-[#070707] border-t border-white/[0.06] px-6 md:px-12 py-14">
+        <div class="max-w-7xl mx-auto grid md:grid-cols-3 gap-10">
+            
+            <div>
+                <a href="/" class="text-2xl font-black tracking-tighter uppercase italic">
+                    Auto<span class="accent-color">Gémeos</span>
+                </a>
+                <p class="text-gray-500 text-sm mt-4 leading-relaxed max-w-sm">
+                    Stand automóvel premium especializado em veículos selecionados, com garantia e acompanhamento personalizado.
+                </p>
+            </div>
+
+            <div>
+                <h3 class="text-white font-bold uppercase tracking-wider text-sm mb-4">Contactos</h3>
+                <div class="space-y-3 text-sm text-gray-400">
+                    <p>📍 Lisboa, Portugal</p>
+                    <p>📞 <a href="tel:+351900000000" class="hover:text-white transition">+351 900 000 000</a></p>
+                    <p>✉️ <a href="mailto:geral@autogemeosinacio.pt" class="hover:text-white transition">geral@autogemeosinacio.pt</a></p>
+                    <p>🕒 Segunda a Sábado: 09h00 - 19h00</p>
+                </div>
+            </div>
+
+            <div>
+                <h3 class="text-white font-bold uppercase tracking-wider text-sm mb-4">Redes Sociais</h3>
+                <div class="flex flex-wrap gap-3">
+                    <a href="#" target="_blank" class="px-4 py-2 rounded-xl bg-white/[0.03] border border-white/[0.08] text-sm text-gray-300 hover:bg-accent hover:text-white hover:border-accent transition">
+                        Instagram
+                    </a>
+                    <a href="#" target="_blank" class="px-4 py-2 rounded-xl bg-white/[0.03] border border-white/[0.08] text-sm text-gray-300 hover:bg-accent hover:text-white hover:border-accent transition">
+                        Facebook
+                    </a>
+                    <a href="#" target="_blank" class="px-4 py-2 rounded-xl bg-white/[0.03] border border-white/[0.08] text-sm text-gray-300 hover:bg-accent hover:text-white hover:border-accent transition">
+                        WhatsApp
+                    </a>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="max-w-7xl mx-auto border-t border-white/[0.06] mt-10 pt-6 flex flex-col md:flex-row justify-between gap-4 text-xs text-gray-600">
+            <p>&copy; 2026 AutoGémeos. Todos os direitos reservados.</p>
+            <p>Stand Automóvel Premium</p>
+        </div>
+    </footer>
 
 </body>
 </html>
