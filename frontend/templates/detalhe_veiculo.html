@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Detalhes | Autogémeos</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/pt.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
     <style>
         body {
@@ -34,6 +37,52 @@
         body.lightbox-open {
             overflow: hidden;
         }
+.flatpickr-calendar {
+    background: #111111;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.55);
+}
+
+.flatpickr-months,
+.flatpickr-weekdays {
+    background: #111111;
+}
+
+.flatpickr-current-month,
+.flatpickr-current-month input.cur-year,
+.flatpickr-weekday,
+.flatpickr-day {
+    color: #ffffff;
+}
+
+.flatpickr-day:hover {
+    background: #F06418;
+    border-color: #F06418;
+    color: #ffffff;
+}
+
+.flatpickr-day.selected {
+    background: #F06418;
+    border-color: #F06418;
+    color: #ffffff;
+}
+
+.flatpickr-day.disabled,
+.flatpickr-day.disabled:hover,
+.flatpickr-day.prevMonthDay,
+.flatpickr-day.nextMonthDay {
+    color: rgba(255, 255, 255, 0.25);
+    background: transparent;
+    border-color: transparent;
+    cursor: not-allowed;
+}
+
+.flatpickr-months .flatpickr-prev-month,
+.flatpickr-months .flatpickr-next-month {
+    fill: #ffffff;
+    color: #ffffff;
+}
+
     </style>
 </head>
 
@@ -678,12 +727,14 @@
                         Data pretendida
                     </label>
                     <input
-                        type="date"
-                        id="tdr_data"
-                        name="tdr_data"
-                        required
-                        class="w-full bg-black border border-white/[0.08] rounded-xl p-4 text-sm focus:border-accent outline-none text-white transition-colors"
-                    >
+    type="text"
+    id="tdr_data"
+    name="tdr_data"
+    required
+    readonly
+    class="w-full bg-black border border-white/[0.08] rounded-xl p-4 text-sm focus:border-accent outline-none text-white transition-colors cursor-pointer"
+    placeholder="Escolha uma data"
+>
                     <p class="text-xs text-gray-500 mt-2">
                         Disponível de segunda a sábado. Domingo indisponível.
                     </p>
@@ -1098,9 +1149,26 @@
             }
         });
 
-        document.addEventListener("DOMContentLoaded", function() {
-            calcularCredito();
+      document.addEventListener("DOMContentLoaded", function() {
+    calcularCredito();
+
+    const inputData = document.getElementById("tdr_data");
+
+    if (inputData && typeof flatpickr !== "undefined") {
+        flatpickr(inputData, {
+            locale: "pt",
+            dateFormat: "Y-m-d",
+            altInput: true,
+            altFormat: "d/m/Y",
+            minDate: "today",
+            disable: [
+                function(date) {
+                    return date.getDay() === 0;
+                }
+            ]
         });
+    }
+});
     
 
       function abrirTestDrive() {
