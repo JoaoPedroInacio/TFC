@@ -114,8 +114,7 @@
                         <div>
                             <p class="text-xs uppercase tracking-widest text-gray-500 font-bold mb-1">Resultados</p>
                             <h2 class="text-xl font-medium text-gray-300">
-                                <span id="total-veiculos" class="accent-color font-black text-3xl">0</span> veículos encontrados
-                            </h2>
+<div id="grid-veiculos" class="grid md:grid-cols-2 xl:grid-cols-3 gap-6"></div>                            </h2>
                         </div>
 
                         <a href="/contacto/" class="inline-flex justify-center items-center bg-white/[0.03] border border-white/[0.08] rounded-xl px-5 py-3 text-xs font-bold uppercase tracking-wider text-white hover:bg-accent hover:border-accent transition">
@@ -227,282 +226,296 @@
     </footer>
 
     <script>
-        let marcasGlobais = [];
-        let timeoutPesquisa = null;
+    let marcasGlobais = [];
+    let timeoutPesquisa = null;
 
-        function formatarPreco(valor) {
-            if (!valor) return "Preço sob consulta";
+    function formatarPreco(valor) {
+        if (!valor && valor !== 0) return "Preço sob consulta";
 
-            const numero = Number(String(valor).replace(/\./g, "").replace(",", "."));
+        const numero = Number(String(valor).replace(/\./g, "").replace(",", "."));
 
-            if (Number.isNaN(numero)) {
-                return valor + " €";
-            }
-
-            return numero.toLocaleString("pt-PT") + " €";
+        if (Number.isNaN(numero)) {
+            return valor + " €";
         }
 
-        function formatarKms(valor) {
-            if (!valor && valor !== 0) return "-";
+        return numero.toLocaleString("pt-PT") + " €";
+    }
 
-            const numero = Number(String(valor).replace(/\./g, "").replace(",", "."));
+    function formatarKms(valor) {
+        if (!valor && valor !== 0) return "-";
 
-            if (Number.isNaN(numero)) {
-                return valor + " km";
-            }
+        const numero = Number(String(valor).replace(/\./g, "").replace(",", "."));
 
-            return numero.toLocaleString("pt-PT") + " km";
+        if (Number.isNaN(numero)) {
+            return valor + " km";
         }
 
-        function obterImagem(carro) {
-            return carro.img || carro.imagem || carro.vei_imagem || "https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?auto=format&fit=crop&q=80&w=1200";
+        return numero.toLocaleString("pt-PT") + " km";
+    }
+
+    function obterImagem(carro) {
+        return carro.img || carro.imagem || carro.vei_imagem || "https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?auto=format&fit=crop&q=80&w=1200";
+    }
+
+    function obterId(carro) {
+        return carro.id || carro.vei_id;
+    }
+
+    function renderizarVeiculos(stock) {
+        const lista = document.getElementById("grid-veiculos");
+        const contador = document.getElementById("total-veiculos");
+
+        if (!lista || !contador) {
+            console.error("Elementos da listagem não encontrados.");
+            return;
         }
 
-        function obterId(carro) {
-            return carro.id || carro.vei_id;
-        }
+        lista.innerHTML = "";
 
-        function renderizarVeiculos(stock) {
-            const lista = document.getElementById("lista-veiculos");
-            const contador = document.getElementById("contador-resultados");
-
-            lista.innerHTML = "";
-
-            if (!stock || stock.length === 0) {
-                contador.innerText = "0 veículos encontrados";
-
-                lista.innerHTML = `
-                    <div class="col-span-full text-center py-20 bg-[#111111] border border-white/[0.06] rounded-3xl">
-                        <p class="text-gray-500 text-lg">Não foram encontrados veículos com estes filtros.</p>
-                    </div>
-                `;
-
-                return;
-            }
-
-            contador.innerText = `${stock.length} veículo${stock.length === 1 ? "" : "s"} encontrado${stock.length === 1 ? "" : "s"}`;
-
-            stock.forEach(carro => {
-                const id = obterId(carro);
-                const marca = carro.marca || "";
-                const modelo = carro.modelo || "";
-                const preco = carro.preco || carro.vei_preco_venda || "";
-                const ano = carro.ano || carro.vei_ano || "-";
-                const kms = carro.kms || carro.vei_quilometros || "-";
-                const combustivel = carro.combustivel || "";
-                const imagem = obterImagem(carro);
-
-                lista.innerHTML += `
-                    <div class="bg-[#111111] rounded-2xl overflow-hidden border border-white/[0.04] group hover:border-accent/40 transition-all duration-500 flex flex-col">
-                        <div class="relative h-56 overflow-hidden bg-black">
-                            <img src="${imagem}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 opacity-90 group-hover:opacity-100" alt="${marca} ${modelo}">
-                            <div class="absolute top-4 left-4 bg-accent text-white text-[10px] font-extrabold tracking-widest px-2.5 py-1 rounded-md uppercase">
-                                Disponível
-                            </div>
-                        </div>
-
-                        <div class="p-6 flex-1 flex flex-col">
-                            <div class="mb-5">
-                                <p class="text-[11px] text-gray-500 uppercase tracking-widest font-bold mb-1">${marca}</p>
-                                <h3 class="text-xl font-bold text-white tracking-tight group-hover:text-accent transition-colors">${modelo}</h3>
-                                <p class="accent-color font-black text-2xl mt-2 tracking-tight">${formatarPreco(preco)}</p>
-                            </div>
-
-                            <div class="grid grid-cols-3 gap-3 border-t border-white/[0.05] pt-4 text-xs">
-                                <div>
-                                    <p class="text-gray-600 uppercase tracking-widest font-bold mb-1">Ano</p>
-                                    <p class="text-gray-300 font-semibold whitespace-nowrap">${ano}</p>
-                                </div>
-
-                                <div>
-                                    <p class="text-gray-600 uppercase tracking-widest font-bold mb-1">Kms</p>
-                                    <p class="text-gray-300 font-semibold whitespace-nowrap">${formatarKms(kms)}</p>
-                                </div>
-
-                                <div>
-                                    <p class="text-gray-600 uppercase tracking-widest font-bold mb-1">Comb.</p>
-                                    <p class="text-gray-300 font-semibold truncate">${combustivel}</p>
-                                </div>
-                            </div>
-
-                            <a href="/veiculo/${id}/" class="block text-center w-full mt-6 py-3.5 bg-white/[0.03] border border-white/[0.08] rounded-xl text-xs font-bold uppercase tracking-wider text-white group-hover:bg-accent group-hover:border-accent transition-all duration-300">
-                                Ver detalhes →
-                            </a>
-                        </div>
-                    </div>
-                `;
-            });
-        }
-
-        function carregarFiltros() {
-            fetch("/api/filtros-veiculos/")
-                .then(response => response.json())
-                .then(data => {
-                    marcasGlobais = data.marcas || [];
-                    renderizarMarcas(marcasGlobais);
-                    renderizarCombustiveis(data.combustiveis || []);
-
-                    if (data.limites) {
-                        document.getElementById("preco-min").placeholder = data.limites.preco_min || "Mín.";
-                        document.getElementById("preco-max").placeholder = data.limites.preco_max || "Máx.";
-                        document.getElementById("ano-min").placeholder = data.limites.ano_min || "De";
-                        document.getElementById("ano-max").placeholder = data.limites.ano_max || "Até";
-                        document.getElementById("kms-min").placeholder = data.limites.kms_min || "Mín.";
-                        document.getElementById("kms-max").placeholder = data.limites.kms_max || "Máx.";
-                    }
-                })
-                .catch(error => {
-                    console.error("Erro ao carregar filtros:", error);
-                });
-        }
-
-        function renderizarMarcas(marcas) {
-            const lista = document.getElementById("lista-marcas");
+        if (!stock || stock.length === 0) {
+            contador.innerText = "0";
 
             lista.innerHTML = `
-                <button type="button" onclick="selecionarMarca('Todas as Marcas')" class="w-full text-left px-4 py-3 text-sm font-semibold text-gray-300 hover:bg-accent hover:text-white transition-colors">
-                    Todas as Marcas
-                </button>
+                <div class="col-span-full text-center py-20 bg-[#111111] border border-white/[0.06] rounded-3xl">
+                    <p class="text-gray-500 text-lg">Não foram encontrados veículos com estes filtros.</p>
+                </div>
             `;
 
-            marcas.forEach(marca => {
-                lista.innerHTML += `
-                    <button type="button" onclick="selecionarMarca('${marca.replace(/'/g, "\\'")}')" class="w-full text-left px-4 py-3 text-sm font-semibold text-gray-300 hover:bg-accent hover:text-white transition-colors">
-                        ${marca}
-                    </button>
-                `;
+            return;
+        }
+
+        contador.innerText = stock.length;
+
+        stock.forEach(carro => {
+            const id = obterId(carro);
+            const marca = carro.marca || "";
+            const modelo = carro.modelo || "";
+            const preco = carro.preco || carro.vei_preco_venda || "";
+            const ano = carro.ano || carro.vei_ano || "-";
+            const kms = carro.kms || carro.vei_quilometros || "-";
+            const combustivel = carro.combustivel || "";
+            const imagem = obterImagem(carro);
+
+            lista.innerHTML += `
+                <div class="bg-[#111111] rounded-2xl overflow-hidden border border-white/[0.04] group hover:border-accent/40 transition-all duration-500 flex flex-col">
+                    <div class="relative h-56 overflow-hidden bg-black">
+                        <img src="${imagem}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 opacity-90 group-hover:opacity-100" alt="${marca} ${modelo}">
+                        <div class="absolute top-4 left-4 bg-accent text-white text-[10px] font-extrabold tracking-widest px-2.5 py-1 rounded-md uppercase">
+                            Disponível
+                        </div>
+                    </div>
+
+                    <div class="p-6 flex-1 flex flex-col">
+                        <div class="mb-5">
+                            <p class="text-[11px] text-gray-500 uppercase tracking-widest font-bold mb-1">${marca}</p>
+                            <h3 class="text-xl font-bold text-white tracking-tight group-hover:text-accent transition-colors">${modelo}</h3>
+                            <p class="accent-color font-black text-2xl mt-2 tracking-tight">${formatarPreco(preco)}</p>
+                        </div>
+
+                        <div class="grid grid-cols-3 gap-3 border-t border-white/[0.05] pt-4 text-xs">
+                            <div>
+                                <p class="text-gray-600 uppercase tracking-widest font-bold mb-1">Ano</p>
+                                <p class="text-gray-300 font-semibold whitespace-nowrap">${ano}</p>
+                            </div>
+
+                            <div>
+                                <p class="text-gray-600 uppercase tracking-widest font-bold mb-1">Kms</p>
+                                <p class="text-gray-300 font-semibold whitespace-nowrap">${formatarKms(kms)}</p>
+                            </div>
+
+                            <div>
+                                <p class="text-gray-600 uppercase tracking-widest font-bold mb-1">Comb.</p>
+                                <p class="text-gray-300 font-semibold truncate">${combustivel}</p>
+                            </div>
+                        </div>
+
+                        <a href="/veiculo/${id}/" class="block text-center w-full mt-6 py-3.5 bg-white/[0.03] border border-white/[0.08] rounded-xl text-xs font-bold uppercase tracking-wider text-white group-hover:bg-accent group-hover:border-accent transition-all duration-300">
+                            Ver detalhes →
+                        </a>
+                    </div>
+                </div>
+            `;
+        });
+    }
+
+    function carregarFiltros() {
+        fetch("/api/filtros-veiculos/")
+            .then(response => response.json())
+            .then(data => {
+                marcasGlobais = data.marcas || [];
+                renderizarMarcas(marcasGlobais);
+                renderizarCombustiveis(data.combustiveis || []);
+
+                if (data.limites) {
+                    document.getElementById("preco-min").placeholder = data.limites.preco_min || "Mín.";
+                    document.getElementById("preco-max").placeholder = data.limites.preco_max || "Máx.";
+                    document.getElementById("ano-min").placeholder = data.limites.ano_min || "De";
+                    document.getElementById("ano-max").placeholder = data.limites.ano_max || "Até";
+                    document.getElementById("kms-max").placeholder = data.limites.kms_max || "Máx.";
+                }
+            })
+            .catch(error => {
+                console.error("Erro ao carregar filtros:", error);
             });
-        }
+    }
 
-        function abrirDropdownMarca() {
-            document.getElementById("dropdown-marca").classList.toggle("hidden");
-            document.getElementById("pesquisa-marca").focus();
-        }
+    function renderizarMarcas(marcas) {
+        const lista = document.getElementById("lista-marcas");
 
-        function selecionarMarca(marca) {
-            document.getElementById("filtro-marca").value = marca;
-            document.getElementById("texto-marca").innerText = marca;
-            document.getElementById("dropdown-marca").classList.add("hidden");
-            aplicarFiltros();
-        }
+        if (!lista) return;
 
-        function renderizarCombustiveis(combustiveis) {
-            const divCombustiveis = document.getElementById("filtro-combustiveis");
-            divCombustiveis.innerHTML = "";
+        lista.innerHTML = `
+            <button type="button" onclick="selecionarMarca('Todas as Marcas')" class="w-full text-left px-4 py-3 text-sm font-semibold text-gray-300 hover:bg-accent hover:text-white transition-colors">
+                Todas as Marcas
+            </button>
+        `;
 
-            combustiveis.forEach(combustivel => {
-                divCombustiveis.innerHTML += `
-                    <label class="flex items-center gap-3 text-sm text-gray-400 cursor-pointer hover:text-white transition-colors">
-                        <input type="checkbox" name="combustivel" value="${combustivel}" class="w-4 h-4 rounded bg-black accent-orange-600">
-                        ${combustivel}
-                    </label>
-                `;
-            });
-        }
+        marcas.forEach(marca => {
+            lista.innerHTML += `
+                <button type="button" onclick="selecionarMarca('${marca.replace(/'/g, "\\'")}')" class="w-full text-left px-4 py-3 text-sm font-semibold text-gray-300 hover:bg-accent hover:text-white transition-colors">
+                    ${marca}
+                </button>
+            `;
+        });
+    }
 
-        function aplicarFiltros() {
-            const params = new URLSearchParams();
+    function abrirDropdownMarca() {
+        document.getElementById("dropdown-marca").classList.toggle("hidden");
+        document.getElementById("pesquisa-marca").focus();
+    }
 
-            const pesquisa = document.getElementById("filtro-pesquisa").value.trim();
-            const marca = document.getElementById("filtro-marca").value;
-            const precoMin = document.getElementById("preco-min").value;
-            const precoMax = document.getElementById("preco-max").value;
-            const anoMin = document.getElementById("ano-min").value;
-            const anoMax = document.getElementById("ano-max").value;
-            const kmsMin = document.getElementById("kms-min").value;
-            const kmsMax = document.getElementById("kms-max").value;
+    function selecionarMarca(marca) {
+        document.getElementById("filtro-marca").value = marca;
+        document.getElementById("texto-marca").innerText = marca;
+        document.getElementById("dropdown-marca").classList.add("hidden");
+        aplicarFiltros();
+    }
 
-            if (pesquisa) params.append("pesquisa", pesquisa);
-            if (marca && marca !== "Todas as Marcas") params.append("marca", marca);
-            if (precoMin) params.append("preco_min", precoMin);
-            if (precoMax) params.append("preco_max", precoMax);
-            if (anoMin) params.append("ano_min", anoMin);
-            if (anoMax) params.append("ano_max", anoMax);
-            if (kmsMin) params.append("kms_min", kmsMin);
-            if (kmsMax) params.append("kms_max", kmsMax);
+    function renderizarCombustiveis(combustiveis) {
+        const divCombustiveis = document.getElementById("filtro-combustiveis");
 
-            document.querySelectorAll("input[name='combustivel']:checked").forEach(input => {
-                params.append("combustivel", input.value);
-            });
+        if (!divCombustiveis) return;
 
-            fetch(`/api/veiculos/?${params.toString()}`)
-                .then(response => response.json())
-                .then(data => {
-                    renderizarVeiculos(data);
-                })
-                .catch(error => {
-                    console.error("Erro ao carregar veículos:", error);
+        divCombustiveis.innerHTML = "";
 
-                    document.getElementById("lista-veiculos").innerHTML = `
+        combustiveis.forEach(combustivel => {
+            divCombustiveis.innerHTML += `
+                <label class="flex items-center gap-3 text-sm text-gray-400 cursor-pointer hover:text-white transition-colors">
+                    <input type="checkbox" name="combustivel" value="${combustivel}" class="w-4 h-4 rounded bg-black accent-orange-600">
+                    ${combustivel}
+                </label>
+            `;
+        });
+    }
+
+    function aplicarFiltros() {
+        const params = new URLSearchParams();
+
+        const pesquisa = document.getElementById("filtro-pesquisa").value.trim();
+        const marca = document.getElementById("filtro-marca").value;
+        const precoMin = document.getElementById("preco-min").value;
+        const precoMax = document.getElementById("preco-max").value;
+        const anoMin = document.getElementById("ano-min").value;
+        const anoMax = document.getElementById("ano-max").value;
+        const kmsMax = document.getElementById("kms-max").value;
+
+        if (pesquisa) params.append("pesquisa", pesquisa);
+        if (marca && marca !== "Todas as Marcas") params.append("marca", marca);
+        if (precoMin) params.append("preco_min", precoMin);
+        if (precoMax) params.append("preco_max", precoMax);
+        if (anoMin) params.append("ano_min", anoMin);
+        if (anoMax) params.append("ano_max", anoMax);
+        if (kmsMax) params.append("kms_max", kmsMax);
+
+        document.querySelectorAll("input[name='combustivel']:checked").forEach(input => {
+            params.append("combustivel", input.value);
+        });
+
+        fetch(`/api/veiculos/?${params.toString()}`)
+            .then(response => response.json())
+            .then(data => {
+                renderizarVeiculos(data);
+            })
+            .catch(error => {
+                console.error("Erro ao carregar veículos:", error);
+
+                const lista = document.getElementById("grid-veiculos");
+
+                if (lista) {
+                    lista.innerHTML = `
                         <div class="col-span-full text-center py-20 bg-[#111111] border border-white/[0.06] rounded-3xl">
                             <p class="text-red-400 text-lg">Erro ao carregar veículos.</p>
                         </div>
                     `;
-                });
-        }
-
-        function limparFiltros() {
-            document.getElementById("filtro-pesquisa").value = "";
-            document.getElementById("filtro-marca").value = "Todas as Marcas";
-            document.getElementById("texto-marca").innerText = "Todas as Marcas";
-            document.getElementById("preco-min").value = "";
-            document.getElementById("preco-max").value = "";
-            document.getElementById("ano-min").value = "";
-            document.getElementById("ano-max").value = "";
-            document.getElementById("kms-min").value = "";
-            document.getElementById("kms-max").value = "";
-
-            document.querySelectorAll("input[name='combustivel']").forEach(input => {
-                input.checked = false;
+                }
             });
+    }
 
-            aplicarFiltros();
-        }
+    function limparFiltros() {
+        document.getElementById("filtro-pesquisa").value = "";
+        document.getElementById("filtro-marca").value = "Todas as Marcas";
+        document.getElementById("texto-marca").innerText = "Todas as Marcas";
+        document.getElementById("preco-min").value = "";
+        document.getElementById("preco-max").value = "";
+        document.getElementById("ano-min").value = "";
+        document.getElementById("ano-max").value = "";
+        document.getElementById("kms-max").value = "";
 
-        document.addEventListener("DOMContentLoaded", () => {
-            carregarFiltros();
-            aplicarFiltros();
+        document.querySelectorAll("input[name='combustivel']").forEach(input => {
+            input.checked = false;
+        });
 
-            document.getElementById("filtro-pesquisa").addEventListener("input", () => {
+        aplicarFiltros();
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+        carregarFiltros();
+        aplicarFiltros();
+
+        document.getElementById("filtro-pesquisa").addEventListener("input", () => {
+            clearTimeout(timeoutPesquisa);
+
+            timeoutPesquisa = setTimeout(() => {
+                aplicarFiltros();
+            }, 400);
+        });
+
+        document.getElementById("pesquisa-marca").addEventListener("input", function () {
+            const termo = this.value.toLowerCase();
+
+            const marcasFiltradas = marcasGlobais.filter(marca =>
+                marca.toLowerCase().includes(termo)
+            );
+
+            renderizarMarcas(marcasFiltradas);
+        });
+
+        ["preco-min", "preco-max", "ano-min", "ano-max", "kms-max"].forEach(id => {
+            const campo = document.getElementById(id);
+
+            if (!campo) return;
+
+            campo.addEventListener("input", () => {
                 clearTimeout(timeoutPesquisa);
 
                 timeoutPesquisa = setTimeout(() => {
                     aplicarFiltros();
                 }, 400);
             });
-
-            document.getElementById("pesquisa-marca").addEventListener("input", function () {
-                const termo = this.value.toLowerCase();
-
-                const marcasFiltradas = marcasGlobais.filter(marca =>
-                    marca.toLowerCase().includes(termo)
-                );
-
-                renderizarMarcas(marcasFiltradas);
-            });
-
-            ["preco-min", "preco-max", "ano-min", "ano-max", "kms-min", "kms-max"].forEach(id => {
-                document.getElementById(id).addEventListener("input", () => {
-                    clearTimeout(timeoutPesquisa);
-
-                    timeoutPesquisa = setTimeout(() => {
-                        aplicarFiltros();
-                    }, 400);
-                });
-            });
-
-            document.getElementById("filtro-combustiveis").addEventListener("change", aplicarFiltros);
-
-            document.addEventListener("click", function (event) {
-                const dropdown = document.getElementById("dropdown-marca");
-                const botao = document.getElementById("botao-marca");
-
-                if (!dropdown.contains(event.target) && !botao.contains(event.target)) {
-                    dropdown.classList.add("hidden");
-                }
-            });
         });
-    </script>
+
+        document.getElementById("filtro-combustiveis").addEventListener("change", aplicarFiltros);
+
+        document.addEventListener("click", function (event) {
+            const dropdown = document.getElementById("dropdown-marca");
+            const botao = document.getElementById("botao-marca");
+
+            if (!dropdown.contains(event.target) && !botao.contains(event.target)) {
+                dropdown.classList.add("hidden");
+            }
+        });
+    });
+</script>
 
 </body>
 </html>

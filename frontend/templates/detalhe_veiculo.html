@@ -328,12 +328,12 @@
     </main>
 
     {% if carro %}
-    <div
-        id="lightbox"
-        class="fixed inset-0 z-[100] hidden bg-black/95 px-4 py-6 md:px-10 md:py-8"
-        onclick="fecharLightbox()"
-        aria-hidden="true"
-    >
+   <div
+    id="lightbox"
+    class="fixed inset-0 z-[100] hidden bg-black/95 px-2 py-2 md:px-4 md:py-4"
+    onclick="fecharLightbox()"
+    aria-hidden="true"
+>
         <button
             type="button"
             onclick="fecharLightbox(); event.stopPropagation();"
@@ -342,46 +342,45 @@
         >
             ×
         </button>
+<div class="h-full w-full flex flex-col items-center justify-center gap-3" onclick="event.stopPropagation();">
+    <div class="relative w-full h-[92vh] flex items-center justify-center px-12 md:px-20">
+        <button
+            id="lightbox-prev"
+            type="button"
+            onclick="mudarImagemLightbox(-1, event)"
+            class="absolute left-2 md:left-6 top-1/2 -translate-y-1/2 z-20 w-12 h-12 md:w-14 md:h-14 rounded-full bg-white/10 border border-white/15 text-white text-4xl flex items-center justify-center hover:bg-accent transition"
+            aria-label="Fotografia anterior"
+        >
+            ‹
+        </button>
 
-        <div class="h-full w-full flex flex-col items-center justify-center gap-4" onclick="event.stopPropagation();">
-            <div class="relative w-full h-[82vh] flex items-center justify-center">
-                <button
-                    id="lightbox-prev"
-                    type="button"
-                    onclick="mudarImagemLightbox(-1, event)"
-                    class="absolute left-0 md:left-4 top-1/2 -translate-y-1/2 z-20 w-12 h-12 md:w-14 md:h-14 rounded-full bg-white/10 border border-white/15 text-white text-4xl flex items-center justify-center hover:bg-accent transition"
-                    aria-label="Fotografia anterior"
-                >
-                    ‹
-                </button>
+        <img
+            id="lightbox-img"
+            src=""
+            alt="{{ carro.marca }} {{ carro.modelo }}"
+            class="block w-auto h-auto max-w-full max-h-[92vh] object-contain rounded-xl shadow-2xl"
+        >
 
-                <img
-                    id="lightbox-img"
-                    src=""
-                    alt="{{ carro.marca }} {{ carro.modelo }}"
-                    class="max-w-full max-h-full object-contain rounded-2xl shadow-2xl"
-                >
+        <button
+            id="lightbox-next"
+            type="button"
+            onclick="mudarImagemLightbox(1, event)"
+            class="absolute right-2 md:right-6 top-1/2 -translate-y-1/2 z-20 w-12 h-12 md:w-14 md:h-14 rounded-full bg-white/10 border border-white/15 text-white text-4xl flex items-center justify-center hover:bg-accent transition"
+            aria-label="Fotografia seguinte"
+        >
+            ›
+        </button>
+    </div>
 
-                <button
-                    id="lightbox-next"
-                    type="button"
-                    onclick="mudarImagemLightbox(1, event)"
-                    class="absolute right-0 md:right-4 top-1/2 -translate-y-1/2 z-20 w-12 h-12 md:w-14 md:h-14 rounded-full bg-white/10 border border-white/15 text-white text-4xl flex items-center justify-center hover:bg-accent transition"
-                    aria-label="Fotografia seguinte"
-                >
-                    ›
-                </button>
-            </div>
-
-            <div class="flex items-center gap-4">
-                <span
-                    id="lightbox-counter"
-                    class="text-sm font-bold tracking-wider text-gray-300 bg-white/10 border border-white/10 px-4 py-2 rounded-full"
-                >
-                    1 / 1
-                </span>
-            </div>
-        </div>
+    <div class="flex items-center gap-4">
+        <span
+            id="lightbox-counter"
+            class="text-sm font-bold tracking-wider text-gray-300 bg-white/10 border border-white/10 px-4 py-2 rounded-full"
+        >
+            1 / 1
+        </span>
+    </div>
+</div>
     </div>
     {% endif %}
 
