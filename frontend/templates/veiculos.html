@@ -65,12 +65,24 @@
                         <input type="text" id="filtro-pesquisa" placeholder="Ex: BMW M4, Audi RS6..." class="w-full bg-black border border-white/[0.08] rounded-xl p-3 text-sm focus:border-accent outline-none text-white placeholder-gray-600 transition-colors">
                     </div>
 
-                    <div>
-                        <label class="text-[11px] uppercase font-bold text-gray-500 mb-2 block tracking-wider">Marca</label>
-                        <select id="filtro-marca" class="w-full bg-black border border-white/[0.08] rounded-xl p-3 text-sm outline-none text-gray-300 focus:border-accent transition-colors">
-    <option value="Todas as Marcas">Todas as Marcas</option>
-</select>
-                    </div>
+                    <div class="relative">
+    <label class="text-[11px] uppercase font-bold text-gray-500 mb-2 block tracking-wider">Marca</label>
+
+    <button type="button" id="botao-marca" onclick="abrirDropdownMarca()" class="w-full bg-black border border-white/[0.08] rounded-xl p-3 text-sm outline-none text-gray-300 focus:border-accent transition-colors flex justify-between items-center">
+        <span id="texto-marca">Todas as Marcas</span>
+        <span>⌄</span>
+    </button>
+
+    <input type="hidden" id="filtro-marca" value="Todas as Marcas">
+
+    <div id="dropdown-marca" class="hidden absolute z-50 mt-2 w-full bg-white text-black rounded-xl shadow-xl max-h-80 overflow-hidden">
+        <div class="p-3 border-b border-gray-200">
+            <input type="text" id="pesquisa-marca" placeholder="Pesquisar marca..." class="w-full border border-gray-300 rounded-lg p-2 text-sm outline-none">
+        </div>
+
+        <div id="lista-marcas" class="max-h-64 overflow-y-auto"></div>
+    </div>
+</div>
 
                    <div>
     <label class="text-[11px] uppercase font-bold text-gray-500 mb-3 block tracking-wider">Combustível</label>
@@ -173,85 +185,269 @@
         </div>
     </footer>
 
-    <script>
-        const container = document.getElementById('grid-veiculos');
+<script>
+    const container = document.getElementById('grid-veiculos');
 
-        async function aplicarFiltros() {
-            const pesquisa = document.getElementById('filtro-pesquisa').value;
-            const marca = document.getElementById('filtro-marca').value;
-            
-            const checkboxes = document.querySelectorAll('input[name="combustivel"]:checked');
-            let queryCombustiveis = '';
+    let marcasDisponiveis = [];
 
-            checkboxes.forEach(cb => {
-                queryCombustiveis += `&combustivel=${encodeURIComponent(cb.value)}`;
-            });
+    async function carregarFiltros() {
+        try {
+            const response = await fetch("/api/filtros-veiculos/");
+            const dados = await response.json();
 
-            const url = `/api/veiculos?pesquisa=${encodeURIComponent(pesquisa)}&marca=${encodeURIComponent(marca)}${queryCombustiveis}`;
+            marcasDisponiveis = dados.marcas || [];
 
-            try {
-                container.innerHTML = "<div class='col-span-full text-center py-16 text-gray-500 font-light bg-[#111111] rounded-3xl border border-white/[0.06]'>A atualizar stock...</div>";
-                
-                const response = await fetch(url);
-                const stock = await response.json();
-                
-                document.getElementById('total-veiculos').textContent = stock.length;
+            renderizarMarcas(marcasDisponiveis);
+            renderizarCombustiveis(dados.combustiveis || []);
 
-                if (!stock.length) {
-                    container.innerHTML = `
-                        <div class='col-span-full py-16 text-center text-gray-500 bg-[#111111] rounded-3xl border border-white/[0.06]'>
-                            <p class='text-xl text-white font-bold mb-2'>Nenhum veículo encontrado</p>
-                            <p class='text-sm'>Tente ajustar os filtros ou fale connosco para procurarmos uma solução à medida.</p>
-                        </div>
-                    `;
-                    return;
-                }
+        } catch (error) {
+            console.error("Erro ao carregar filtros:", error);
+        }
+    }
 
-                container.innerHTML = stock.map(carro => `
-                    <div class="bg-[#111111] rounded-2xl overflow-hidden border border-white/[0.04] group hover:border-accent/40 transition-all duration-500 flex flex-col justify-between">
-                        <div class="relative h-56 overflow-hidden bg-black">
-                            <img src="${carro.img}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 opacity-90 group-hover:opacity-100" alt="${carro.modelo}">
-                            <div class="absolute top-4 left-4 bg-accent text-white text-[10px] font-extrabold tracking-widest px-2.5 py-1 rounded-md uppercase">Disponível</div>
-                        </div>
+    function renderizarMarcas(marcas) {
+        const lista = document.getElementById("lista-marcas");
 
-                        <div class="p-6 flex-1 flex flex-col justify-between">
-                            <div class="mb-4">
-                                <p class="text-[11px] text-gray-500 uppercase tracking-widest font-bold mb-1">${carro.marca}</p>
-                                <h3 class="text-xl font-bold text-white tracking-tight group-hover:text-accent transition-colors">${carro.modelo}</h3>
-                                <p class="accent-color font-black text-2xl mt-2 tracking-tight">${carro.preco} €</p>
-                            </div>
+        lista.innerHTML = `
+            <button type="button" onclick="selecionarMarca('Todas as Marcas')" class="w-full text-left px-4 py-3 hover:bg-gray-100 text-sm font-medium">
+                Todas as Marcas
+            </button>
+        `;
 
-                            <div class="flex justify-between border-t border-white/[0.05] pt-4 text-gray-400 text-xs font-medium">
-                                <span>📅 ${carro.ano}</span>
-                                <span>🛣️ ${carro.kms} km</span>
-                                <span>⛽ ${carro.combustivel}</span>
-                            </div>
+        marcas.forEach(marca => {
+            lista.innerHTML += `
+                <button type="button" onclick="selecionarMarca('${marca.replace(/'/g, "\\'")}')" class="w-full text-left px-4 py-3 hover:bg-gray-100 text-sm font-medium">
+                    ${marca}
+                </button>
+            `;
+        });
+    }
 
-                            <a href="/veiculo/${carro.id}/" class="block text-center w-full mt-6 py-3.5 bg-white/[0.03] border border-white/[0.08] rounded-xl text-xs font-bold uppercase tracking-wider text-white group-hover:bg-accent group-hover:border-accent transition-all duration-300">
-                                Ver detalhes →
-                            </a>
-                        </div>
+    function abrirDropdownMarca() {
+        const dropdown = document.getElementById("dropdown-marca");
+        dropdown.classList.toggle("hidden");
+
+        const input = document.getElementById("pesquisa-marca");
+        input.value = "";
+        renderizarMarcas(marcasDisponiveis);
+
+        setTimeout(() => {
+            input.focus();
+        }, 100);
+    }
+
+    function selecionarMarca(marca) {
+        document.getElementById("filtro-marca").value = marca;
+        document.getElementById("texto-marca").textContent = marca;
+        document.getElementById("dropdown-marca").classList.add("hidden");
+
+        aplicarFiltros();
+    }
+
+    function renderizarCombustiveis(combustiveis) {
+        const divCombustiveis = document.getElementById("filtro-combustiveis");
+
+        divCombustiveis.innerHTML = "";
+
+        combustiveis.forEach(combustivel => {
+            divCombustiveis.innerHTML += `
+                <label class="flex items-center gap-3 text-sm text-gray-400 cursor-pointer hover:text-white transition-colors">
+                    <input type="checkbox" name="combustivel" value="${combustivel}" class="w-4 h-4 rounded bg-black accent-orange-600">
+                    ${combustivel}
+                </label>
+            `;
+        });
+    }
+
+    function formatarPreco(valor) {
+        if (!valor && valor !== 0) {
+            return "Sob consulta";
+        }
+
+        return Number(valor).toLocaleString("pt-PT") + " €";
+    }
+
+    function formatarKms(valor) {
+        if (!valor && valor !== 0) {
+            return "0";
+        }
+
+        return Number(valor).toLocaleString("pt-PT");
+    }
+
+    async function aplicarFiltros() {
+        const pesquisa = document.getElementById('filtro-pesquisa').value.trim();
+        const marca = document.getElementById('filtro-marca').value;
+
+        const precoMin = document.getElementById('preco-min').value;
+        const precoMax = document.getElementById('preco-max').value;
+
+        const anoMin = document.getElementById('ano-min').value;
+        const anoMax = document.getElementById('ano-max').value;
+
+        const kmsMax = document.getElementById('kms-max').value;
+
+        const params = new URLSearchParams();
+
+        if (pesquisa) {
+            params.append("pesquisa", pesquisa);
+        }
+
+        if (marca && marca !== "Todas as Marcas") {
+            params.append("marca", marca);
+        }
+
+        document.querySelectorAll('input[name="combustivel"]:checked').forEach(cb => {
+            params.append("combustivel", cb.value);
+        });
+
+        if (precoMin) {
+            params.append("preco_min", precoMin);
+        }
+
+        if (precoMax) {
+            params.append("preco_max", precoMax);
+        }
+
+        if (anoMin) {
+            params.append("ano_min", anoMin);
+        }
+
+        if (anoMax) {
+            params.append("ano_max", anoMax);
+        }
+
+        if (kmsMax) {
+            params.append("kms_max", kmsMax);
+        }
+
+        const url = `/api/veiculos/?${params.toString()}`;
+
+        try {
+            container.innerHTML = `
+                <div class='col-span-full text-center py-16 text-gray-500 font-light bg-[#111111] rounded-3xl border border-white/[0.06]'>
+                    A atualizar stock...
+                </div>
+            `;
+
+            const response = await fetch(url);
+            const stock = await response.json();
+
+            document.getElementById('total-veiculos').textContent = stock.length;
+
+            if (!stock.length) {
+                container.innerHTML = `
+                    <div class='col-span-full py-16 text-center text-gray-500 bg-[#111111] rounded-3xl border border-white/[0.06]'>
+                        <p class='text-xl text-white font-bold mb-2'>Nenhum veículo encontrado</p>
+                        <p class='text-sm'>Tente ajustar os filtros ou fale connosco para procurarmos uma solução à medida.</p>
                     </div>
-                `).join('');
-            } catch (error) {
-                console.error(error);
-                container.innerHTML = "<div class='col-span-full text-center py-16 text-red-500 bg-[#111111] rounded-3xl border border-white/[0.06]'>Erro de rede ao carregar viaturas.</div>";
+                `;
+                return;
             }
+
+            container.innerHTML = stock.map(carro => `
+                <div class="bg-[#111111] rounded-2xl overflow-hidden border border-white/[0.04] group hover:border-accent/40 transition-all duration-500 flex flex-col justify-between">
+                    <div class="relative h-56 overflow-hidden bg-black">
+                        <img src="${carro.img}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 opacity-90 group-hover:opacity-100" alt="${carro.modelo}">
+                        <div class="absolute top-4 left-4 bg-accent text-white text-[10px] font-extrabold tracking-widest px-2.5 py-1 rounded-md uppercase">Disponível</div>
+                    </div>
+
+                    <div class="p-6 flex-1 flex flex-col justify-between">
+                        <div class="mb-4">
+                            <p class="text-[11px] text-gray-500 uppercase tracking-widest font-bold mb-1">${carro.marca}</p>
+                            <h3 class="text-xl font-bold text-white tracking-tight group-hover:text-accent transition-colors">${carro.modelo}</h3>
+                            <p class="accent-color font-black text-2xl mt-2 tracking-tight">${formatarPreco(carro.preco)}</p>
+                        </div>
+
+                        <div class="flex justify-between border-t border-white/[0.05] pt-4 text-gray-400 text-xs font-medium">
+                            <span>📅 ${carro.ano}</span>
+                            <span>🛣️ ${formatarKms(carro.kms)} km</span>
+                            <span>⛽ ${carro.combustivel}</span>
+                        </div>
+
+                        <a href="/veiculo/${carro.id}/" class="block text-center w-full mt-6 py-3.5 bg-white/[0.03] border border-white/[0.08] rounded-xl text-xs font-bold uppercase tracking-wider text-white group-hover:bg-accent group-hover:border-accent transition-all duration-300">
+                            Ver detalhes →
+                        </a>
+                    </div>
+                </div>
+            `).join('');
+
+        } catch (error) {
+            console.error(error);
+
+            container.innerHTML = `
+                <div class='col-span-full text-center py-16 text-red-500 bg-[#111111] rounded-3xl border border-white/[0.06]'>
+                    Erro de rede ao carregar viaturas.
+                </div>
+            `;
         }
+    }
 
-        function limparFiltros() {
-            document.getElementById('filtro-pesquisa').value = '';
-            document.getElementById('filtro-marca').value = 'Todas as Marcas';
+    function limparFiltros() {
+        document.getElementById('filtro-pesquisa').value = '';
 
-            document.querySelectorAll('input[name="combustivel"]').forEach(cb => {
-                cb.checked = false;
-            });
+        document.getElementById('filtro-marca').value = 'Todas as Marcas';
+        document.getElementById('texto-marca').textContent = 'Todas as Marcas';
 
-            aplicarFiltros();
-        }
+        document.querySelectorAll('input[name="combustivel"]').forEach(cb => {
+            cb.checked = false;
+        });
 
-        document.addEventListener("DOMContentLoaded", aplicarFiltros);
-    </script>
+        document.getElementById('preco-min').value = '';
+        document.getElementById('preco-max').value = '';
+        document.getElementById('ano-min').value = '';
+        document.getElementById('ano-max').value = '';
+        document.getElementById('kms-max').value = '';
+
+        aplicarFiltros();
+    }
+
+    let temporizadorPesquisa = null;
+
+    document.addEventListener("DOMContentLoaded", async () => {
+        await carregarFiltros();
+        aplicarFiltros();
+
+        document.getElementById("filtro-pesquisa").addEventListener("input", () => {
+            clearTimeout(temporizadorPesquisa);
+
+            temporizadorPesquisa = setTimeout(() => {
+                aplicarFiltros();
+            }, 400);
+        });
+
+        document.getElementById("pesquisa-marca").addEventListener("input", function () {
+            const termo = this.value.toLowerCase().trim();
+
+            const marcasFiltradas = marcasDisponiveis.filter(marca =>
+                marca.toLowerCase().includes(termo)
+            );
+
+            renderizarMarcas(marcasFiltradas);
+        });
+
+        document.getElementById("preco-min").addEventListener("input", aplicarFiltros);
+        document.getElementById("preco-max").addEventListener("input", aplicarFiltros);
+        document.getElementById("ano-min").addEventListener("input", aplicarFiltros);
+        document.getElementById("ano-max").addEventListener("input", aplicarFiltros);
+        document.getElementById("kms-max").addEventListener("input", aplicarFiltros);
+
+        document.addEventListener("change", function(event) {
+            if (event.target.name === "combustivel") {
+                aplicarFiltros();
+            }
+        });
+
+        document.addEventListener("click", function(event) {
+            const dropdown = document.getElementById("dropdown-marca");
+            const botao = document.getElementById("botao-marca");
+
+            if (!dropdown.contains(event.target) && !botao.contains(event.target)) {
+                dropdown.classList.add("hidden");
+            }
+        });
+    });
+</script>
 
 </body>
 </html>
