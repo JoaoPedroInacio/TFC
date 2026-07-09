@@ -45,6 +45,10 @@ class VeiculoAdmin(admin.ModelAdmin):
         "vei_mdl__mdl_mrc__mrc_nome",
     )
 
+    list_editable = (
+        "vei_destaque",
+    )
+
     inlines = [ImagemVeiculoInline]
 
 

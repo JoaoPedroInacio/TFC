@@ -1,5 +1,6 @@
 from django.db import models
 from django.core.validators import MinValueValidator, MaxValueValidator
+from django.core.exceptions import ValidationError
 
 
 class Combustivel(models.Model):
@@ -153,6 +154,25 @@ class Veiculo(models.Model):
             return primeira.img_caminho
 
         return "https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&q=80&w=1200"
+
+    def clean(self):
+        super().clean()
+
+        if self.vei_destaque:
+            destaques = Veiculo.objects.filter(vei_destaque=True)
+
+            if self.pk:
+                destaques = destaques.exclude(pk=self.pk)
+
+            if destaques.count() >= 3:
+                raise ValidationError({
+                    "vei_destaque": "Só pode existir um máximo de 3 veículos em destaque."
+                })
+
+    def save(self, *args, **kwargs):
+        self.full_clean()
+        super().save(*args, **kwargs)
+
 
     class Meta:
         db_table = 'veiculo'

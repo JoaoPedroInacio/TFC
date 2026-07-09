@@ -21,6 +21,7 @@ def home(request):
 
     return render(request, "index.html", {
         "carros": carros_destaque,
+        "carros_destaque": carros_destaque,
         "ultimas_entradas": ultimas_entradas,
     })
 
