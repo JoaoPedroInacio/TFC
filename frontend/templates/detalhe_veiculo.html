@@ -7,13 +7,36 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
     <style>
-        body { background-color: #0A0A0A; color: #FFFFFF; font-family: 'Inter', sans-serif; }
-        .accent-color { color: #F06418; }
-        .bg-accent { background-color: #F06418; }
-        .border-accent { border-color: #F06418; }
-        .glass { background: rgba(15, 15, 15, 0.75); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
+        body {
+            background-color: #0A0A0A;
+            color: #FFFFFF;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .accent-color {
+            color: #F06418;
+        }
+
+        .bg-accent {
+            background-color: #F06418;
+        }
+
+        .border-accent {
+            border-color: #F06418;
+        }
+
+        .glass {
+            background: rgba(15, 15, 15, 0.75);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+
+        body.lightbox-open {
+            overflow: hidden;
+        }
     </style>
 </head>
+
 <body class="antialiased">
 
     <nav class="flex justify-between items-center px-6 md:px-12 py-5 glass fixed w-full z-50 border-b border-white/[0.06]">
@@ -97,10 +120,21 @@
                         {% for imagem in imagens %}
                             <img
                                 src="{{ imagem.img_caminho }}"
-                                class="vehicle-slide absolute inset-0 w-full h-full object-cover transition-opacity duration-500 {% if not forloop.first %}opacity-0{% else %}opacity-100{% endif %}"
+                                class="vehicle-slide absolute inset-0 w-full h-full object-cover transition-opacity duration-500 cursor-zoom-in {% if not forloop.first %}opacity-0{% else %}opacity-100{% endif %}"
                                 alt="{{ carro.marca }} {{ carro.modelo }}"
+                                onclick="abrirLightbox({{ forloop.counter0 }})"
                             >
                         {% endfor %}
+
+                        <button
+                            type="button"
+                            onclick="abrirLightbox(imagemAtual)"
+                            class="absolute top-4 right-4 z-10 w-11 h-11 rounded-full bg-black/60 border border-white/[0.12] text-white text-xl flex items-center justify-center hover:bg-accent transition"
+                            aria-label="Aumentar fotografia"
+                            title="Aumentar fotografia"
+                        >
+                            ⛶
+                        </button>
 
                         {% if imagens|length > 1 %}
                             <button
@@ -133,7 +167,22 @@
                             </div>
                         {% endif %}
                     {% else %}
-                        <img src="{{ carro.img }}" class="w-full h-full object-cover" alt="{{ carro.marca }} {{ carro.modelo }}">
+                        <img
+                            src="{{ carro.img }}"
+                            class="vehicle-fallback-image w-full h-full object-cover cursor-zoom-in"
+                            alt="{{ carro.marca }} {{ carro.modelo }}"
+                            onclick="abrirLightbox(0)"
+                        >
+
+                        <button
+                            type="button"
+                            onclick="abrirLightbox(0)"
+                            class="absolute top-4 right-4 z-10 w-11 h-11 rounded-full bg-black/60 border border-white/[0.12] text-white text-xl flex items-center justify-center hover:bg-accent transition"
+                            aria-label="Aumentar fotografia"
+                            title="Aumentar fotografia"
+                        >
+                            ⛶
+                        </button>
                     {% endif %}
                 </div>
             </div>
@@ -278,9 +327,67 @@
         {% endif %}
     </main>
 
+    {% if carro %}
+    <div
+        id="lightbox"
+        class="fixed inset-0 z-[100] hidden bg-black/95 px-4 py-6 md:px-10 md:py-8"
+        onclick="fecharLightbox()"
+        aria-hidden="true"
+    >
+        <button
+            type="button"
+            onclick="fecharLightbox(); event.stopPropagation();"
+            class="absolute top-5 right-5 z-20 w-12 h-12 rounded-full bg-white/10 border border-white/15 text-white text-2xl flex items-center justify-center hover:bg-accent transition"
+            aria-label="Fechar fotografia ampliada"
+        >
+            ×
+        </button>
+
+        <div class="h-full w-full flex flex-col items-center justify-center gap-4" onclick="event.stopPropagation();">
+            <div class="relative w-full h-[82vh] flex items-center justify-center">
+                <button
+                    id="lightbox-prev"
+                    type="button"
+                    onclick="mudarImagemLightbox(-1, event)"
+                    class="absolute left-0 md:left-4 top-1/2 -translate-y-1/2 z-20 w-12 h-12 md:w-14 md:h-14 rounded-full bg-white/10 border border-white/15 text-white text-4xl flex items-center justify-center hover:bg-accent transition"
+                    aria-label="Fotografia anterior"
+                >
+                    ‹
+                </button>
+
+                <img
+                    id="lightbox-img"
+                    src=""
+                    alt="{{ carro.marca }} {{ carro.modelo }}"
+                    class="max-w-full max-h-full object-contain rounded-2xl shadow-2xl"
+                >
+
+                <button
+                    id="lightbox-next"
+                    type="button"
+                    onclick="mudarImagemLightbox(1, event)"
+                    class="absolute right-0 md:right-4 top-1/2 -translate-y-1/2 z-20 w-12 h-12 md:w-14 md:h-14 rounded-full bg-white/10 border border-white/15 text-white text-4xl flex items-center justify-center hover:bg-accent transition"
+                    aria-label="Fotografia seguinte"
+                >
+                    ›
+                </button>
+            </div>
+
+            <div class="flex items-center gap-4">
+                <span
+                    id="lightbox-counter"
+                    class="text-sm font-bold tracking-wider text-gray-300 bg-white/10 border border-white/10 px-4 py-2 rounded-full"
+                >
+                    1 / 1
+                </span>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
     <footer class="bg-[#070707] border-t border-white/[0.06] px-6 md:px-12 py-14">
         <div class="max-w-7xl mx-auto grid md:grid-cols-3 gap-10">
-            
+
             <div>
                 <a href="/" class="text-2xl font-black tracking-tighter uppercase italic">
                     Auto<span class="accent-color">Gémeos</span>
@@ -325,6 +432,17 @@
 
     <script>
         let imagemAtual = 0;
+        let lightboxAtual = 0;
+
+        const imagensLightbox = [
+            {% if imagens %}
+                {% for imagem in imagens %}
+                    "{{ imagem.img_caminho }}"{% if not forloop.last %},{% endif %}
+                {% endfor %}
+            {% elif carro and carro.img %}
+                "{{ carro.img }}"
+            {% endif %}
+        ];
 
         function atualizarGaleria() {
             const slides = document.querySelectorAll('.vehicle-slide');
@@ -353,7 +471,10 @@
 
         function mudarImagem(direcao) {
             const slides = document.querySelectorAll('.vehicle-slide');
-            if (!slides.length) return;
+
+            if (!slides.length) {
+                return;
+            }
 
             imagemAtual += direcao;
 
@@ -372,6 +493,117 @@
             imagemAtual = index;
             atualizarGaleria();
         }
+
+        function abrirLightbox(index) {
+            if (!imagensLightbox.length) {
+                return;
+            }
+
+            lightboxAtual = index;
+
+            if (lightboxAtual < 0) {
+                lightboxAtual = 0;
+            }
+
+            if (lightboxAtual >= imagensLightbox.length) {
+                lightboxAtual = imagensLightbox.length - 1;
+            }
+
+            const lightbox = document.getElementById('lightbox');
+
+            if (!lightbox) {
+                return;
+            }
+
+            lightbox.classList.remove('hidden');
+            lightbox.setAttribute('aria-hidden', 'false');
+            document.body.classList.add('lightbox-open');
+
+            atualizarLightbox();
+        }
+
+        function fecharLightbox() {
+            const lightbox = document.getElementById('lightbox');
+
+            if (!lightbox) {
+                return;
+            }
+
+            lightbox.classList.add('hidden');
+            lightbox.setAttribute('aria-hidden', 'true');
+            document.body.classList.remove('lightbox-open');
+        }
+
+        function atualizarLightbox() {
+            const imagem = document.getElementById('lightbox-img');
+            const contador = document.getElementById('lightbox-counter');
+            const botaoAnterior = document.getElementById('lightbox-prev');
+            const botaoSeguinte = document.getElementById('lightbox-next');
+
+            if (!imagem || !imagensLightbox.length) {
+                return;
+            }
+
+            imagem.src = imagensLightbox[lightboxAtual];
+
+            if (contador) {
+                contador.textContent = `${lightboxAtual + 1} / ${imagensLightbox.length}`;
+            }
+
+            if (botaoAnterior && botaoSeguinte) {
+                if (imagensLightbox.length <= 1) {
+                    botaoAnterior.classList.add('hidden');
+                    botaoSeguinte.classList.add('hidden');
+                } else {
+                    botaoAnterior.classList.remove('hidden');
+                    botaoSeguinte.classList.remove('hidden');
+                }
+            }
+        }
+
+        function mudarImagemLightbox(direcao, event) {
+            if (event) {
+                event.stopPropagation();
+            }
+
+            if (!imagensLightbox.length) {
+                return;
+            }
+
+            lightboxAtual += direcao;
+
+            if (lightboxAtual < 0) {
+                lightboxAtual = imagensLightbox.length - 1;
+            }
+
+            if (lightboxAtual >= imagensLightbox.length) {
+                lightboxAtual = 0;
+            }
+
+            imagemAtual = lightboxAtual;
+            atualizarLightbox();
+            atualizarGaleria();
+        }
+
+        document.addEventListener('keydown', function(event) {
+            const lightbox = document.getElementById('lightbox');
+
+            if (!lightbox || lightbox.classList.contains('hidden')) {
+                return;
+            }
+
+            if (event.key === 'Escape') {
+                fecharLightbox();
+            }
+
+            if (event.key === 'ArrowLeft') {
+                mudarImagemLightbox(-1, event);
+            }
+
+            if (event.key === 'ArrowRight') {
+                mudarImagemLightbox(1, event);
+            }
+        });
     </script>
 
 </body>
