@@ -96,10 +96,45 @@ class SimulacaoCreditoAdmin(admin.ModelAdmin):
 
 @admin.register(TestDrive)
 class TestDriveAdmin(admin.ModelAdmin):
-    list_display = ("tdr_id", "tdr_usr", "tdr_vei", "tdr_data", "tdr_hora", "tdr_estado")
-    list_filter = ("tdr_estado", "tdr_data")
-    search_fields = ("tdr_usr__usr_nome", "tdr_vei__vei_matricula")
+    list_display = (
+        "tdr_id",
+        "tdr_nome",
+        "tdr_email",
+        "tdr_telefone",
+        "tdr_vei",
+        "tdr_data",
+        "tdr_hora",
+        "tdr_estado",
+        "tdr_criado_em",
+    )
 
+    list_filter = (
+        "tdr_estado",
+        "tdr_data",
+        "tdr_hora",
+    )
+
+    search_fields = (
+        "tdr_nome",
+        "tdr_email",
+        "tdr_telefone",
+        "tdr_vei__vei_matricula",
+        "tdr_vei__vei_mdl__mdl_nome",
+        "tdr_vei__vei_mdl__mdl_mrc__mrc_nome",
+    )
+
+    list_editable = (
+        "tdr_estado",
+    )
+
+    readonly_fields = (
+        "tdr_criado_em",
+    )
+
+    ordering = (
+        "-tdr_data",
+        "-tdr_hora",
+    )
 
 @admin.register(Utilizador)
 class UtilizadorAdmin(admin.ModelAdmin):

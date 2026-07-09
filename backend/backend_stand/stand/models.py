@@ -1,6 +1,7 @@
 from django.db import models
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.core.exceptions import ValidationError
+from django.utils import timezone
 
 
 class Combustivel(models.Model):
@@ -244,12 +245,47 @@ class SimulacaoCredito(models.Model):
 
 
 class TestDrive(models.Model):
+    ESTADO_PENDENTE = "Pendente"
+    ESTADO_CONFIRMADO = "Confirmado"
+    ESTADO_CANCELADO = "Cancelado"
+    ESTADO_REALIZADO = "Realizado"
+
+    ESTADOS = [
+        (ESTADO_PENDENTE, "Pendente"),
+        (ESTADO_CONFIRMADO, "Confirmado"),
+        (ESTADO_CANCELADO, "Cancelado"),
+        (ESTADO_REALIZADO, "Realizado"),
+    ]
+
     tdr_id = models.AutoField(primary_key=True)
-    tdr_usr = models.ForeignKey(Utilizador, on_delete=models.CASCADE, db_column='tdr_usr_id')
-    tdr_vei = models.ForeignKey(Veiculo, on_delete=models.CASCADE, db_column='tdr_vei_id')
+
+    tdr_usr = models.ForeignKey(
+        Utilizador,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        db_column='tdr_usr_id'
+    )
+
+    tdr_vei = models.ForeignKey(
+        Veiculo,
+        on_delete=models.CASCADE,
+        db_column='tdr_vei_id'
+    )
+
+    tdr_nome = models.CharField(max_length=100)
+    tdr_email = models.EmailField(max_length=150)
+    tdr_telefone = models.CharField(max_length=20)
+
     tdr_data = models.DateField()
     tdr_hora = models.TimeField()
-    tdr_estado = models.CharField(max_length=30, default='Pendente')
+
+    tdr_estado = models.CharField(
+        max_length=30,
+        choices=ESTADOS,
+        default=ESTADO_PENDENTE
+    )
+
     tdr_observacoes = models.TextField(blank=True, null=True)
     tdr_criado_em = models.DateTimeField(auto_now_add=True)
 
@@ -257,6 +293,53 @@ class TestDrive(models.Model):
         db_table = 'test_drive'
         verbose_name = 'Test Drive'
         verbose_name_plural = 'Test Drives'
+        ordering = ["-tdr_data", "-tdr_hora"]
+
+    def clean(self):
+        super().clean()
+
+        hoje = timezone.localdate()
+
+        if self.tdr_data and self.tdr_data < hoje:
+            raise ValidationError({
+                "tdr_data": "Não é possível marcar test-drives para datas passadas."
+            })
+
+        # Segunda = 0, Terça = 1, ..., Domingo = 6
+        if self.tdr_data and self.tdr_data.weekday() == 6:
+            raise ValidationError({
+                "tdr_data": "O stand está fechado ao domingo."
+            })
+
+        horarios_validos = ["10:00", "12:00", "15:00", "17:00"]
+
+        if self.tdr_hora:
+            hora_formatada = self.tdr_hora.strftime("%H:%M")
+
+            if hora_formatada not in horarios_validos:
+                raise ValidationError({
+                    "tdr_hora": "Horário inválido. Escolha um dos horários disponíveis."
+                })
+
+        if self.tdr_data and self.tdr_hora:
+            marcacao_existente = TestDrive.objects.filter(
+                tdr_data=self.tdr_data,
+                tdr_hora=self.tdr_hora
+            ).exclude(
+                tdr_estado=self.ESTADO_CANCELADO
+            )
+
+            if self.pk:
+                marcacao_existente = marcacao_existente.exclude(pk=self.pk)
+
+            if marcacao_existente.exists():
+                raise ValidationError({
+                    "tdr_hora": "Este horário já está ocupado."
+                })
+
+    def save(self, *args, **kwargs):
+        self.full_clean()
+        super().save(*args, **kwargs)
 
     def __str__(self):
-        return f"Test Drive {self.tdr_id}"
+        return f"{self.tdr_nome} - {self.tdr_vei} - {self.tdr_data} {self.tdr_hora}"

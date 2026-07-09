@@ -2,11 +2,14 @@ import json
 
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, redirect
 from django.core.exceptions import ValidationError
 from django.db.models import Q, Min, Max
+from django.contrib import messages
+from django.core.mail import send_mail
+from django.conf import settings
 
-from .models import Veiculo, Modelo, Combustivel, Marca
+from .models import Veiculo, Modelo, Combustivel, Marca, TestDrive
 
 
 def veiculo_para_dict(veiculo):
@@ -281,6 +284,7 @@ def apagar_veiculo(request, id):
 
 
 def filtros_veiculos(request):
+
     if request.method != "GET":
         return JsonResponse({"erro": "Método não permitido"}, status=405)
 
@@ -303,3 +307,113 @@ def filtros_veiculos(request):
         "combustiveis": list(combustiveis),
         "limites": limites,
     })
+
+
+def marcar_test_drive(request, veiculo_id):
+    if request.method != "POST":
+        return JsonResponse({"erro": "Método não permitido"}, status=405)
+
+    veiculo = get_object_or_404(Veiculo, vei_id=veiculo_id)
+
+    nome = request.POST.get("tdr_nome", "").strip()
+    email = request.POST.get("tdr_email", "").strip()
+    telefone = request.POST.get("tdr_telefone", "").strip()
+    data = request.POST.get("tdr_data", "").strip()
+    hora = request.POST.get("tdr_hora", "").strip()
+    observacoes = request.POST.get("tdr_observacoes", "").strip()
+
+    if not nome or not email or not telefone or not data or not hora:
+        messages.error(request, "Preencha todos os campos obrigatórios da marcação.")
+        return redirect(f"/veiculo/{veiculo_id}/")
+
+    try:
+        test_drive = TestDrive(
+            tdr_vei=veiculo,
+            tdr_nome=nome,
+            tdr_email=email,
+            tdr_telefone=telefone,
+            tdr_data=data,
+            tdr_hora=hora,
+            tdr_observacoes=observacoes,
+            tdr_estado=TestDrive.ESTADO_PENDENTE,
+        )
+
+        test_drive.full_clean()
+        test_drive.save()
+
+        assunto_cliente = "Pedido de test-drive recebido - Autogémeos"
+
+        mensagem_cliente = f"""
+Olá {nome},
+
+Recebemos o seu pedido de marcação de test-drive.
+
+Veículo: {veiculo.marca} {veiculo.modelo}
+Data: {test_drive.tdr_data.strftime('%d/%m/%Y')}
+Hora: {test_drive.tdr_hora.strftime('%H:%M')}
+
+O pedido ficou pendente de confirmação pela equipa Autogémeos.
+
+Obrigado,
+Autogémeos
+"""
+
+        send_mail(
+            assunto_cliente,
+            mensagem_cliente,
+            getattr(settings, "DEFAULT_FROM_EMAIL", "geral@autogemeosinacio.pt"),
+            [email],
+            fail_silently=True,
+        )
+
+        assunto_stand = "Novo pedido de test-drive"
+
+        mensagem_stand = f"""
+Entrou um novo pedido de test-drive.
+
+Cliente: {nome}
+Email: {email}
+Telefone: {telefone}
+
+Veículo: {veiculo.marca} {veiculo.modelo}
+Matrícula: {veiculo.vei_matricula}
+
+Data: {test_drive.tdr_data.strftime('%d/%m/%Y')}
+Hora: {test_drive.tdr_hora.strftime('%H:%M')}
+
+Mensagem:
+{observacoes or "Sem mensagem adicional."}
+"""
+
+        send_mail(
+            assunto_stand,
+            mensagem_stand,
+            getattr(settings, "DEFAULT_FROM_EMAIL", "geral@autogemeosinacio.pt"),
+            [getattr(settings, "STAND_EMAIL", "geral@autogemeosinacio.pt")],
+            fail_silently=True,
+        )
+
+        messages.success(
+            request,
+            "Pedido de test-drive enviado com sucesso. Iremos contactar brevemente para confirmar."
+        )
+
+    except ValidationError as e:
+        erro = "Não foi possível marcar o test-drive."
+
+        if hasattr(e, "message_dict"):
+            primeira_lista = list(e.message_dict.values())[0]
+
+            if primeira_lista:
+                erro = primeira_lista[0]
+
+        messages.error(request, erro)
+
+    except Exception:
+        messages.error(
+            request,
+            "Ocorreu um erro ao enviar o pedido. Tente novamente."
+        )
+
+    return redirect(f"/veiculo/{veiculo_id}/")
+
