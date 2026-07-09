@@ -53,16 +53,10 @@
             <div class="flex flex-col lg:flex-row gap-10">
                 
                 <aside class="w-full lg:w-80 space-y-6 bg-[#111111] p-6 rounded-3xl h-fit border border-white/[0.06]">
-                    <div class="flex items-center gap-2.5 pb-4 border-b border-white/[0.06]">
-                        <svg class="w-5 h-5 accent-color" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"/>
-                        </svg>
-                        <h2 class="text-lg font-bold tracking-wide uppercase">Filtrar Stock</h2>
-                    </div>
 
                     <div>
                         <label class="text-[11px] uppercase font-bold text-gray-500 mb-2 block tracking-wider">Pesquisa Global</label>
-                        <input type="text" id="filtro-pesquisa" placeholder="Ex: BMW M4, Audi RS6..." class="w-full bg-black border border-white/[0.08] rounded-xl p-3 text-sm focus:border-accent outline-none text-white placeholder-gray-600 transition-colors">
+                        <input type="text" id="filtro-pesquisa" placeholder="Pesquisar marca, modelo ou versão" class="w-full bg-black border border-white/[0.08] rounded-xl p-3 text-sm focus:border-accent outline-none text-white placeholder-gray-600 transition-colors">
                     </div>
 
                     <div class="relative">
@@ -75,13 +69,13 @@
 
     <input type="hidden" id="filtro-marca" value="Todas as Marcas">
 
-    <div id="dropdown-marca" class="hidden absolute z-50 mt-2 w-full bg-white text-black rounded-xl shadow-xl max-h-80 overflow-hidden">
-        <div class="p-3 border-b border-gray-200">
-            <input type="text" id="pesquisa-marca" placeholder="Pesquisar marca..." class="w-full border border-gray-300 rounded-lg p-2 text-sm outline-none">
-        </div>
-
-        <div id="lista-marcas" class="max-h-64 overflow-y-auto"></div>
+    <div id="dropdown-marca" class="hidden absolute z-50 mt-2 w-full bg-[#0A0A0A] text-white rounded-2xl shadow-2xl shadow-black/60 max-h-80 overflow-hidden border border-white/[0.08]">
+    <div class="p-3 border-b border-white/[0.08] bg-[#111111]">
+        <input type="text" id="pesquisa-marca" placeholder="Pesquisar marca..." class="w-full bg-black border border-white/[0.08] rounded-xl p-3 text-sm outline-none text-white placeholder-gray-600 focus:border-accent transition-colors">
     </div>
+
+    <div id="lista-marcas" class="max-h-64 overflow-y-auto"></div>
+</div>
 </div>
 
                    <div>
@@ -110,13 +104,9 @@
     <input type="number" id="kms-max" placeholder="Máximo de km" class="w-full bg-black border border-white/[0.08] rounded-xl p-3 text-sm focus:border-accent outline-none text-white placeholder-gray-600 transition-colors">
 </div>
 
-<button onclick="aplicarFiltros()" class="w-full bg-accent text-white py-3.5 rounded-xl font-bold text-sm tracking-wide shadow-lg shadow-orange-600/10 hover:bg-opacity-90 transition-all">
-    Aplicar Filtros
+                    <button onclick="limparFiltros()" class="w-full bg-transparent border border-white/[0.08] text-gray-400 py-3 rounded-xl font-semibold text-xs uppercase tracking-wider hover:text-white hover:border-accent transition-all">
+    Limpar filtros
 </button>
-
-                    <button onclick="limparFiltros()" class="w-full bg-white/[0.03] border border-white/[0.08] text-white py-3.5 rounded-xl font-bold text-sm tracking-wide hover:border-accent hover:bg-accent transition-all">
-                        Limpar Filtros
-                    </button>
                 </aside>
 
                 <div class="flex-1">
@@ -205,23 +195,23 @@
         }
     }
 
-    function renderizarMarcas(marcas) {
-        const lista = document.getElementById("lista-marcas");
+   function renderizarMarcas(marcas) {
+    const lista = document.getElementById("lista-marcas");
 
-        lista.innerHTML = `
-            <button type="button" onclick="selecionarMarca('Todas as Marcas')" class="w-full text-left px-4 py-3 hover:bg-gray-100 text-sm font-medium">
-                Todas as Marcas
+    lista.innerHTML = `
+        <button type="button" onclick="selecionarMarca('Todas as Marcas')" class="w-full text-left px-4 py-3 text-sm font-semibold text-gray-300 hover:bg-accent hover:text-white transition-colors">
+            Todas as Marcas
+        </button>
+    `;
+
+    marcas.forEach(marca => {
+        lista.innerHTML += `
+            <button type="button" onclick="selecionarMarca('${marca.replace(/'/g, "\\'")}')" class="w-full text-left px-4 py-3 text-sm font-semibold text-gray-300 hover:bg-accent hover:text-white transition-colors">
+                ${marca}
             </button>
         `;
-
-        marcas.forEach(marca => {
-            lista.innerHTML += `
-                <button type="button" onclick="selecionarMarca('${marca.replace(/'/g, "\\'")}')" class="w-full text-left px-4 py-3 hover:bg-gray-100 text-sm font-medium">
-                    ${marca}
-                </button>
-            `;
-        });
-    }
+    });
+}
 
     function abrirDropdownMarca() {
         const dropdown = document.getElementById("dropdown-marca");
@@ -360,17 +350,18 @@
                         </div>
 
                        <div class="grid grid-cols-3 gap-3 border-t border-white/[0.05] pt-4 text-xs">
-    <div>
+<div class="grid grid-cols-3 border-t border-white/[0.05] pt-4 text-xs divide-x divide-white/[0.06]">
+    <div class="pr-3">
         <p class="text-gray-600 uppercase tracking-widest font-bold mb-1">Ano</p>
         <p class="text-gray-300 font-semibold">${carro.ano}</p>
     </div>
 
-    <div>
-        <p class="text-gray-600 uppercase tracking-widest font-bold mb-1">Km</p>
+    <div class="px-3">
+        <p class="text-gray-600 uppercase tracking-widest font-bold mb-1">Kms</p>
         <p class="text-gray-300 font-semibold">${formatarKms(carro.kms)}</p>
     </div>
 
-    <div>
+    <div class="pl-3">
         <p class="text-gray-600 uppercase tracking-widest font-bold mb-1">Comb.</p>
         <p class="text-gray-300 font-semibold">${carro.combustivel}</p>
     </div>
