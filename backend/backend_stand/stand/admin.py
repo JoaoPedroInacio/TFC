@@ -27,6 +27,7 @@ class VeiculoAdmin(admin.ModelAdmin):
         "vei_quilometros",
         "vei_preco_venda",
         "vei_estado",
+        "vei_destaque",
     )
 
     list_filter = (
@@ -34,6 +35,7 @@ class VeiculoAdmin(admin.ModelAdmin):
         "vei_cmb",
         "vei_ano",
         "vei_mdl__mdl_mrc",
+        "vei_destaque",
     )
 
     search_fields = (

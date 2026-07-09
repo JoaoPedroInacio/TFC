@@ -10,9 +10,19 @@ admin.site.index_title = "Painel de Gestão"
 
 
 def home(request):
-    veiculos = Veiculo.objects.filter(vei_estado="Disponível").order_by("-vei_criado_em")[:3]
-    return render(request, "index.html", {"carros": veiculos})
+    carros_destaque = Veiculo.objects.filter(
+        vei_estado="Disponível",
+        vei_destaque=True
+    ).order_by("-vei_criado_em")[:3]
 
+    ultimas_entradas = Veiculo.objects.filter(
+        vei_estado="Disponível"
+    ).order_by("-vei_criado_em")[:3]
+
+    return render(request, "index.html", {
+        "carros": carros_destaque,
+        "ultimas_entradas": ultimas_entradas,
+    })
 
 def veiculos(request):
     return render(request, "veiculos.html")

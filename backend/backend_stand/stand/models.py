@@ -75,6 +75,7 @@ class Veiculo(models.Model):
     vei_vin = models.CharField(unique=True, max_length=50)
     vei_versao = models.CharField(max_length=120, blank=True, null=True)
     vei_importado = models.BooleanField(default=False)
+    vei_destaque = models.BooleanField(default=False, verbose_name="Veículo em destaque")
 
     vei_mes = models.IntegerField(
         blank=True,
