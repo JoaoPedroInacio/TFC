@@ -359,11 +359,22 @@
                             <p class="accent-color font-black text-2xl mt-2 tracking-tight">${formatarPreco(carro.preco)}</p>
                         </div>
 
-                        <div class="flex justify-between border-t border-white/[0.05] pt-4 text-gray-400 text-xs font-medium">
-                            <span>📅 ${carro.ano}</span>
-                            <span>🛣️ ${formatarKms(carro.kms)} km</span>
-                            <span>⛽ ${carro.combustivel}</span>
-                        </div>
+                       <div class="grid grid-cols-3 gap-3 border-t border-white/[0.05] pt-4 text-xs">
+    <div>
+        <p class="text-gray-600 uppercase tracking-widest font-bold mb-1">Ano</p>
+        <p class="text-gray-300 font-semibold">${carro.ano}</p>
+    </div>
+
+    <div>
+        <p class="text-gray-600 uppercase tracking-widest font-bold mb-1">Km</p>
+        <p class="text-gray-300 font-semibold">${formatarKms(carro.kms)}</p>
+    </div>
+
+    <div>
+        <p class="text-gray-600 uppercase tracking-widest font-bold mb-1">Comb.</p>
+        <p class="text-gray-300 font-semibold">${carro.combustivel}</p>
+    </div>
+</div>
 
                         <a href="/veiculo/${carro.id}/" class="block text-center w-full mt-6 py-3.5 bg-white/[0.03] border border-white/[0.08] rounded-xl text-xs font-bold uppercase tracking-wider text-white group-hover:bg-accent group-hover:border-accent transition-all duration-300">
                             Ver detalhes →
