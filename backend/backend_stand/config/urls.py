@@ -28,7 +28,15 @@ def contacto(request):
 
 def detalhe_veiculo(request, carro_id):
     carro = Veiculo.objects.filter(vei_id=carro_id).first()
-    return render(request, "detalhe_veiculo.html", {"carro": carro})
+
+    imagens = []
+    if carro:
+        imagens = carro.imagemveiculo_set.all().order_by("-img_capa", "img_id")
+
+    return render(request, "detalhe_veiculo.html", {
+        "carro": carro,
+        "imagens": imagens,
+    })
 
 
 urlpatterns = [
