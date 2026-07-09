@@ -5,11 +5,13 @@ from .views import (
     criar_veiculo,
     editar_veiculo,
     apagar_veiculo,
+    filtros_veiculos,
 )
 
 urlpatterns = [
     path("veiculos", listar_veiculos, name="listar_veiculos"),
     path("veiculos/", listar_veiculos, name="listar_veiculos_slash"),
+    path("filtros-veiculos/", filtros_veiculos, name="filtros_veiculos"),
 
     path("veiculos/<int:id>/", detalhe_veiculo, name="detalhe_veiculo"),
     path("veiculos/criar/", criar_veiculo, name="criar_veiculo"),
