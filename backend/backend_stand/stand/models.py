@@ -138,6 +138,10 @@ class Veiculo(models.Model):
     @property
     def kms(self):
         return self.vei_quilometros
+    
+    @property
+    def kms_formatados(self):
+        return f"{self.vei_quilometros:,}".replace(",", " ")
 
     @property
     def combustivel(self):
