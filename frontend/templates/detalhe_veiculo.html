@@ -37,50 +37,112 @@
         body.lightbox-open {
             overflow: hidden;
         }
-.flatpickr-calendar {
-    background: #111111;
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.55);
+
+        .flatpickr-calendar {
+    background: #111111 !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    box-shadow: 0 24px 70px rgba(0, 0, 0, 0.75) !important;
+    border-radius: 24px !important;
+    overflow: hidden;
+    padding: 18px !important;
 }
 
-.flatpickr-months,
+.flatpickr-months {
+    background: #111111 !important;
+    margin-bottom: 14px;
+}
+
+.flatpickr-months .flatpickr-month {
+    color: #ffffff !important;
+    fill: #ffffff !important;
+    height: 48px;
+}
+
+.flatpickr-current-month {
+    color: #ffffff !important;
+    font-weight: 900 !important;
+    font-size: 20px !important;
+}
+
+.flatpickr-current-month .flatpickr-monthDropdown-months,
+.flatpickr-current-month input.cur-year {
+    background: #111111 !important;
+    color: #ffffff !important;
+    font-weight: 900 !important;
+}
+
+.flatpickr-months .flatpickr-prev-month,
+.flatpickr-months .flatpickr-next-month {
+    color: #ffffff !important;
+    fill: #ffffff !important;
+    top: 18px !important;
+}
+
+.flatpickr-months .flatpickr-prev-month:hover,
+.flatpickr-months .flatpickr-next-month:hover {
+    color: #F06418 !important;
+    fill: #F06418 !important;
+}
+
 .flatpickr-weekdays {
-    background: #111111;
+    background: #111111 !important;
+    margin-bottom: 8px;
 }
 
-.flatpickr-current-month,
-.flatpickr-current-month input.cur-year,
-.flatpickr-weekday,
+span.flatpickr-weekday {
+    color: #8F96A3 !important;
+    font-weight: 800 !important;
+    text-transform: lowercase;
+}
+
+.flatpickr-days,
+.dayContainer {
+    background: #111111 !important;
+}
+
 .flatpickr-day {
-    color: #ffffff;
+    color: #F4F4F5 !important;
+    border-radius: 999px !important;
+    border: 1px solid rgba(255, 255, 255, 0.16) !important;
+    background: rgba(255, 255, 255, 0.03) !important;
+    font-weight: 800 !important;
+    max-width: 42px !important;
+    height: 34px !important;
+    line-height: 32px !important;
+    margin: 4px 3px !important;
 }
 
 .flatpickr-day:hover {
-    background: #F06418;
-    border-color: #F06418;
-    color: #ffffff;
+    background: rgba(240, 100, 24, 0.14) !important;
+    border-color: rgba(240, 100, 24, 0.75) !important;
+    color: #ffffff !important;
 }
 
-.flatpickr-day.selected {
-    background: #F06418;
-    border-color: #F06418;
-    color: #ffffff;
+.flatpickr-day.today {
+    color: #F06418 !important;
+    border-color: #F06418 !important;
+    background: rgba(240, 100, 24, 0.10) !important;
+}
+
+.flatpickr-day.selected,
+.flatpickr-day.selected:hover,
+.flatpickr-day.startRange,
+.flatpickr-day.endRange {
+    background: #F06418 !important;
+    border-color: #F06418 !important;
+    color: #ffffff !important;
+    box-shadow: 0 0 24px rgba(240, 100, 24, 0.35) !important;
 }
 
 .flatpickr-day.disabled,
 .flatpickr-day.disabled:hover,
 .flatpickr-day.prevMonthDay,
 .flatpickr-day.nextMonthDay {
-    color: rgba(255, 255, 255, 0.25);
-    background: transparent;
-    border-color: transparent;
-    cursor: not-allowed;
-}
-
-.flatpickr-months .flatpickr-prev-month,
-.flatpickr-months .flatpickr-next-month {
-    fill: #ffffff;
-    color: #ffffff;
+    background: transparent !important;
+    border-color: transparent !important;
+    color: rgba(143, 150, 163, 0.32) !important;
+    cursor: not-allowed !important;
+    box-shadow: none !important;
 }
 
     </style>
@@ -750,19 +812,19 @@
                             <p class="text-sm font-bold text-white mb-3">Manhã</p>
 
                             <div class="grid grid-cols-2 gap-3">
-                                <label class="cursor-pointer">
-                                    <input type="radio" name="tdr_hora" value="10:00" required class="peer hidden">
-                                    <span class="block text-center rounded-xl border border-white/[0.08] bg-black px-4 py-3 text-sm font-bold text-gray-300 peer-checked:bg-accent peer-checked:text-white peer-checked:border-accent hover:border-accent transition">
-                                        10:00
-                                    </span>
-                                </label>
+                                <<label class="cursor-pointer">
+    <input type="radio" name="tdr_hora" value="10:00" required class="peer hidden">
+    <span class="block text-center rounded-full border border-white/[0.12] bg-black px-4 py-3 text-sm font-black text-gray-300 peer-checked:bg-accent peer-checked:text-white peer-checked:border-accent peer-checked:shadow-[0_0_28px_rgba(240,100,24,0.35)] hover:border-accent hover:text-white transition">
+        10:00
+    </span>
+</label>
 
-                                <label class="cursor-pointer">
-                                    <input type="radio" name="tdr_hora" value="12:00" required class="peer hidden">
-                                    <span class="block text-center rounded-xl border border-white/[0.08] bg-black px-4 py-3 text-sm font-bold text-gray-300 peer-checked:bg-accent peer-checked:text-white peer-checked:border-accent hover:border-accent transition">
-                                        12:00
-                                    </span>
-                                </label>
+                               <label class="cursor-pointer">
+    <input type="radio" name="tdr_hora" value="12:00" required class="peer hidden">
+    <span class="block text-center rounded-full border border-white/[0.12] bg-black px-4 py-3 text-sm font-black text-gray-300 peer-checked:bg-accent peer-checked:text-white peer-checked:border-accent peer-checked:shadow-[0_0_28px_rgba(240,100,24,0.35)] hover:border-accent hover:text-white transition">
+        12:00
+    </span>
+</label>
                             </div>
                         </div>
 
@@ -771,18 +833,18 @@
 
                             <div class="grid grid-cols-2 gap-3">
                                 <label class="cursor-pointer">
-                                    <input type="radio" name="tdr_hora" value="15:00" required class="peer hidden">
-                                    <span class="block text-center rounded-xl border border-white/[0.08] bg-black px-4 py-3 text-sm font-bold text-gray-300 peer-checked:bg-accent peer-checked:text-white peer-checked:border-accent hover:border-accent transition">
-                                        15:00
-                                    </span>
-                                </label>
+    <input type="radio" name="tdr_hora" value="10:00" required class="peer hidden">
+    <span class="block text-center rounded-full border border-white/[0.12] bg-black px-4 py-3 text-sm font-black text-gray-300 peer-checked:bg-accent peer-checked:text-white peer-checked:border-accent peer-checked:shadow-[0_0_28px_rgba(240,100,24,0.35)] hover:border-accent hover:text-white transition">
+        15:00
+    </span>
+</label>
 
                                 <label class="cursor-pointer">
-                                    <input type="radio" name="tdr_hora" value="17:00" required class="peer hidden">
-                                    <span class="block text-center rounded-xl border border-white/[0.08] bg-black px-4 py-3 text-sm font-bold text-gray-300 peer-checked:bg-accent peer-checked:text-white peer-checked:border-accent hover:border-accent transition">
-                                        17:00
-                                    </span>
-                                </label>
+    <input type="radio" name="tdr_hora" value="10:00" required class="peer hidden">
+    <span class="block text-center rounded-full border border-white/[0.12] bg-black px-4 py-3 text-sm font-black text-gray-300 peer-checked:bg-accent peer-checked:text-white peer-checked:border-accent peer-checked:shadow-[0_0_28px_rgba(240,100,24,0.35)] hover:border-accent hover:text-white transition">
+        17:00
+    </span>
+</label>
                             </div>
                         </div>
                     </div>
