@@ -73,7 +73,7 @@
             </div>
 
             <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {% for carro in carros|slice:":3" %}
+                {% for carro in carros %}
                 <div class="bg-[#111111] rounded-2xl overflow-hidden border border-white/[0.04] group hover:border-accent/40 transition-all duration-500 flex flex-col">
                     <div class="relative h-56 overflow-hidden bg-black">
                         <img src="{{ carro.img }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 opacity-90 group-hover:opacity-100" alt="{{ carro.modelo }}">
