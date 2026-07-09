@@ -160,6 +160,21 @@ span.flatpickr-weekday {
     display: none !important;
 }
 
+/* Domingos indisponíveis sem bolinha */
+.flatpickr-day:nth-child(7n + 1) {
+    background: transparent !important;
+    border-color: transparent !important;
+    color: rgba(143, 150, 163, 0.28) !important;
+    box-shadow: none !important;
+}
+
+.flatpickr-day:nth-child(7n + 1):hover {
+    background: transparent !important;
+    border-color: transparent !important;
+    color: rgba(143, 150, 163, 0.28) !important;
+    cursor: not-allowed !important;
+}
+
     </style>
 </head>
 
