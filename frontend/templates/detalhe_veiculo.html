@@ -114,7 +114,7 @@
 
                     <div class="bg-black/40 rounded-2xl p-4 text-center border border-white/[0.04]">
                         <p class="text-[10px] text-gray-500 uppercase font-bold tracking-wider mb-1">Kms</p>
-                        <p class="font-bold text-white text-lg">{{ carro.kms }}</p>
+                        <p class="font-bold text-white text-lg">{{ carro.kms_formatados }}</p>
                     </div>
 
                     <div class="bg-black/40 rounded-2xl p-4 text-center border border-white/[0.04]">
@@ -223,7 +223,7 @@
 
                         <div class="flex justify-between gap-4">
                             <span class="text-gray-500">Quilómetros</span>
-                            <span class="font-semibold text-white text-right">{{ carro.kms }} km</span>
+                            <span class="font-semibold text-white text-right">{{ carro.kms_formatados }} km</span>
                         </div>
 
                         <div class="flex justify-between gap-4">
@@ -398,16 +398,17 @@
 
     {% if carro %}
     <div
-        id="modal-simulacao-credito"
-        class="fixed inset-0 z-[120] hidden bg-black/80 backdrop-blur-sm px-4 py-6"
-        onclick="fecharSimulacaoCredito()"
-        aria-hidden="true"
-    >
-        <div class="min-h-full flex items-center justify-center">
-            <div
-                class="w-full max-w-3xl bg-[#111111] border border-white/[0.08] rounded-3xl overflow-hidden shadow-2xl"
-                onclick="event.stopPropagation();"
-            >
+    id="modal-simulacao-credito"
+    class="fixed inset-0 z-[120] hidden bg-black/80 backdrop-blur-sm px-4 py-6 overflow-y-auto"
+    onclick="fecharSimulacaoCredito()"
+>
+      <div
+    class="min-h-full flex items-center justify-center py-6"
+>
+           <div
+    class="w-full max-w-3xl max-h-[90vh] overflow-y-auto bg-[#111111] border border-white/[0.08] rounded-3xl shadow-2xl"
+    onclick="event.stopPropagation();"
+>
                 <div class="flex items-start justify-between gap-6 p-6 md:p-8 border-b border-white/[0.06]">
                     <div>
                         <span class="text-xs font-bold uppercase tracking-widest accent-color">
@@ -480,13 +481,15 @@
                                 class="w-full bg-black border border-white/[0.08] rounded-xl p-4 text-sm focus:border-accent outline-none text-white transition-colors"
                             >
                                 <option value="12">12 meses</option>
-                                <option value="24">24 meses</option>
-                                <option value="36">36 meses</option>
-                                <option value="48">48 meses</option>
-                                <option value="60" selected>60 meses</option>
-                                <option value="72">72 meses</option>
-                                <option value="84">84 meses</option>
-                                <option value="96">96 meses</option>
+<option value="24">24 meses</option>
+<option value="36">36 meses</option>
+<option value="48">48 meses</option>
+<option value="60" selected>60 meses</option>
+<option value="72">72 meses</option>
+<option value="84">84 meses</option>
+<option value="96">96 meses</option>
+<option value="108">108 meses</option>
+<option value="120">120 meses</option>
                             </select>
                         </div>
 
