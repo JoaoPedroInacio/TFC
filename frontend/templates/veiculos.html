@@ -195,23 +195,23 @@
         }
     }
 
-   function renderizarMarcas(marcas) {
-    const lista = document.getElementById("lista-marcas");
+    function renderizarMarcas(marcas) {
+        const lista = document.getElementById("lista-marcas");
 
-    lista.innerHTML = `
-        <button type="button" onclick="selecionarMarca('Todas as Marcas')" class="w-full text-left px-4 py-3 text-sm font-semibold text-gray-300 hover:bg-accent hover:text-white transition-colors">
-            Todas as Marcas
-        </button>
-    `;
-
-    marcas.forEach(marca => {
-        lista.innerHTML += `
-            <button type="button" onclick="selecionarMarca('${marca.replace(/'/g, "\\'")}')" class="w-full text-left px-4 py-3 text-sm font-semibold text-gray-300 hover:bg-accent hover:text-white transition-colors">
-                ${marca}
+        lista.innerHTML = `
+            <button type="button" onclick="selecionarMarca('Todas as Marcas')" class="w-full text-left px-4 py-3 text-sm font-semibold text-gray-300 hover:bg-accent hover:text-white transition-colors">
+                Todas as Marcas
             </button>
         `;
-    });
-}
+
+        marcas.forEach(marca => {
+            lista.innerHTML += `
+                <button type="button" onclick="selecionarMarca('${marca.replace(/'/g, "\\'")}')" class="w-full text-left px-4 py-3 text-sm font-semibold text-gray-300 hover:bg-accent hover:text-white transition-colors">
+                    ${marca}
+                </button>
+            `;
+        });
+    }
 
     function abrirDropdownMarca() {
         const dropdown = document.getElementById("dropdown-marca");
@@ -336,36 +336,46 @@
             }
 
             container.innerHTML = stock.map(carro => `
-                <div class="bg-[#111111] rounded-2xl overflow-hidden border border-white/[0.04] group hover:border-accent/40 transition-all duration-500 flex flex-col justify-between">
+                <div class="bg-[#111111] rounded-2xl overflow-hidden border border-white/[0.04] group hover:border-accent/40 transition-all duration-500 flex flex-col">
+                    
                     <div class="relative h-56 overflow-hidden bg-black">
                         <img src="${carro.img}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 opacity-90 group-hover:opacity-100" alt="${carro.modelo}">
-                        <div class="absolute top-4 left-4 bg-accent text-white text-[10px] font-extrabold tracking-widest px-2.5 py-1 rounded-md uppercase">Disponível</div>
+                        <div class="absolute top-4 left-4 bg-accent text-white text-[10px] font-extrabold tracking-widest px-2.5 py-1 rounded-md uppercase">
+                            Disponível
+                        </div>
                     </div>
 
-                    <div class="p-6 flex-1 flex flex-col justify-between">
-                        <div class="mb-4">
-                            <p class="text-[11px] text-gray-500 uppercase tracking-widest font-bold mb-1">${carro.marca}</p>
-                            <h3 class="text-xl font-bold text-white tracking-tight group-hover:text-accent transition-colors">${carro.modelo}</h3>
-                            <p class="accent-color font-black text-2xl mt-2 tracking-tight">${formatarPreco(carro.preco)}</p>
+                    <div class="p-6 flex-1 flex flex-col">
+                        <div class="mb-5">
+                            <p class="text-[11px] text-gray-500 uppercase tracking-widest font-bold mb-1">
+                                ${carro.marca}
+                            </p>
+
+                            <h3 class="text-xl font-bold text-white tracking-tight group-hover:text-accent transition-colors">
+                                ${carro.modelo}
+                            </h3>
+
+                            <p class="accent-color font-black text-2xl mt-2 tracking-tight">
+                                ${formatarPreco(carro.preco)}
+                            </p>
                         </div>
 
-                       <div class="grid grid-cols-3 gap-3 border-t border-white/[0.05] pt-4 text-xs">
-<div class="grid grid-cols-3 border-t border-white/[0.05] pt-4 text-xs divide-x divide-white/[0.06]">
-    <div class="pr-3">
-        <p class="text-gray-600 uppercase tracking-widest font-bold mb-1">Ano</p>
-        <p class="text-gray-300 font-semibold">${carro.ano}</p>
-    </div>
+                        <div class="grid grid-cols-3 gap-3 border-t border-white/[0.05] pt-4 text-xs">
+                            <div>
+                                <p class="text-gray-600 uppercase tracking-widest font-bold mb-1">Ano</p>
+                                <p class="text-gray-300 font-semibold whitespace-nowrap">${carro.ano}</p>
+                            </div>
 
-    <div class="px-3">
-        <p class="text-gray-600 uppercase tracking-widest font-bold mb-1">Kms</p>
-        <p class="text-gray-300 font-semibold">${formatarKms(carro.kms)}</p>
-    </div>
+                            <div>
+                                <p class="text-gray-600 uppercase tracking-widest font-bold mb-1">Kms</p>
+                                <p class="text-gray-300 font-semibold whitespace-nowrap">${formatarKms(carro.kms)}</p>
+                            </div>
 
-    <div class="pl-3">
-        <p class="text-gray-600 uppercase tracking-widest font-bold mb-1">Comb.</p>
-        <p class="text-gray-300 font-semibold">${carro.combustivel}</p>
-    </div>
-</div>
+                            <div>
+                                <p class="text-gray-600 uppercase tracking-widest font-bold mb-1">Comb.</p>
+                                <p class="text-gray-300 font-semibold truncate">${carro.combustivel}</p>
+                            </div>
+                        </div>
 
                         <a href="/veiculo/${carro.id}/" class="block text-center w-full mt-6 py-3.5 bg-white/[0.03] border border-white/[0.08] rounded-xl text-xs font-bold uppercase tracking-wider text-white group-hover:bg-accent group-hover:border-accent transition-all duration-300">
                             Ver detalhes →
