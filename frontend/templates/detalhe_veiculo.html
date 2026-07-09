@@ -84,9 +84,21 @@
                         Pedir informações
                     </a>
 
-                    <a href="tel:+351900000000" class="bg-white/[0.03] border border-white/[0.08] text-white px-7 py-4 rounded-xl font-bold text-sm uppercase tracking-wider hover:bg-white/[0.08] transition-all">
-                        Ligar agora
-                    </a>
+                    <button
+                        type="button"
+                        onclick="abrirSimulacaoCredito()"
+                        class="bg-white/[0.03] border border-white/[0.08] text-white px-7 py-4 rounded-xl font-bold text-sm uppercase tracking-wider hover:bg-accent hover:border-accent transition-all"
+                    >
+                        Simular crédito
+                    </button>
+
+                    <button
+                        type="button"
+                        onclick="abrirTestDrive()"
+                        class="bg-white/[0.03] border border-white/[0.08] text-white px-7 py-4 rounded-xl font-bold text-sm uppercase tracking-wider hover:bg-accent hover:border-accent transition-all"
+                    >
+                        Marcar test-drive
+                    </button>
                 </div>
             </div>
 
@@ -384,6 +396,252 @@
     </div>
     {% endif %}
 
+    {% if carro %}
+    <div
+        id="modal-simulacao-credito"
+        class="fixed inset-0 z-[120] hidden bg-black/80 backdrop-blur-sm px-4 py-6"
+        onclick="fecharSimulacaoCredito()"
+        aria-hidden="true"
+    >
+        <div class="min-h-full flex items-center justify-center">
+            <div
+                class="w-full max-w-3xl bg-[#111111] border border-white/[0.08] rounded-3xl overflow-hidden shadow-2xl"
+                onclick="event.stopPropagation();"
+            >
+                <div class="flex items-start justify-between gap-6 p-6 md:p-8 border-b border-white/[0.06]">
+                    <div>
+                        <span class="text-xs font-bold uppercase tracking-widest accent-color">
+                            Simulação de Crédito
+                        </span>
+
+                        <h2 class="text-2xl md:text-3xl font-black uppercase tracking-tight mt-2">
+                            {{ carro.marca }} {{ carro.modelo }}
+                        </h2>
+
+                        <p class="text-gray-400 text-sm mt-2">
+                            Simule uma prestação mensal aproximada para esta viatura.
+                        </p>
+                    </div>
+
+                    <button
+                        type="button"
+                        onclick="fecharSimulacaoCredito()"
+                        class="w-11 h-11 rounded-full bg-white/[0.05] border border-white/[0.08] text-white text-2xl flex items-center justify-center hover:bg-accent transition"
+                        aria-label="Fechar simulação"
+                    >
+                        ×
+                    </button>
+                </div>
+
+                <div class="grid lg:grid-cols-2 gap-0">
+                    <div class="p-6 md:p-8 space-y-5">
+                        <div>
+                            <label class="text-[11px] uppercase font-bold text-gray-500 mb-2 block tracking-wider">
+                                Preço da viatura
+                            </label>
+
+                            <div class="bg-black/50 border border-white/[0.08] rounded-xl p-4">
+                                <p class="text-3xl font-black accent-color">
+                                    <span id="credito-preco-texto">{{ carro.preco }}</span> €
+                                </p>
+                            </div>
+
+                            <input type="hidden" id="credito-preco" value="{{ carro.preco }}">
+                        </div>
+
+                        <div>
+                            <label for="credito-entrada" class="text-[11px] uppercase font-bold text-gray-500 mb-2 block tracking-wider">
+                                Entrada inicial
+                            </label>
+
+                            <input
+                                type="number"
+                                id="credito-entrada"
+                                min="0"
+                                step="100"
+                                value="0"
+                                oninput="calcularCredito()"
+                                class="w-full bg-black border border-white/[0.08] rounded-xl p-4 text-sm focus:border-accent outline-none text-white placeholder-gray-600 transition-colors"
+                            >
+
+                            <p class="text-xs text-gray-500 mt-2">
+                                Quanto maior for a entrada, menor será o valor financiado.
+                            </p>
+                        </div>
+
+                        <div>
+                            <label for="credito-prazo" class="text-[11px] uppercase font-bold text-gray-500 mb-2 block tracking-wider">
+                                Prazo
+                            </label>
+
+                            <select
+                                id="credito-prazo"
+                                onchange="calcularCredito()"
+                                class="w-full bg-black border border-white/[0.08] rounded-xl p-4 text-sm focus:border-accent outline-none text-white transition-colors"
+                            >
+                                <option value="12">12 meses</option>
+                                <option value="24">24 meses</option>
+                                <option value="36">36 meses</option>
+                                <option value="48">48 meses</option>
+                                <option value="60" selected>60 meses</option>
+                                <option value="72">72 meses</option>
+                                <option value="84">84 meses</option>
+                                <option value="96">96 meses</option>
+                            </select>
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-4">
+                            <div class="bg-black/40 border border-white/[0.06] rounded-2xl p-4">
+                                <p class="text-[10px] text-gray-500 uppercase font-bold tracking-wider mb-1">TAN usada</p>
+                                <p class="text-xl font-black text-white">11,5%</p>
+                            </div>
+
+                            <div class="bg-black/40 border border-white/[0.06] rounded-2xl p-4">
+                                <p class="text-[10px] text-gray-500 uppercase font-bold tracking-wider mb-1">TAEG usada</p>
+                                <p class="text-xl font-black text-white">14,5%</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="p-6 md:p-8 bg-black/30 border-t lg:border-t-0 lg:border-l border-white/[0.06] flex flex-col justify-between gap-6">
+                        <div>
+                            <p class="text-[11px] uppercase font-bold text-gray-500 mb-2 block tracking-wider">
+                                Prestação estimada
+                            </p>
+
+                            <div class="bg-accent rounded-3xl p-6 mb-5">
+                                <p class="text-white/80 text-xs uppercase font-bold tracking-widest mb-2">
+                                    Valor mensal aproximado
+                                </p>
+
+                                <p class="text-4xl md:text-5xl font-black text-white">
+                                    <span id="credito-prestacao">0</span> €
+                                </p>
+
+                                <p class="text-white/80 text-sm mt-2">por mês</p>
+                            </div>
+
+                            <div class="space-y-3 text-sm">
+                                <div class="flex justify-between gap-4 border-b border-white/[0.06] pb-3">
+                                    <span class="text-gray-500">Valor financiado</span>
+                                    <span class="font-bold text-white"><span id="credito-financiado">0</span> €</span>
+                                </div>
+
+                                <div class="flex justify-between gap-4 border-b border-white/[0.06] pb-3">
+                                    <span class="text-gray-500">Entrada inicial</span>
+                                    <span class="font-bold text-white"><span id="credito-entrada-resumo">0</span> €</span>
+                                </div>
+
+                                <div class="flex justify-between gap-4 border-b border-white/[0.06] pb-3">
+                                    <span class="text-gray-500">Prazo escolhido</span>
+                                    <span class="font-bold text-white"><span id="credito-prazo-resumo">60</span> meses</span>
+                                </div>
+
+                                <div class="flex justify-between gap-4">
+                                    <span class="text-gray-500">Montante total estimado</span>
+                                    <span class="font-bold text-white"><span id="credito-total">0</span> €</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-white/[0.03] border border-white/[0.08] rounded-2xl p-5">
+                            <p class="text-xs text-gray-400 leading-relaxed">
+                                Para esta simulação foram usados valores de referência de
+                                <strong class="text-white">TAEG 14,5%</strong> e
+                                <strong class="text-white">TAN 11,5%</strong>.
+                                Esta simulação serve apenas para o cliente ter uma noção aproximada
+                                do valor mensal do crédito, podendo variar conforme aprovação,
+                                entidade financeira, entrada inicial, prazo e condições finais.
+                            </p>
+                        </div>
+
+                        <a
+                            href="/contacto/"
+                            class="block text-center w-full bg-white/[0.05] border border-white/[0.08] text-white py-3.5 rounded-xl font-bold text-sm uppercase tracking-wider hover:bg-accent hover:border-accent transition"
+                        >
+                            Pedir proposta real
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+
+    {% if carro %}
+    <div
+        id="modal-test-drive"
+        class="fixed inset-0 z-[130] hidden bg-black/80 backdrop-blur-sm px-4 py-6"
+        onclick="fecharTestDrive()"
+        aria-hidden="true"
+    >
+        <div class="min-h-full flex items-center justify-center">
+            <div
+                class="w-full max-w-xl bg-[#111111] border border-white/[0.08] rounded-3xl overflow-hidden shadow-2xl"
+                onclick="event.stopPropagation();"
+            >
+                <div class="flex items-start justify-between gap-6 p-6 md:p-8 border-b border-white/[0.06]">
+                    <div>
+                        <span class="text-xs font-bold uppercase tracking-widest accent-color">
+                            Marcação de Test-drive
+                        </span>
+
+                        <h2 class="text-2xl md:text-3xl font-black uppercase tracking-tight mt-2">
+                            {{ carro.marca }} {{ carro.modelo }}
+                        </h2>
+
+                        <p class="text-gray-400 text-sm mt-2">
+                            Este botão já está preparado para a próxima fase do projeto.
+                        </p>
+                    </div>
+
+                    <button
+                        type="button"
+                        onclick="fecharTestDrive()"
+                        class="w-11 h-11 rounded-full bg-white/[0.05] border border-white/[0.08] text-white text-2xl flex items-center justify-center hover:bg-accent transition"
+                        aria-label="Fechar test-drive"
+                    >
+                        ×
+                    </button>
+                </div>
+
+                <div class="p-6 md:p-8 space-y-5">
+                    <div class="bg-black/30 border border-white/[0.06] rounded-2xl p-5">
+                        <p class="text-gray-300 text-sm leading-relaxed">
+                            Na próxima implementação, esta janela vai ter o calendário, horários disponíveis, dados do cliente e submissão da marcação para a base de dados.
+                        </p>
+                    </div>
+
+                    <div class="grid md:grid-cols-2 gap-4 text-sm">
+                        <div class="bg-black/40 border border-white/[0.06] rounded-2xl p-4">
+                            <p class="text-[10px] text-gray-500 uppercase font-bold tracking-wider mb-1">
+                                Próximo passo
+                            </p>
+                            <p class="font-bold text-white">Calendário mensal</p>
+                        </div>
+
+                        <div class="bg-black/40 border border-white/[0.06] rounded-2xl p-4">
+                            <p class="text-[10px] text-gray-500 uppercase font-bold tracking-wider mb-1">
+                                Horários
+                            </p>
+                            <p class="font-bold text-white">10:00 às 19:30</p>
+                        </div>
+                    </div>
+
+                    <button
+                        type="button"
+                        onclick="fecharTestDrive()"
+                        class="w-full bg-accent text-white py-3.5 rounded-xl font-bold text-sm uppercase tracking-wider hover:bg-opacity-90 transition"
+                    >
+                        Fechar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
     <footer class="bg-[#070707] border-t border-white/[0.06] px-6 md:px-12 py-14">
         <div class="max-w-7xl mx-auto grid md:grid-cols-3 gap-10">
 
@@ -603,7 +861,136 @@
                 mudarImagemLightbox(1, event);
             }
         });
-    </script>
+    
+        const CREDITO_TAN = 11.5;
+
+        function formatarMoeda(valor) {
+            if (!valor || isNaN(valor)) {
+                return "0";
+            }
+
+            return Math.round(valor).toLocaleString("pt-PT");
+        }
+
+        function obterNumero(valor) {
+            if (!valor && valor !== 0) {
+                return 0;
+            }
+
+            return Number(String(valor).replace(/\./g, "").replace(",", "."));
+        }
+
+        function abrirSimulacaoCredito() {
+            const modal = document.getElementById("modal-simulacao-credito");
+
+            if (!modal) {
+                return;
+            }
+
+            modal.classList.remove("hidden");
+            modal.setAttribute("aria-hidden", "false");
+            document.body.classList.add("overflow-hidden");
+
+            calcularCredito();
+        }
+
+        function fecharSimulacaoCredito() {
+            const modal = document.getElementById("modal-simulacao-credito");
+
+            if (!modal) {
+                return;
+            }
+
+            modal.classList.add("hidden");
+            modal.setAttribute("aria-hidden", "true");
+            document.body.classList.remove("overflow-hidden");
+        }
+
+        function calcularCredito() {
+            const precoInput = document.getElementById("credito-preco");
+            const entradaInput = document.getElementById("credito-entrada");
+            const prazoInput = document.getElementById("credito-prazo");
+
+            if (!precoInput || !entradaInput || !prazoInput) {
+                return;
+            }
+
+            const preco = obterNumero(precoInput.value);
+            let entrada = obterNumero(entradaInput.value);
+            const prazo = parseInt(prazoInput.value);
+
+            if (entrada < 0) {
+                entrada = 0;
+                entradaInput.value = 0;
+            }
+
+            if (entrada > preco) {
+                entrada = preco;
+                entradaInput.value = preco;
+            }
+
+            const valorFinanciado = Math.max(preco - entrada, 0);
+            const taxaMensal = (CREDITO_TAN / 100) / 12;
+
+            let prestacao = 0;
+
+            if (valorFinanciado > 0 && prazo > 0) {
+                prestacao = valorFinanciado * taxaMensal / (1 - Math.pow(1 + taxaMensal, -prazo));
+            }
+
+            const totalEstimado = prestacao * prazo;
+
+            const prestacaoEl = document.getElementById("credito-prestacao");
+            const financiadoEl = document.getElementById("credito-financiado");
+            const entradaResumoEl = document.getElementById("credito-entrada-resumo");
+            const prazoResumoEl = document.getElementById("credito-prazo-resumo");
+            const totalEl = document.getElementById("credito-total");
+
+            if (prestacaoEl) prestacaoEl.innerText = formatarMoeda(prestacao);
+            if (financiadoEl) financiadoEl.innerText = formatarMoeda(valorFinanciado);
+            if (entradaResumoEl) entradaResumoEl.innerText = formatarMoeda(entrada);
+            if (prazoResumoEl) prazoResumoEl.innerText = prazo;
+            if (totalEl) totalEl.innerText = formatarMoeda(totalEstimado);
+        }
+</script>
+
+
+    <script>
+        document.addEventListener("keydown", function(event) {
+            if (event.key === "Escape") {
+                fecharSimulacaoCredito();
+            }
+        });
+
+        document.addEventListener("DOMContentLoaded", function() {
+            calcularCredito();
+        });
+    
+
+        function abrirTestDrive() {
+            const modal = document.getElementById('modal-test-drive');
+
+            if (!modal) {
+                return;
+            }
+
+            modal.classList.remove('hidden');
+            modal.setAttribute('aria-hidden', 'false');
+            document.body.classList.add('overflow-hidden');
+        }
+
+        function fecharTestDrive() {
+            const modal = document.getElementById('modal-test-drive');
+
+            if (!modal) {
+                return;
+            }
+
+            modal.classList.add('hidden');
+            modal.setAttribute('aria-hidden', 'true');
+            document.body.classList.remove('overflow-hidden');
+        }
+</script>
 
 </body>
 </html>
