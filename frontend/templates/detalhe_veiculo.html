@@ -92,8 +92,49 @@
 
         <section class="grid lg:grid-cols-3 gap-10 mb-20">
             <div class="lg:col-span-2">
-                <div class="rounded-3xl overflow-hidden border border-white/[0.08] aspect-video bg-[#111111]">
-                    <img src="{{ carro.img }}" class="w-full h-full object-cover" alt="{{ carro.marca }} {{ carro.modelo }}">
+                <div class="relative rounded-3xl overflow-hidden border border-white/[0.08] aspect-video bg-[#111111] group">
+                    {% if imagens %}
+                        {% for imagem in imagens %}
+                            <img
+                                src="{{ imagem.img_caminho }}"
+                                class="vehicle-slide absolute inset-0 w-full h-full object-cover transition-opacity duration-500 {% if not forloop.first %}opacity-0{% else %}opacity-100{% endif %}"
+                                alt="{{ carro.marca }} {{ carro.modelo }}"
+                            >
+                        {% endfor %}
+
+                        {% if imagens|length > 1 %}
+                            <button
+                                type="button"
+                                onclick="mudarImagem(-1)"
+                                class="absolute left-4 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-black/60 border border-white/[0.12] text-white text-3xl flex items-center justify-center hover:bg-accent transition"
+                                aria-label="Imagem anterior"
+                            >
+                                ‹
+                            </button>
+
+                            <button
+                                type="button"
+                                onclick="mudarImagem(1)"
+                                class="absolute right-4 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-black/60 border border-white/[0.12] text-white text-3xl flex items-center justify-center hover:bg-accent transition"
+                                aria-label="Imagem seguinte"
+                            >
+                                ›
+                            </button>
+
+                            <div class="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2">
+                                {% for imagem in imagens %}
+                                    <button
+                                        type="button"
+                                        onclick="irParaImagem({{ forloop.counter0 }})"
+                                        class="vehicle-dot w-2.5 h-2.5 rounded-full border border-white/20 {% if forloop.first %}bg-accent{% else %}bg-white/40{% endif %}"
+                                        aria-label="Ir para imagem {{ forloop.counter }}"
+                                    ></button>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    {% else %}
+                        <img src="{{ carro.img }}" class="w-full h-full object-cover" alt="{{ carro.marca }} {{ carro.modelo }}">
+                    {% endif %}
                 </div>
             </div>
 
@@ -128,6 +169,27 @@
                             <span class="text-gray-500">Combustível</span>
                             <span class="font-semibold text-white text-right">{{ carro.combustivel }}</span>
                         </div>
+
+                        {% if carro.vei_versao %}
+                        <div class="flex justify-between gap-4">
+                            <span class="text-gray-500">Versão</span>
+                            <span class="font-semibold text-white text-right">{{ carro.vei_versao }}</span>
+                        </div>
+                        {% endif %}
+
+                        {% if carro.vei_potencia_cv %}
+                        <div class="flex justify-between gap-4">
+                            <span class="text-gray-500">Potência</span>
+                            <span class="font-semibold text-white text-right">{{ carro.vei_potencia_cv }} cv</span>
+                        </div>
+                        {% endif %}
+
+                        {% if carro.vei_cilindrada %}
+                        <div class="flex justify-between gap-4">
+                            <span class="text-gray-500">Cilindrada</span>
+                            <span class="font-semibold text-white text-right">{{ carro.vei_cilindrada }} cc</span>
+                        </div>
+                        {% endif %}
                     </div>
                 </div>
 
@@ -146,6 +208,20 @@
                 </div>
             </aside>
         </section>
+
+        {% if carro.vei_descricao %}
+        <section class="mb-20">
+            <div class="bg-[#111111] border border-white/[0.06] rounded-3xl p-8 md:p-10">
+                <span class="text-xs font-bold uppercase tracking-widest accent-color">Descrição</span>
+                <h2 class="text-3xl md:text-4xl font-black uppercase tracking-tight mt-2 mb-6">
+                    Sobre esta viatura
+                </h2>
+                <p class="text-gray-400 leading-relaxed whitespace-pre-line">
+                    {{ carro.vei_descricao }}
+                </p>
+            </div>
+        </section>
+        {% endif %}
 
         <section class="mb-20">
             <div class="bg-[#111111] border border-white/[0.06] rounded-3xl p-8 md:p-10">
@@ -246,6 +322,57 @@
             <p>Stand Automóvel Premium</p>
         </div>
     </footer>
+
+    <script>
+        let imagemAtual = 0;
+
+        function atualizarGaleria() {
+            const slides = document.querySelectorAll('.vehicle-slide');
+            const dots = document.querySelectorAll('.vehicle-dot');
+
+            slides.forEach((slide, index) => {
+                if (index === imagemAtual) {
+                    slide.classList.remove('opacity-0');
+                    slide.classList.add('opacity-100');
+                } else {
+                    slide.classList.remove('opacity-100');
+                    slide.classList.add('opacity-0');
+                }
+            });
+
+            dots.forEach((dot, index) => {
+                if (index === imagemAtual) {
+                    dot.classList.remove('bg-white/40');
+                    dot.classList.add('bg-accent');
+                } else {
+                    dot.classList.remove('bg-accent');
+                    dot.classList.add('bg-white/40');
+                }
+            });
+        }
+
+        function mudarImagem(direcao) {
+            const slides = document.querySelectorAll('.vehicle-slide');
+            if (!slides.length) return;
+
+            imagemAtual += direcao;
+
+            if (imagemAtual < 0) {
+                imagemAtual = slides.length - 1;
+            }
+
+            if (imagemAtual >= slides.length) {
+                imagemAtual = 0;
+            }
+
+            atualizarGaleria();
+        }
+
+        function irParaImagem(index) {
+            imagemAtual = index;
+            atualizarGaleria();
+        }
+    </script>
 
 </body>
 </html>
