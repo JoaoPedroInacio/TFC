@@ -8,7 +8,9 @@ from .views import (
 )
 
 urlpatterns = [
-    path("veiculos/", listar_veiculos, name="listar_veiculos"),
+    path("veiculos", listar_veiculos, name="listar_veiculos"),
+    path("veiculos/", listar_veiculos, name="listar_veiculos_slash"),
+
     path("veiculos/<int:id>/", detalhe_veiculo, name="detalhe_veiculo"),
     path("veiculos/criar/", criar_veiculo, name="criar_veiculo"),
     path("veiculos/<int:id>/editar/", editar_veiculo, name="editar_veiculo"),

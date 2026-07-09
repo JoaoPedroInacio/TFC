@@ -1,6 +1,7 @@
 from django.db import models
 from django.core.validators import MinValueValidator, MaxValueValidator
 
+
 class Combustivel(models.Model):
     cmb_id = models.AutoField(primary_key=True)
     cmb_nome = models.CharField(unique=True, max_length=30)
@@ -111,6 +112,46 @@ class Veiculo(models.Model):
     vei_descricao = models.TextField(blank=True, null=True)
     vei_criado_em = models.DateTimeField(auto_now_add=True)
     vei_atualizado_em = models.DateTimeField(auto_now=True)
+
+    @property
+    def id(self):
+        return self.vei_id
+
+    @property
+    def marca(self):
+        return self.vei_mdl.mdl_mrc.mrc_nome if self.vei_mdl and self.vei_mdl.mdl_mrc else ""
+
+    @property
+    def modelo(self):
+        return self.vei_mdl.mdl_nome if self.vei_mdl else ""
+
+    @property
+    def preco(self):
+        return int(self.vei_preco_venda)
+
+    @property
+    def ano(self):
+        return self.vei_ano
+
+    @property
+    def kms(self):
+        return self.vei_quilometros
+
+    @property
+    def combustivel(self):
+        return self.vei_cmb.cmb_nome if self.vei_cmb else ""
+
+    @property
+    def img(self):
+        capa = self.imagemveiculo_set.filter(img_capa=True).first()
+        if capa:
+            return capa.img_caminho
+
+        primeira = self.imagemveiculo_set.first()
+        if primeira:
+            return primeira.img_caminho
+
+        return "https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&q=80&w=1200"
 
     class Meta:
         db_table = 'veiculo'

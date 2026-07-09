@@ -1,4 +1,5 @@
 import json
+
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import get_object_or_404
@@ -9,24 +10,25 @@ from .models import Veiculo, Modelo, Combustivel
 
 def veiculo_para_dict(veiculo):
     return {
+        "id": veiculo.id,
+        "marca": veiculo.marca,
+        "modelo": veiculo.modelo,
+        "preco": veiculo.preco,
+        "ano": veiculo.ano,
+        "kms": veiculo.kms,
+        "combustivel": veiculo.combustivel,
+        "img": veiculo.img,
+
         "vei_id": veiculo.vei_id,
-        "marca": veiculo.vei_mdl.mdl_mrc.mrc_nome,
-        "modelo": veiculo.vei_mdl.mdl_nome,
-        "combustivel": veiculo.vei_cmb.cmb_nome if veiculo.vei_cmb else None,
         "vei_matricula": veiculo.vei_matricula,
         "vei_vin": veiculo.vei_vin,
         "vei_versao": veiculo.vei_versao,
         "vei_importado": veiculo.vei_importado,
         "vei_mes": veiculo.vei_mes,
-        "vei_ano": veiculo.vei_ano,
-        "vei_quilometros": veiculo.vei_quilometros,
         "vei_cilindrada": veiculo.vei_cilindrada,
         "vei_potencia_cv": veiculo.vei_potencia_cv,
-        "vei_preco_venda": str(veiculo.vei_preco_venda),
         "vei_estado": veiculo.vei_estado,
         "vei_descricao": veiculo.vei_descricao,
-        "vei_criado_em": veiculo.vei_criado_em,
-        "vei_atualizado_em": veiculo.vei_atualizado_em,
     }
 
 
@@ -34,7 +36,32 @@ def listar_veiculos(request):
     if request.method != "GET":
         return JsonResponse({"erro": "Método não permitido"}, status=405)
 
-    veiculos = Veiculo.objects.select_related("vei_mdl__mdl_mrc", "vei_cmb").all()
+    veiculos = Veiculo.objects.select_related(
+        "vei_mdl__mdl_mrc",
+        "vei_cmb"
+    ).filter(vei_estado="Disponível")
+
+    pesquisa = request.GET.get("pesquisa", "").strip()
+    marca = request.GET.get("marca", "").strip()
+    combustiveis = request.GET.getlist("combustivel")
+
+    if pesquisa:
+        veiculos = veiculos.filter(
+            vei_mdl__mdl_nome__icontains=pesquisa
+        ) | veiculos.filter(
+            vei_mdl__mdl_mrc__mrc_nome__icontains=pesquisa
+        ) | veiculos.filter(
+            vei_versao__icontains=pesquisa
+        )
+
+    if marca and marca != "Todas as Marcas":
+        veiculos = veiculos.filter(vei_mdl__mdl_mrc__mrc_nome=marca)
+
+    if combustiveis:
+        veiculos = veiculos.filter(vei_cmb__cmb_nome__in=combustiveis)
+
+    veiculos = veiculos.order_by("-vei_criado_em")
+
     data = [veiculo_para_dict(veiculo) for veiculo in veiculos]
 
     return JsonResponse(data, safe=False)
@@ -94,6 +121,7 @@ def criar_veiculo(request):
     except Exception as e:
         return JsonResponse({"erro": str(e)}, status=400)
 
+
 @csrf_exempt
 def editar_veiculo(request, id):
     if request.method != "PUT":
@@ -136,6 +164,7 @@ def editar_veiculo(request, id):
 
     except Exception as e:
         return JsonResponse({"erro": str(e)}, status=400)
+
 
 @csrf_exempt
 def apagar_veiculo(request, id):
