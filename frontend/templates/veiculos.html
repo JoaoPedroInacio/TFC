@@ -1,6 +1,9 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="pt">
 <head>
+    <link rel="icon" type="image/png" href="{% static 'logo.png' %}">
+    <link rel="apple-touch-icon" href="{% static 'logo.png' %}">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Stock de Veículos | Autogémeos</title>
@@ -397,6 +400,7 @@
             lista.innerHTML += `
                 <a
                     href="/veiculo/${id}/"
+                    onclick="guardarEstadoVeiculos()"
                     aria-label="Ver detalhes de ${marca} ${modelo}"
                     class="bg-[#111111] rounded-2xl overflow-hidden border border-white/[0.04] group hover:border-accent/40 hover:-translate-y-1 transition-all duration-500 flex flex-col h-full cursor-pointer"
                 >
@@ -457,7 +461,7 @@
     }
 
     function carregarFiltros() {
-        fetch("/api/filtros-veiculos/")
+        return fetch("/api/filtros-veiculos/")
             .then(response => {
                 if (!response.ok) {
                     throw new Error("Erro HTTP nos filtros: " + response.status);
@@ -593,6 +597,70 @@
             });
     }
 
+    function guardarEstadoVeiculos() {
+        const estado = {
+            scrollY: window.scrollY,
+            pesquisa: document.getElementById("filtro-pesquisa")?.value || "",
+            marca: document.getElementById("filtro-marca")?.value || "Todas as Marcas",
+            precoMin: document.getElementById("preco-min")?.value || "",
+            precoMax: document.getElementById("preco-max")?.value || "",
+            anoMin: document.getElementById("ano-min")?.value || "",
+            anoMax: document.getElementById("ano-max")?.value || "",
+            kmsMax: document.getElementById("kms-max")?.value || "",
+            combustiveis: Array.from(
+                document.querySelectorAll("input[name='combustivel']:checked")
+            ).map(input => input.value)
+        };
+
+        sessionStorage.setItem("estadoVeiculos", JSON.stringify(estado));
+    }
+
+    function restaurarEstadoVeiculos() {
+        const estadoGuardado = sessionStorage.getItem("estadoVeiculos");
+
+        if (!estadoGuardado) {
+            aplicarFiltros();
+            return;
+        }
+
+        let estado;
+
+        try {
+            estado = JSON.parse(estadoGuardado);
+        } catch (erro) {
+            console.error("Não foi possível restaurar o estado dos veículos:", erro);
+            aplicarFiltros();
+            return;
+        }
+
+        document.getElementById("filtro-pesquisa").value = estado.pesquisa || "";
+        document.getElementById("filtro-marca").value = estado.marca || "Todas as Marcas";
+        document.getElementById("texto-marca").innerText = estado.marca || "Todas as Marcas";
+        document.getElementById("preco-min").value = estado.precoMin || "";
+        document.getElementById("preco-max").value = estado.precoMax || "";
+        document.getElementById("ano-min").value = estado.anoMin || "";
+        document.getElementById("ano-max").value = estado.anoMax || "";
+        document.getElementById("kms-max").value = estado.kmsMax || "";
+
+        const combustiveisGuardados = Array.isArray(estado.combustiveis)
+            ? estado.combustiveis
+            : [];
+
+        document.querySelectorAll("input[name='combustivel']").forEach(input => {
+            input.checked = combustiveisGuardados.includes(input.value);
+        });
+
+        aplicarFiltros();
+
+        setTimeout(() => {
+            window.scrollTo({
+                top: Number(estado.scrollY || 0),
+                left: 0,
+                behavior: "auto"
+            });
+        }, 500);
+    }
+
     function limparFiltros() {
         document.getElementById("filtro-pesquisa").value = "";
         document.getElementById("filtro-marca").value = "Todas as Marcas";
@@ -611,8 +679,13 @@
     }
 
     document.addEventListener("DOMContentLoaded", () => {
-        carregarFiltros();
-        aplicarFiltros();
+        carregarFiltros()
+            .then(() => {
+                restaurarEstadoVeiculos();
+            })
+            .catch(() => {
+                aplicarFiltros();
+            });
 
         const campoPesquisa = document.getElementById("filtro-pesquisa");
 
@@ -670,6 +743,11 @@
                 dropdown.classList.add("hidden");
             }
         });
+    });
+    window.addEventListener("pageshow", event => {
+        if (event.persisted) {
+            restaurarEstadoVeiculos();
+        }
     });
 </script>
 
