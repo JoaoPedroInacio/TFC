@@ -1,6 +1,7 @@
 from django.contrib import admin
 from django.core.mail import send_mail
 from django.conf import settings
+from .google_calendar import criar_evento_test_drive
 from .models import (
     Combustivel,
     Marca,
@@ -150,6 +151,11 @@ class TestDriveAdmin(admin.ModelAdmin):
         super().save_model(request, obj, form, change)
 
         if estado_antigo != obj.tdr_estado:
+            try:
+                criar_evento_test_drive(obj)
+            except Exception as e:
+                print(f"Erro ao criar evento no Google Calendar: {e}")
+
             if obj.tdr_estado == TestDrive.ESTADO_CONFIRMADO:
                 assunto = "Test-drive confirmado - Autogémeos"
 
@@ -201,40 +207,7 @@ Autogémeos
                     [obj.tdr_email],
                     fail_silently=False,
                 )
-            send_mail(
-                assunto,
-                mensagem,
-                getattr(settings, "DEFAULT_FROM_EMAIL", "tfcautogemeos@gmail.com"),
-                [obj.tdr_email],
-                fail_silently=False,
-            )
-
-        elif obj.tdr_estado == TestDrive.ESTADO_CANCELADO:
-            assunto = "Test-drive cancelado - Autogémeos"
-
-            mensagem = f"""
-Olá {obj.tdr_nome},
-
-Informamos que o seu test-drive foi cancelado pela equipa Autogémeos.
-
-Veículo: {obj.tdr_vei.marca} {obj.tdr_vei.modelo}
-Data: {obj.tdr_data.strftime('%d/%m/%Y')}
-Hora: {obj.tdr_hora.strftime('%H:%M')}
-
-Para remarcar, por favor contacte-nos ou faça um novo pedido no website.
-
-Obrigado,
-Autogémeos
-"""
-
-            send_mail(
-                assunto,
-                mensagem,
-                getattr(settings, "DEFAULT_FROM_EMAIL", "tfcautogemeos@gmail.com"),
-                [obj.tdr_email],
-                fail_silently=False,
-            )
-
+            
 @admin.register(Utilizador)
 class UtilizadorAdmin(admin.ModelAdmin):
     list_display = ("usr_id", "usr_nome", "usr_email", "usr_telefone", "usr_tipo")
