@@ -7,31 +7,66 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
     <style>
-        body { background-color: #0A0A0A; color: #FFFFFF; font-family: 'Inter', sans-serif; }
+        html,
+        body {
+            max-width: 100%;
+            overflow-x: hidden;
+        }
+
+        body {
+            background-color: #0A0A0A;
+            color: #FFFFFF;
+            font-family: 'Inter', sans-serif;
+        }
+
         .accent-color { color: #F06418; }
         .bg-accent { background-color: #F06418; }
         .border-accent { border-color: #F06418; }
-        .glass { background: rgba(15, 15, 15, 0.75); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
+
+        .glass {
+            background: rgba(15, 15, 15, 0.75);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
     </style>
 </head>
+
 <body class="antialiased">
 
-    <nav class="flex justify-between items-center px-6 md:px-12 py-5 glass fixed w-full z-50 border-b border-white/[0.06]">
-        <div class="flex items-center gap-2">
-            <a href="/" class="text-2xl font-black tracking-tighter uppercase italic">
+    <nav class="glass fixed top-0 left-0 w-full z-50 border-b border-white/[0.06]">
+        <div class="flex justify-between items-center px-4 sm:px-6 md:px-12 py-4 md:py-5">
+            <a href="/" class="text-xl sm:text-2xl font-black tracking-tighter uppercase italic">
                 Auto<span class="accent-color">Gémeos</span>
             </a>
+
+            <div class="hidden md:flex gap-8 text-sm text-gray-400 font-medium tracking-wide">
+                <a href="/" class="hover:text-white transition">Início</a>
+                <a href="/veiculos/" class="text-white border-b-2 border-accent pb-1 transition">Veículos</a>
+                <a href="/sobre/" class="hover:text-white transition">Sobre Nós</a>
+                <a href="/contacto/" class="hover:text-white transition">Contacto</a>
+            </div>
+
+            <button
+                type="button"
+                onclick="toggleMenuMobile()"
+                class="md:hidden w-11 h-11 rounded-xl bg-white/[0.04] border border-white/[0.08] flex items-center justify-center text-white text-2xl"
+                aria-label="Abrir menu"
+            >
+                ☰
+            </button>
         </div>
 
-        <div class="hidden md:flex gap-8 text-sm text-gray-400 font-medium tracking-wide">
-            <a href="/" class="hover:text-white transition">Início</a>
-            <a href="/veiculos/" class="text-white border-b-2 border-accent pb-1 transition">Veículos</a>
-            <a href="/sobre/" class="hover:text-white transition">Sobre Nós</a>
-            <a href="/contacto/" class="hover:text-white transition">Contacto</a>
+        <div id="menu-mobile" class="hidden md:hidden px-4 sm:px-6 pb-5">
+            <div class="grid gap-2 bg-[#111111] border border-white/[0.08] rounded-2xl p-3">
+                <a href="/" class="text-gray-300 hover:text-white hover:bg-white/[0.04] rounded-xl px-4 py-3 text-sm font-bold uppercase tracking-wider transition">Início</a>
+                <a href="/veiculos/" class="bg-accent text-white rounded-xl px-4 py-3 text-sm font-bold uppercase tracking-wider">Veículos</a>
+                <a href="/sobre/" class="text-gray-300 hover:text-white hover:bg-white/[0.04] rounded-xl px-4 py-3 text-sm font-bold uppercase tracking-wider transition">Sobre Nós</a>
+                <a href="/contacto/" class="text-gray-300 hover:text-white hover:bg-white/[0.04] rounded-xl px-4 py-3 text-sm font-bold uppercase tracking-wider transition">Contacto</a>
+            </div>
         </div>
     </nav>
 
-    <section class="relative pt-44 pb-16 px-6 md:px-12 overflow-hidden">
+    <section class="relative pt-36 sm:pt-40 md:pt-44 pb-12 md:pb-16 px-4 sm:px-6 md:px-12 overflow-hidden">
         <div class="absolute inset-0 z-0">
             <img src="https://images.unsplash.com/photo-1617814076367-b759c7d7e738?auto=format&fit=crop&q=80&w=1920" class="w-full h-full object-cover opacity-20" alt="Stock Autogémeos">
             <div class="absolute inset-0 bg-gradient-to-b from-[#0A0A0A]/70 via-[#0A0A0A] to-[#0A0A0A]"></div>
@@ -39,99 +74,164 @@
 
         <div class="relative z-10 max-w-7xl mx-auto text-center">
             <p class="accent-color font-bold uppercase tracking-widest text-xs mb-4">Stock disponível</p>
-            <h1 class="text-5xl md:text-7xl font-black uppercase tracking-tight mb-6">
+
+            <h1 class="text-4xl sm:text-5xl md:text-7xl font-black uppercase tracking-tight mb-6 leading-tight">
                 Encontre o seu <span class="accent-color italic">Próximo Veículo</span>
             </h1>
-            <p class="text-gray-400 text-lg md:text-xl leading-relaxed font-light max-w-3xl mx-auto">
+
+            <p class="text-gray-400 text-base sm:text-lg md:text-xl leading-relaxed font-light max-w-3xl mx-auto">
                 Explore a nossa seleção de veículos disponíveis e utilize os filtros para encontrar o modelo ideal.
             </p>
         </div>
     </section>
 
-    <section class="pb-28 px-6 md:px-12 bg-[#0A0A0A]">
+    <section class="pb-20 md:pb-28 px-4 sm:px-6 md:px-12 bg-[#0A0A0A]">
         <div class="max-w-7xl mx-auto">
-            <div class="flex flex-col lg:flex-row gap-10">
-                
-                <aside class="w-full lg:w-80 space-y-6 bg-[#111111] p-6 rounded-3xl h-fit border border-white/[0.06]">
+            <div class="flex flex-col lg:flex-row gap-6 lg:gap-10">
+
+                <aside class="w-full lg:w-80 space-y-6 bg-[#111111] p-5 sm:p-6 rounded-3xl h-fit border border-white/[0.06]">
 
                     <div>
-                        <label class="text-[11px] uppercase font-bold text-gray-500 mb-2 block tracking-wider">Pesquisa Global</label>
-                        <input type="text" id="filtro-pesquisa" placeholder="Pesquisar marca, modelo ou versão" class="w-full bg-black border border-white/[0.08] rounded-xl p-3 text-sm focus:border-accent outline-none text-white placeholder-gray-600 transition-colors">
+                        <label class="text-[11px] uppercase font-bold text-gray-500 mb-2 block tracking-wider">
+                            Pesquisa Global
+                        </label>
+
+                        <input
+                            type="text"
+                            id="filtro-pesquisa"
+                            placeholder="Pesquisar marca, modelo ou versão"
+                            class="w-full bg-black border border-white/[0.08] rounded-xl p-3 text-sm focus:border-accent outline-none text-white placeholder-gray-600 transition-colors"
+                        >
                     </div>
 
                     <div class="relative">
-    <label class="text-[11px] uppercase font-bold text-gray-500 mb-2 block tracking-wider">Marca</label>
+                        <label class="text-[11px] uppercase font-bold text-gray-500 mb-2 block tracking-wider">
+                            Marca
+                        </label>
 
-    <button type="button" id="botao-marca" onclick="abrirDropdownMarca()" class="w-full bg-black border border-white/[0.08] rounded-xl p-3 text-sm outline-none text-gray-300 focus:border-accent transition-colors flex justify-between items-center">
-        <span id="texto-marca">Todas as Marcas</span>
-        <span>⌄</span>
-    </button>
+                        <button
+                            type="button"
+                            id="botao-marca"
+                            onclick="abrirDropdownMarca()"
+                            class="w-full bg-black border border-white/[0.08] rounded-xl p-3 text-sm outline-none text-gray-300 focus:border-accent transition-colors flex justify-between items-center"
+                        >
+                            <span id="texto-marca">Todas as Marcas</span>
+                            <span>⌄</span>
+                        </button>
 
-    <input type="hidden" id="filtro-marca" value="Todas as Marcas">
+                        <input type="hidden" id="filtro-marca" value="Todas as Marcas">
 
-    <div id="dropdown-marca" class="hidden absolute z-50 mt-2 w-full bg-[#0A0A0A] text-white rounded-2xl shadow-2xl shadow-black/60 max-h-80 overflow-hidden border border-white/[0.08]">
-    <div class="p-3 border-b border-white/[0.08] bg-[#111111]">
-        <input type="text" id="pesquisa-marca" placeholder="Pesquisar marca..." class="w-full bg-black border border-white/[0.08] rounded-xl p-3 text-sm outline-none text-white placeholder-gray-600 focus:border-accent transition-colors">
-    </div>
+                        <div id="dropdown-marca" class="hidden absolute z-50 mt-2 w-full bg-[#0A0A0A] text-white rounded-2xl shadow-2xl shadow-black/60 max-h-80 overflow-hidden border border-white/[0.08]">
+                            <div class="p-3 border-b border-white/[0.08] bg-[#111111]">
+                                <input
+                                    type="text"
+                                    id="pesquisa-marca"
+                                    placeholder="Pesquisar marca..."
+                                    class="w-full bg-black border border-white/[0.08] rounded-xl p-3 text-sm outline-none text-white placeholder-gray-600 focus:border-accent transition-colors"
+                                >
+                            </div>
 
-    <div id="lista-marcas" class="max-h-64 overflow-y-auto"></div>
-</div>
-</div>
+                            <div id="lista-marcas" class="max-h-64 overflow-y-auto"></div>
+                        </div>
+                    </div>
 
-                   <div>
-    <label class="text-[11px] uppercase font-bold text-gray-500 mb-3 block tracking-wider">Combustível</label>
-    <div id="filtro-combustiveis" class="space-y-2.5"></div>
-</div>
+                    <div>
+                        <label class="text-[11px] uppercase font-bold text-gray-500 mb-3 block tracking-wider">
+                            Combustível
+                        </label>
 
-<div>
-    <label class="text-[11px] uppercase font-bold text-gray-500 mb-2 block tracking-wider">Preço</label>
-    <div class="grid grid-cols-2 gap-3">
-        <input type="number" id="preco-min" placeholder="Mín." class="w-full bg-black border border-white/[0.08] rounded-xl p-3 text-sm focus:border-accent outline-none text-white placeholder-gray-600 transition-colors">
-        <input type="number" id="preco-max" placeholder="Máx." class="w-full bg-black border border-white/[0.08] rounded-xl p-3 text-sm focus:border-accent outline-none text-white placeholder-gray-600 transition-colors">
-    </div>
-</div>
+                        <div id="filtro-combustiveis" class="grid grid-cols-1 xs:grid-cols-2 lg:grid-cols-1 gap-2.5"></div>
+                    </div>
 
-<div>
-    <label class="text-[11px] uppercase font-bold text-gray-500 mb-2 block tracking-wider">Ano</label>
-    <div class="grid grid-cols-2 gap-3">
-        <input type="number" id="ano-min" placeholder="Desde" class="w-full bg-black border border-white/[0.08] rounded-xl p-3 text-sm focus:border-accent outline-none text-white placeholder-gray-600 transition-colors">
-        <input type="number" id="ano-max" placeholder="Até" class="w-full bg-black border border-white/[0.08] rounded-xl p-3 text-sm focus:border-accent outline-none text-white placeholder-gray-600 transition-colors">
-    </div>
-</div>
+                    <div>
+                        <label class="text-[11px] uppercase font-bold text-gray-500 mb-2 block tracking-wider">
+                            Preço
+                        </label>
 
-<div>
-    <label class="text-[11px] uppercase font-bold text-gray-500 mb-2 block tracking-wider">Quilómetros</label>
-    <input type="number" id="kms-max" placeholder="Máximo de km" class="w-full bg-black border border-white/[0.08] rounded-xl p-3 text-sm focus:border-accent outline-none text-white placeholder-gray-600 transition-colors">
-</div>
+                        <div class="grid grid-cols-2 gap-3">
+                            <input
+                                type="number"
+                                id="preco-min"
+                                placeholder="Mín."
+                                class="w-full bg-black border border-white/[0.08] rounded-xl p-3 text-sm focus:border-accent outline-none text-white placeholder-gray-600 transition-colors"
+                            >
 
-                    <button onclick="limparFiltros()" class="w-full bg-transparent border border-white/[0.08] text-gray-400 py-3 rounded-xl font-semibold text-xs uppercase tracking-wider hover:text-white hover:border-accent transition-all">
-    Limpar filtros
-</button>
+                            <input
+                                type="number"
+                                id="preco-max"
+                                placeholder="Máx."
+                                class="w-full bg-black border border-white/[0.08] rounded-xl p-3 text-sm focus:border-accent outline-none text-white placeholder-gray-600 transition-colors"
+                            >
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="text-[11px] uppercase font-bold text-gray-500 mb-2 block tracking-wider">
+                            Ano
+                        </label>
+
+                        <div class="grid grid-cols-2 gap-3">
+                            <input
+                                type="number"
+                                id="ano-min"
+                                placeholder="Desde"
+                                class="w-full bg-black border border-white/[0.08] rounded-xl p-3 text-sm focus:border-accent outline-none text-white placeholder-gray-600 transition-colors"
+                            >
+
+                            <input
+                                type="number"
+                                id="ano-max"
+                                placeholder="Até"
+                                class="w-full bg-black border border-white/[0.08] rounded-xl p-3 text-sm focus:border-accent outline-none text-white placeholder-gray-600 transition-colors"
+                            >
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="text-[11px] uppercase font-bold text-gray-500 mb-2 block tracking-wider">
+                            Quilómetros
+                        </label>
+
+                        <input
+                            type="number"
+                            id="kms-max"
+                            placeholder="Máximo de km"
+                            class="w-full bg-black border border-white/[0.08] rounded-xl p-3 text-sm focus:border-accent outline-none text-white placeholder-gray-600 transition-colors"
+                        >
+                    </div>
+
+                    <button
+                        onclick="limparFiltros()"
+                        class="w-full bg-transparent border border-white/[0.08] text-gray-400 py-3 rounded-xl font-semibold text-xs uppercase tracking-wider hover:text-white hover:border-accent transition-all"
+                    >
+                        Limpar filtros
+                    </button>
                 </aside>
 
-                <div class="flex-1">
-                    <div class="flex flex-col md:flex-row md:justify-between md:items-center gap-4 mb-8 bg-[#111111]/60 p-5 rounded-2xl border border-white/[0.06]">
+                <div class="flex-1 min-w-0">
+                    <div class="flex flex-col md:flex-row md:justify-between md:items-center gap-4 mb-6 md:mb-8 bg-[#111111]/60 p-5 rounded-2xl border border-white/[0.06]">
                         <div>
                             <p class="text-xs uppercase tracking-widest text-gray-500 font-bold mb-1">Resultados</p>
-                            <h2 class="text-xl font-medium text-gray-300">
+
+                            <h2 class="text-lg sm:text-xl font-medium text-gray-300">
                                 <span id="total-veiculos" class="accent-color font-black text-3xl">0</span> veículos encontrados
                             </h2>
                         </div>
 
-                        <a href="/contacto/" class="inline-flex justify-center items-center bg-white/[0.03] border border-white/[0.08] rounded-xl px-5 py-3 text-xs font-bold uppercase tracking-wider text-white hover:bg-accent hover:border-accent transition">
+                        <a href="/contacto/" class="w-full md:w-auto inline-flex justify-center items-center bg-white/[0.03] border border-white/[0.08] rounded-xl px-5 py-3 text-xs font-bold uppercase tracking-wider text-white hover:bg-accent hover:border-accent transition">
                             Falar com a equipa
                         </a>
                     </div>
 
-                    <div id="grid-veiculos" class="grid md:grid-cols-2 xl:grid-cols-3 gap-6"></div>
+                    <div id="grid-veiculos" class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5 md:gap-6"></div>
                 </div>
 
             </div>
         </div>
     </section>
 
-    <footer class="bg-[#070707] border-t border-white/[0.06] px-6 md:px-12 py-14">
-        <div class="max-w-7xl mx-auto grid lg:grid-cols-4 md:grid-cols-2 gap-10">
+    <footer class="bg-[#070707] border-t border-white/[0.06] px-4 sm:px-6 md:px-12 py-12 md:py-14">
+        <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
 
             <div>
                 <a href="/" class="text-2xl font-black tracking-tighter uppercase italic">
@@ -181,7 +281,7 @@
 
                     <p>
                         <span class="text-white font-semibold">Email:</span><br>
-                        <a href="mailto:vendasautogemeos@gmail.com" class="hover:text-white transition">
+                        <a href="mailto:vendasautogemeos@gmail.com" class="hover:text-white transition break-all">
                             vendasautogemeos@gmail.com
                         </a>
                     </p>
@@ -230,6 +330,16 @@
     let marcasGlobais = [];
     let timeoutPesquisa = null;
 
+    function toggleMenuMobile() {
+        const menu = document.getElementById("menu-mobile");
+
+        if (!menu) {
+            return;
+        }
+
+        menu.classList.toggle("hidden");
+    }
+
     function formatarPreco(valor) {
         if (!valor && valor !== 0) return "Preço sob consulta";
 
@@ -277,8 +387,8 @@
             contador.innerText = "0";
 
             lista.innerHTML = `
-                <div class="col-span-full text-center py-20 bg-[#111111] border border-white/[0.06] rounded-3xl">
-                    <p class="text-gray-500 text-lg">Não foram encontrados veículos com estes filtros.</p>
+                <div class="col-span-full text-center py-16 md:py-20 bg-[#111111] border border-white/[0.06] rounded-3xl px-6">
+                    <p class="text-gray-500 text-base md:text-lg">Não foram encontrados veículos com estes filtros.</p>
                 </div>
             `;
 
@@ -299,7 +409,7 @@
 
             lista.innerHTML += `
                 <div class="bg-[#111111] rounded-2xl overflow-hidden border border-white/[0.04] group hover:border-accent/40 transition-all duration-500 flex flex-col">
-                    <div class="relative h-56 overflow-hidden bg-black">
+                    <div class="relative h-52 sm:h-56 overflow-hidden bg-black">
                         <img
                             src="${imagem}"
                             onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?auto=format&fit=crop&q=80&w=1200';"
@@ -312,14 +422,14 @@
                         </div>
                     </div>
 
-                    <div class="p-6 flex-1 flex flex-col">
+                    <div class="p-5 sm:p-6 flex-1 flex flex-col">
                         <div class="mb-5">
                             <p class="text-[11px] text-gray-500 uppercase tracking-widest font-bold mb-1">${marca}</p>
-                            <h3 class="text-xl font-bold text-white tracking-tight group-hover:text-accent transition-colors">${modelo}</h3>
+                            <h3 class="text-lg sm:text-xl font-bold text-white tracking-tight group-hover:text-accent transition-colors">${modelo}</h3>
                             <p class="accent-color font-black text-2xl mt-2 tracking-tight">${formatarPreco(preco)}</p>
                         </div>
 
-                        <div class="grid grid-cols-3 gap-3 border-t border-white/[0.05] pt-4 text-xs">
+                        <div class="grid grid-cols-3 gap-2 sm:gap-3 border-t border-white/[0.05] pt-4 text-xs">
                             <div>
                                 <p class="text-gray-600 uppercase tracking-widest font-bold mb-1">Ano</p>
                                 <p class="text-gray-300 font-semibold whitespace-nowrap">${ano}</p>
@@ -330,7 +440,7 @@
                                 <p class="text-gray-300 font-semibold whitespace-nowrap">${formatarKms(kms)}</p>
                             </div>
 
-                            <div>
+                            <div class="min-w-0">
                                 <p class="text-gray-600 uppercase tracking-widest font-bold mb-1">Comb.</p>
                                 <p class="text-gray-300 font-semibold truncate">${combustivel}</p>
                             </div>
@@ -425,9 +535,9 @@
 
         combustiveis.forEach(combustivel => {
             divCombustiveis.innerHTML += `
-                <label class="flex items-center gap-3 text-sm text-gray-400 cursor-pointer hover:text-white transition-colors">
+                <label class="flex items-center gap-3 text-sm text-gray-400 cursor-pointer hover:text-white transition-colors bg-black/20 border border-white/[0.04] rounded-xl px-3 py-2 lg:bg-transparent lg:border-0 lg:px-0 lg:py-0">
                     <input type="checkbox" name="combustivel" value="${combustivel}" class="w-4 h-4 rounded bg-black accent-orange-600">
-                    ${combustivel}
+                    <span class="truncate">${combustivel}</span>
                 </label>
             `;
         });
@@ -474,8 +584,8 @@
 
                 if (lista) {
                     lista.innerHTML = `
-                        <div class="col-span-full text-center py-20 bg-[#111111] border border-white/[0.06] rounded-3xl">
-                            <p class="text-red-400 text-lg">Erro ao carregar veículos.</p>
+                        <div class="col-span-full text-center py-16 md:py-20 bg-[#111111] border border-white/[0.06] rounded-3xl px-6">
+                            <p class="text-red-400 text-base md:text-lg">Erro ao carregar veículos.</p>
                         </div>
                     `;
                 }

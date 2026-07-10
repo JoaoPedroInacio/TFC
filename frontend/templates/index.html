@@ -7,89 +7,123 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
     <style>
-        body { background-color: #0A0A0A; color: #FFFFFF; font-family: 'Inter', sans-serif; }
+        html,
+        body {
+            max-width: 100%;
+            overflow-x: hidden;
+        }
+
+        body {
+            background-color: #0A0A0A;
+            color: #FFFFFF;
+            font-family: 'Inter', sans-serif;
+        }
+
         .accent-color { color: #F06418; }
         .bg-accent { background-color: #F06418; }
         .border-accent { border-color: #F06418; }
-        .glass { background: rgba(15, 15, 15, 0.75); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
+
+        .glass {
+            background: rgba(15, 15, 15, 0.75);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
     </style>
 </head>
 
 <body class="antialiased">
 
-    <nav class="flex justify-between items-center px-6 md:px-12 py-5 glass fixed w-full z-50 border-b border-white/[0.06]">
-        <div class="flex items-center gap-2">
-            <a href="/" class="text-2xl font-black tracking-tighter uppercase italic">
+    <nav class="glass fixed top-0 left-0 w-full z-50 border-b border-white/[0.06]">
+        <div class="flex justify-between items-center px-4 sm:px-6 md:px-12 py-4 md:py-5">
+            <a href="/" class="text-xl sm:text-2xl font-black tracking-tighter uppercase italic">
                 Auto<span class="accent-color">Gémeos</span>
             </a>
+
+            <div class="hidden md:flex gap-8 text-sm text-gray-400 font-medium tracking-wide">
+                <a href="/" class="text-white border-b-2 border-accent pb-1 transition">Início</a>
+                <a href="/veiculos/" class="hover:text-white transition">Veículos</a>
+                <a href="/sobre/" class="hover:text-white transition">Sobre Nós</a>
+                <a href="/contacto/" class="hover:text-white transition">Contacto</a>
+            </div>
+
+            <button
+                type="button"
+                onclick="toggleMenuMobile()"
+                class="md:hidden w-11 h-11 rounded-xl bg-white/[0.04] border border-white/[0.08] flex items-center justify-center text-white text-2xl"
+                aria-label="Abrir menu"
+            >
+                ☰
+            </button>
         </div>
 
-        <div class="hidden md:flex gap-8 text-sm text-gray-400 font-medium tracking-wide">
-            <a href="/" class="text-white border-b-2 border-accent pb-1 transition">Início</a>
-            <a href="/veiculos/" class="hover:text-white transition">Veículos</a>
-            <a href="/sobre/" class="hover:text-white transition">Sobre Nós</a>
-            <a href="/contacto/" class="hover:text-white transition">Contacto</a>
+        <div id="menu-mobile" class="hidden md:hidden px-4 sm:px-6 pb-5">
+            <div class="grid gap-2 bg-[#111111] border border-white/[0.08] rounded-2xl p-3">
+                <a href="/" class="bg-accent text-white rounded-xl px-4 py-3 text-sm font-bold uppercase tracking-wider">Início</a>
+                <a href="/veiculos/" class="text-gray-300 hover:text-white hover:bg-white/[0.04] rounded-xl px-4 py-3 text-sm font-bold uppercase tracking-wider transition">Veículos</a>
+                <a href="/sobre/" class="text-gray-300 hover:text-white hover:bg-white/[0.04] rounded-xl px-4 py-3 text-sm font-bold uppercase tracking-wider transition">Sobre Nós</a>
+                <a href="/contacto/" class="text-gray-300 hover:text-white hover:bg-white/[0.04] rounded-xl px-4 py-3 text-sm font-bold uppercase tracking-wider transition">Contacto</a>
+            </div>
         </div>
     </nav>
 
-    <header class="relative h-screen flex items-center px-6 md:px-12 overflow-hidden">
+    <header class="relative min-h-[100svh] flex items-center px-4 sm:px-6 md:px-12 pt-28 pb-16 overflow-hidden">
         <div class="absolute inset-0 z-0">
             <img src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&q=80&w=1920" class="w-full h-full object-cover opacity-30 transform scale-105" alt="Hero Background">
-            <div class="absolute inset-0 bg-gradient-to-r from-[#0A0A0A] via-[#0A0A0A]/70 to-transparent"></div>
+            <div class="absolute inset-0 bg-gradient-to-r from-[#0A0A0A] via-[#0A0A0A]/80 to-[#0A0A0A]/20"></div>
             <div class="absolute inset-0 bg-gradient-to-t from-[#0A0A0A] via-transparent to-transparent"></div>
         </div>
 
-        <div class="relative z-10 max-w-4xl mt-12">
+        <div class="relative z-10 w-full max-w-4xl mt-8">
             <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/[0.04] border border-white/[0.08] mb-6 backdrop-blur-md">
                 <span class="w-2 h-2 rounded-full bg-accent animate-pulse"></span>
-                <span class="text-xs font-bold uppercase tracking-widest text-gray-300">Stand automóvel em Palhais</span>
+                <span class="text-[10px] sm:text-xs font-bold uppercase tracking-widest text-gray-300">Stand automóvel em Palhais</span>
             </div>
 
-            <h1 class="text-5xl md:text-7xl lg:text-8xl font-black leading-tight mb-6 uppercase tracking-tight">
+            <h1 class="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-black leading-tight mb-6 uppercase tracking-tight">
                 O seu próximo <br>
                 <span class="accent-color italic">veículo</span> <br>
                 está aqui
             </h1>
 
-            <p class="text-gray-400 text-lg md:text-xl max-w-xl mb-10 leading-relaxed font-light">
+            <p class="text-gray-400 text-base sm:text-lg md:text-xl max-w-xl mb-8 md:mb-10 leading-relaxed font-light">
                 Descubra a nossa seleção de veículos usados, com acompanhamento personalizado, transparência e apoio em todo o processo de compra.
             </p>
 
-            <div class="flex flex-wrap gap-4">
-                <a href="/veiculos/" class="bg-accent text-white px-8 py-4 rounded-xl font-bold flex items-center gap-2 hover:bg-opacity-90 transition-all shadow-lg shadow-orange-600/20 group">
+            <div class="flex flex-col sm:flex-row gap-4">
+                <a href="/veiculos/" class="w-full sm:w-auto justify-center bg-accent text-white px-6 sm:px-8 py-4 rounded-xl font-bold flex items-center gap-2 hover:bg-opacity-90 transition-all shadow-lg shadow-orange-600/20 group">
                     Explorar stock completo <span class="group-hover:translate-x-1 transition-transform">→</span>
                 </a>
             </div>
         </div>
     </header>
 
-    <section class="py-24 px-6 md:px-12 bg-[#0A0A0A] border-t border-white/[0.04]">
+    <section class="py-16 md:py-24 px-4 sm:px-6 md:px-12 bg-[#0A0A0A] border-t border-white/[0.04]">
         <div class="max-w-7xl mx-auto">
 
-            <div class="text-center mb-16">
+            <div class="text-center mb-10 md:mb-16">
                 <span class="text-xs font-bold uppercase tracking-widest accent-color">Seleção exclusiva</span>
                 <h2 class="text-3xl md:text-4xl font-black uppercase tracking-tight mt-1">Veículos em Destaque</h2>
                 <div class="w-12 h-1 bg-accent mx-auto mt-4 rounded-full"></div>
             </div>
 
-            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
                 {% for carro in carros %}
                 <div class="bg-[#111111] rounded-2xl overflow-hidden border border-white/[0.04] group hover:border-accent/40 transition-all duration-500 flex flex-col">
-                    <div class="relative h-56 overflow-hidden bg-black">
+                    <div class="relative h-52 sm:h-56 overflow-hidden bg-black">
                         <img src="{{ carro.img }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 opacity-90 group-hover:opacity-100" alt="{{ carro.modelo }}">
                         <div class="absolute top-4 left-4 bg-accent text-white text-[10px] font-extrabold tracking-widest px-2.5 py-1 rounded-md uppercase">
                             Destaque
                         </div>
                     </div>
 
-                    <div class="p-6 flex-1 flex flex-col">
+                    <div class="p-5 sm:p-6 flex-1 flex flex-col">
                         <div class="mb-5">
                             <p class="text-[11px] text-gray-500 uppercase tracking-widest font-bold mb-1">{{ carro.marca }}</p>
-                            <h3 class="text-xl font-bold text-white tracking-tight group-hover:text-accent transition-colors">{{ carro.modelo }}</h3>
+                            <h3 class="text-lg sm:text-xl font-bold text-white tracking-tight group-hover:text-accent transition-colors">{{ carro.modelo }}</h3>
                             <p class="accent-color font-black text-2xl mt-2 tracking-tight">{{ carro.preco }} €</p>
                         </div>
 
-                        <div class="grid grid-cols-3 gap-3 border-t border-white/[0.05] pt-4 text-xs">
+                        <div class="grid grid-cols-3 gap-2 sm:gap-3 border-t border-white/[0.05] pt-4 text-xs">
                             <div>
                                 <p class="text-gray-600 uppercase tracking-widest font-bold mb-1">Ano</p>
                                 <p class="text-gray-300 font-semibold whitespace-nowrap">{{ carro.ano }}</p>
@@ -118,31 +152,31 @@
                 {% endfor %}
             </div>
 
-            <div class="mt-24">
-                <div class="text-center mb-16">
+            <div class="mt-16 md:mt-24">
+                <div class="text-center mb-10 md:mb-16">
                     <span class="text-xs font-bold uppercase tracking-widest accent-color">Novidades em stock</span>
                     <h2 class="text-3xl md:text-4xl font-black uppercase tracking-tight mt-1">Últimas Entradas</h2>
                     <div class="w-12 h-1 bg-accent mx-auto mt-4 rounded-full"></div>
                 </div>
 
-                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
                     {% for carro in ultimas_entradas %}
                     <div class="bg-[#111111] rounded-2xl overflow-hidden border border-white/[0.04] group hover:border-accent/40 transition-all duration-500 flex flex-col">
-                        <div class="relative h-56 overflow-hidden bg-black">
+                        <div class="relative h-52 sm:h-56 overflow-hidden bg-black">
                             <img src="{{ carro.img }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 opacity-90 group-hover:opacity-100" alt="{{ carro.modelo }}">
                             <div class="absolute top-4 left-4 bg-white/[0.08] backdrop-blur-md border border-white/[0.08] text-white text-[10px] font-extrabold tracking-widest px-2.5 py-1 rounded-md uppercase">
                                 Nova entrada
                             </div>
                         </div>
 
-                        <div class="p-6 flex-1 flex flex-col">
+                        <div class="p-5 sm:p-6 flex-1 flex flex-col">
                             <div class="mb-5">
                                 <p class="text-[11px] text-gray-500 uppercase tracking-widest font-bold mb-1">{{ carro.marca }}</p>
-                                <h3 class="text-xl font-bold text-white tracking-tight group-hover:text-accent transition-colors">{{ carro.modelo }}</h3>
+                                <h3 class="text-lg sm:text-xl font-bold text-white tracking-tight group-hover:text-accent transition-colors">{{ carro.modelo }}</h3>
                                 <p class="accent-color font-black text-2xl mt-2 tracking-tight">{{ carro.preco }} €</p>
                             </div>
 
-                            <div class="grid grid-cols-3 gap-3 border-t border-white/[0.05] pt-4 text-xs">
+                            <div class="grid grid-cols-3 gap-2 sm:gap-3 border-t border-white/[0.05] pt-4 text-xs">
                                 <div>
                                     <p class="text-gray-600 uppercase tracking-widest font-bold mb-1">Ano</p>
                                     <p class="text-gray-300 font-semibold whitespace-nowrap">{{ carro.ano }}</p>
@@ -172,8 +206,8 @@
                 </div>
             </div>
 
-            <div class="text-center mt-16">
-                <a href="/veiculos/" class="inline-flex items-center gap-2 bg-white/[0.03] border border-white/[0.08] text-white px-8 py-4 rounded-xl text-sm font-bold hover:bg-accent hover:border-accent transition-all">
+            <div class="text-center mt-12 md:mt-16">
+                <a href="/veiculos/" class="inline-flex w-full sm:w-auto justify-center items-center gap-2 bg-white/[0.03] border border-white/[0.08] text-white px-8 py-4 rounded-xl text-sm font-bold hover:bg-accent hover:border-accent transition-all">
                     Ver todos os veículos <span>→</span>
                 </a>
             </div>
@@ -181,9 +215,9 @@
         </div>
     </section>
 
-    <footer class="bg-[#070707] border-t border-white/[0.06] px-6 md:px-12 py-14">
-        <div class="max-w-7xl mx-auto grid lg:grid-cols-4 md:grid-cols-2 gap-10">
-            
+    <footer class="bg-[#070707] border-t border-white/[0.06] px-4 sm:px-6 md:px-12 py-12 md:py-14">
+        <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
+
             <div>
                 <a href="/" class="text-2xl font-black tracking-tighter uppercase italic">
                     Auto<span class="accent-color">Gémeos</span>
@@ -229,7 +263,7 @@
 
                     <p>
                         <span class="text-white font-semibold">Email:</span><br>
-                        <a href="mailto:vendasautogemeos@gmail.com" class="hover:text-white transition">vendasautogemeos@gmail.com</a>
+                        <a href="mailto:vendasautogemeos@gmail.com" class="hover:text-white transition break-all">vendasautogemeos@gmail.com</a>
                     </p>
 
                     <p>
@@ -271,6 +305,18 @@
             <p>Stand Automóvel e Oficina</p>
         </div>
     </footer>
+
+    <script>
+        function toggleMenuMobile() {
+            const menu = document.getElementById("menu-mobile");
+
+            if (!menu) {
+                return;
+            }
+
+            menu.classList.toggle("hidden");
+        }
+    </script>
 
 </body>
 </html>

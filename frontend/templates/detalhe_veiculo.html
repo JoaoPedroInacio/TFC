@@ -4,29 +4,31 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Detalhes | Autogémeos</title>
+
     <script src="https://cdn.tailwindcss.com"></script>
+
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-<script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/pt.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/pt.js"></script>
+
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
+
     <style>
+        html,
+        body {
+            max-width: 100%;
+            overflow-x: hidden;
+        }
+
         body {
             background-color: #0A0A0A;
             color: #FFFFFF;
             font-family: 'Inter', sans-serif;
         }
 
-        .accent-color {
-            color: #F06418;
-        }
-
-        .bg-accent {
-            background-color: #F06418;
-        }
-
-        .border-accent {
-            border-color: #F06418;
-        }
+        .accent-color { color: #F06418; }
+        .bg-accent { background-color: #F06418; }
+        .border-accent { border-color: #F06418; }
 
         .glass {
             background: rgba(15, 15, 15, 0.75);
@@ -38,180 +40,198 @@
             overflow: hidden;
         }
 
-       /* Calendário test-drive */
-.flatpickr-calendar {
-    background: #111111 !important;
-    border: 1px solid rgba(255, 255, 255, 0.10) !important;
-    box-shadow: 0 24px 70px rgba(0, 0, 0, 0.75) !important;
-    border-radius: 22px !important;
-    padding: 14px !important;
-    width: 330px !important;
-}
+        /* Calendário test-drive */
+        .flatpickr-calendar {
+            background: #111111 !important;
+            border: 1px solid rgba(255, 255, 255, 0.10) !important;
+            box-shadow: 0 24px 70px rgba(0, 0, 0, 0.75) !important;
+            border-radius: 22px !important;
+            padding: 14px !important;
+            width: 330px !important;
+            max-width: calc(100vw - 32px) !important;
+        }
 
-.flatpickr-months {
-    margin-bottom: 8px !important;
-}
+        .flatpickr-months {
+            margin-bottom: 8px !important;
+        }
 
-.flatpickr-months .flatpickr-month {
-    height: 44px !important;
-    color: #ffffff !important;
-    fill: #ffffff !important;
-}
+        .flatpickr-months .flatpickr-month {
+            height: 44px !important;
+            color: #ffffff !important;
+            fill: #ffffff !important;
+        }
 
-.flatpickr-current-month {
-    padding-top: 4px !important;
-    font-size: 18px !important;
-    font-weight: 900 !important;
-    color: #ffffff !important;
-}
+        .flatpickr-current-month {
+            padding-top: 4px !important;
+            font-size: 18px !important;
+            font-weight: 900 !important;
+            color: #ffffff !important;
+        }
 
-.flatpickr-current-month .flatpickr-monthDropdown-months,
-.flatpickr-current-month input.cur-year {
-    background: #111111 !important;
-    color: #ffffff !important;
-    font-weight: 900 !important;
-}
+        .flatpickr-current-month .flatpickr-monthDropdown-months,
+        .flatpickr-current-month input.cur-year {
+            background: #111111 !important;
+            color: #ffffff !important;
+            font-weight: 900 !important;
+        }
 
-.flatpickr-months .flatpickr-prev-month,
-.flatpickr-months .flatpickr-next-month {
-    top: 12px !important;
-    color: #ffffff !important;
-    fill: #ffffff !important;
-}
+        .flatpickr-months .flatpickr-prev-month,
+        .flatpickr-months .flatpickr-next-month {
+            top: 12px !important;
+            color: #ffffff !important;
+            fill: #ffffff !important;
+        }
 
-.flatpickr-months .flatpickr-prev-month:hover,
-.flatpickr-months .flatpickr-next-month:hover {
-    color: #F06418 !important;
-    fill: #F06418 !important;
-}
+        .flatpickr-months .flatpickr-prev-month:hover,
+        .flatpickr-months .flatpickr-next-month:hover {
+            color: #F06418 !important;
+            fill: #F06418 !important;
+        }
 
-.flatpickr-weekdays {
-    height: 34px !important;
-    background: #111111 !important;
-}
+        .flatpickr-weekdays {
+            height: 34px !important;
+            background: #111111 !important;
+        }
 
-span.flatpickr-weekday {
-    color: #8F96A3 !important;
-    font-weight: 800 !important;
-    text-transform: lowercase;
-}
+        span.flatpickr-weekday {
+            color: #8F96A3 !important;
+            font-weight: 800 !important;
+            text-transform: lowercase;
+        }
 
-.flatpickr-days {
-    width: 302px !important;
-    background: #111111 !important;
-}
+        .flatpickr-days {
+            width: 302px !important;
+            background: #111111 !important;
+        }
 
-.dayContainer {
-    width: 302px !important;
-    min-width: 302px !important;
-    max-width: 302px !important;
-    background: #111111 !important;
-}
+        .dayContainer {
+            width: 302px !important;
+            min-width: 302px !important;
+            max-width: 302px !important;
+            background: #111111 !important;
+        }
 
-.flatpickr-day {
-    width: 38px !important;
-    max-width: 38px !important;
-    height: 34px !important;
-    line-height: 32px !important;
-    margin: 2px !important;
-    border-radius: 999px !important;
-    font-size: 15px !important;
-    font-weight: 800 !important;
-    color: #F4F4F5 !important;
-    background: rgba(255, 255, 255, 0.03) !important;
-    border: 1px solid rgba(255, 255, 255, 0.16) !important;
-}
+        .flatpickr-day {
+            width: 38px !important;
+            max-width: 38px !important;
+            height: 34px !important;
+            line-height: 32px !important;
+            margin: 2px !important;
+            border-radius: 999px !important;
+            font-size: 15px !important;
+            font-weight: 800 !important;
+            color: #F4F4F5 !important;
+            background: rgba(255, 255, 255, 0.03) !important;
+            border: 1px solid rgba(255, 255, 255, 0.16) !important;
+        }
 
-.flatpickr-day:hover {
-    background: rgba(240, 100, 24, 0.16) !important;
-    border-color: rgba(240, 100, 24, 0.75) !important;
-    color: #ffffff !important;
-}
+        .flatpickr-day:hover {
+            background: rgba(240, 100, 24, 0.16) !important;
+            border-color: rgba(240, 100, 24, 0.75) !important;
+            color: #ffffff !important;
+        }
 
-.flatpickr-day.today {
-    color: #F06418 !important;
-    background: rgba(240, 100, 24, 0.10) !important;
-    border-color: #F06418 !important;
-}
+        .flatpickr-day.today {
+            color: #F06418 !important;
+            background: rgba(240, 100, 24, 0.10) !important;
+            border-color: #F06418 !important;
+        }
 
-.flatpickr-day.selected,
-.flatpickr-day.selected:hover {
-    background: #F06418 !important;
-    border-color: #F06418 !important;
-    color: #ffffff !important;
-    box-shadow: 0 0 22px rgba(240, 100, 24, 0.35) !important;
-}
+        .flatpickr-day.selected,
+        .flatpickr-day.selected:hover {
+            background: #F06418 !important;
+            border-color: #F06418 !important;
+            color: #ffffff !important;
+            box-shadow: 0 0 22px rgba(240, 100, 24, 0.35) !important;
+        }
 
-.flatpickr-day.disabled,
-.flatpickr-day.disabled:hover,
-.flatpickr-day.prevMonthDay,
-.flatpickr-day.nextMonthDay {
-    background: transparent !important;
-    border-color: transparent !important;
-    color: rgba(143, 150, 163, 0.28) !important;
-    cursor: not-allowed !important;
-    box-shadow: none !important;
-}
+        .flatpickr-day.disabled,
+        .flatpickr-day.disabled:hover,
+        .flatpickr-day.prevMonthDay,
+        .flatpickr-day.nextMonthDay {
+            background: transparent !important;
+            border-color: transparent !important;
+            color: rgba(143, 150, 163, 0.28) !important;
+            cursor: not-allowed !important;
+            box-shadow: none !important;
+        }
 
-.flatpickr-calendar.arrowTop:before,
-.flatpickr-calendar.arrowTop:after,
-.flatpickr-calendar.arrowBottom:before,
-.flatpickr-calendar.arrowBottom:after {
-    display: none !important;
-}
+        .flatpickr-calendar.arrowTop:before,
+        .flatpickr-calendar.arrowTop:after,
+        .flatpickr-calendar.arrowBottom:before,
+        .flatpickr-calendar.arrowBottom:after {
+            display: none !important;
+        }
 
-/* Domingos indisponíveis sem bolinha */
-.flatpickr-day:nth-child(7n + 1) {
-    background: transparent !important;
-    border-color: transparent !important;
-    color: rgba(143, 150, 163, 0.28) !important;
-    box-shadow: none !important;
-}
+        /* Domingos indisponíveis sem bolinha */
+        .flatpickr-day:nth-child(7n + 1) {
+            background: transparent !important;
+            border-color: transparent !important;
+            color: rgba(143, 150, 163, 0.28) !important;
+            box-shadow: none !important;
+        }
 
-.flatpickr-day:nth-child(7n + 1):hover {
-    background: transparent !important;
-    border-color: transparent !important;
-    color: rgba(143, 150, 163, 0.28) !important;
-    cursor: not-allowed !important;
-}
-
+        .flatpickr-day:nth-child(7n + 1):hover {
+            background: transparent !important;
+            border-color: transparent !important;
+            color: rgba(143, 150, 163, 0.28) !important;
+            cursor: not-allowed !important;
+        }
     </style>
 </head>
 
 <body class="antialiased">
 
-    <nav class="flex justify-between items-center px-6 md:px-12 py-5 glass fixed w-full z-50 border-b border-white/[0.06]">
-        <div class="flex items-center gap-2">
-            <a href="/" class="text-2xl font-black tracking-tighter uppercase italic">
+    <nav class="glass fixed top-0 left-0 w-full z-50 border-b border-white/[0.06]">
+        <div class="flex justify-between items-center px-4 sm:px-6 md:px-12 py-4 md:py-5">
+            <a href="/" class="text-xl sm:text-2xl font-black tracking-tighter uppercase italic">
                 Auto<span class="accent-color">Gémeos</span>
             </a>
+
+            <div class="hidden md:flex gap-8 text-sm text-gray-400 font-medium tracking-wide">
+                <a href="/" class="hover:text-white transition">Início</a>
+                <a href="/veiculos/" class="text-white border-b-2 border-accent pb-1 transition">Veículos</a>
+                <a href="/sobre/" class="hover:text-white transition">Sobre Nós</a>
+                <a href="/contacto/" class="hover:text-white transition">Contacto</a>
+            </div>
+
+            <button
+                type="button"
+                onclick="toggleMenuMobile()"
+                class="md:hidden w-11 h-11 rounded-xl bg-white/[0.04] border border-white/[0.08] flex items-center justify-center text-white text-2xl"
+                aria-label="Abrir menu"
+            >
+                ☰
+            </button>
         </div>
 
-        <div class="hidden md:flex gap-8 text-sm text-gray-400 font-medium tracking-wide">
-            <a href="/" class="hover:text-white transition">Início</a>
-            <a href="/veiculos/" class="text-white border-b-2 border-accent pb-1 transition">Veículos</a>
-            <a href="/sobre/" class="hover:text-white transition">Sobre Nós</a>
-            <a href="/contacto/" class="hover:text-white transition">Contacto</a>
+        <div id="menu-mobile" class="hidden md:hidden px-4 sm:px-6 pb-5">
+            <div class="grid gap-2 bg-[#111111] border border-white/[0.08] rounded-2xl p-3">
+                <a href="/" class="text-gray-300 hover:text-white hover:bg-white/[0.04] rounded-xl px-4 py-3 text-sm font-bold uppercase tracking-wider transition">Início</a>
+                <a href="/veiculos/" class="bg-accent text-white rounded-xl px-4 py-3 text-sm font-bold uppercase tracking-wider">Veículos</a>
+                <a href="/sobre/" class="text-gray-300 hover:text-white hover:bg-white/[0.04] rounded-xl px-4 py-3 text-sm font-bold uppercase tracking-wider transition">Sobre Nós</a>
+                <a href="/contacto/" class="text-gray-300 hover:text-white hover:bg-white/[0.04] rounded-xl px-4 py-3 text-sm font-bold uppercase tracking-wider transition">Contacto</a>
+            </div>
         </div>
     </nav>
 
-    <main class="pt-32 pb-24 px-6 md:px-12 max-w-7xl mx-auto">
+    <main class="pt-28 md:pt-32 pb-16 md:pb-24 px-4 sm:px-6 md:px-12 max-w-7xl mx-auto">
 
         {% if messages %}
-    <div class="mb-8 space-y-3">
-        {% for message in messages %}
-            <div class="rounded-2xl border px-5 py-4 text-sm font-semibold
-                {% if message.tags == 'success' %}
-                    bg-green-500/10 border-green-500/30 text-green-300
-                {% else %}
-                    bg-red-500/10 border-red-500/30 text-red-300
-                {% endif %}
-            ">
-                {{ message }}
-            </div>
-        {% endfor %}
-    </div>
-{% endif %}
+        <div class="mb-8 space-y-3">
+            {% for message in messages %}
+                <div class="rounded-2xl border px-5 py-4 text-sm font-semibold
+                    {% if message.tags == 'success' %}
+                        bg-green-500/10 border-green-500/30 text-green-300
+                    {% else %}
+                        bg-red-500/10 border-red-500/30 text-red-300
+                    {% endif %}
+                ">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        </div>
+        {% endif %}
 
         {% if carro %}
 
@@ -221,31 +241,31 @@ span.flatpickr-weekday {
             </a>
         </div>
 
-        <section class="grid lg:grid-cols-2 gap-10 items-start mb-14">
+        <section class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-10 items-start mb-12 md:mb-14">
             <div>
                 <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/[0.04] border border-white/[0.08] mb-5">
                     <span class="w-2 h-2 rounded-full bg-accent"></span>
-                    <span class="text-xs font-bold uppercase tracking-widest text-gray-300">Viatura disponível</span>
+                    <span class="text-[10px] sm:text-xs font-bold uppercase tracking-widest text-gray-300">Viatura disponível</span>
                 </div>
 
-                <h1 class="text-4xl md:text-6xl lg:text-7xl font-black uppercase tracking-tight leading-tight mb-6">
+                <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black uppercase tracking-tight leading-tight mb-6">
                     {{ carro.marca }} <br>
                     <span class="accent-color italic">{{ carro.modelo }}</span>
                 </h1>
 
-                <p class="text-gray-400 text-lg leading-relaxed max-w-2xl mb-8">
+                <p class="text-gray-400 text-base sm:text-lg leading-relaxed max-w-2xl mb-8">
                     Conheça os detalhes desta viatura selecionada pela Autogémeos. Para mais informações, disponibilidade ou marcação de visita, fale diretamente com a nossa equipa.
                 </p>
 
-                <div class="flex flex-wrap gap-4">
-                    <a href="/contacto/" class="bg-accent text-white px-7 py-4 rounded-xl font-bold text-sm uppercase tracking-wider hover:bg-opacity-90 transition-all">
+                <div class="flex flex-col sm:flex-row sm:flex-wrap gap-3 sm:gap-4">
+                    <a href="/contacto/" class="w-full sm:w-auto text-center bg-accent text-white px-7 py-4 rounded-xl font-bold text-sm uppercase tracking-wider hover:bg-opacity-90 transition-all">
                         Pedir informações
                     </a>
 
                     <button
                         type="button"
                         onclick="abrirSimulacaoCredito()"
-                        class="bg-white/[0.03] border border-white/[0.08] text-white px-7 py-4 rounded-xl font-bold text-sm uppercase tracking-wider hover:bg-accent hover:border-accent transition-all"
+                        class="w-full sm:w-auto bg-white/[0.03] border border-white/[0.08] text-white px-7 py-4 rounded-xl font-bold text-sm uppercase tracking-wider hover:bg-accent hover:border-accent transition-all"
                     >
                         Simular crédito
                     </button>
@@ -253,18 +273,18 @@ span.flatpickr-weekday {
                     <button
                         type="button"
                         onclick="abrirTestDrive()"
-                        class="bg-white/[0.03] border border-white/[0.08] text-white px-7 py-4 rounded-xl font-bold text-sm uppercase tracking-wider hover:bg-accent hover:border-accent transition-all"
+                        class="w-full sm:w-auto bg-white/[0.03] border border-white/[0.08] text-white px-7 py-4 rounded-xl font-bold text-sm uppercase tracking-wider hover:bg-accent hover:border-accent transition-all"
                     >
                         Marcar test-drive
                     </button>
                 </div>
             </div>
 
-            <div class="bg-[#111111] p-6 rounded-3xl border border-white/[0.06]">
+            <div class="bg-[#111111] p-5 sm:p-6 rounded-3xl border border-white/[0.06]">
                 <p class="text-[10px] text-gray-500 uppercase font-bold tracking-widest mb-2">Preço chave na mão</p>
-                <p class="text-5xl font-black accent-color tracking-tight mb-6">{{ carro.preco }} €</p>
+                <p class="text-4xl sm:text-5xl font-black accent-color tracking-tight mb-6 break-words">{{ carro.preco }} €</p>
 
-                <div class="grid grid-cols-3 gap-3 border-t border-white/[0.06] pt-6">
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 border-t border-white/[0.06] pt-6">
                     <div class="bg-black/40 rounded-2xl p-4 text-center border border-white/[0.04]">
                         <p class="text-[10px] text-gray-500 uppercase font-bold tracking-wider mb-1">Ano</p>
                         <p class="font-bold text-white text-lg">{{ carro.ano }}</p>
@@ -283,9 +303,9 @@ span.flatpickr-weekday {
             </div>
         </section>
 
-        <section class="grid lg:grid-cols-3 gap-10 mb-20">
+        <section class="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-10 mb-16 md:mb-20">
             <div class="lg:col-span-2">
-                <div class="relative rounded-3xl overflow-hidden border border-white/[0.08] aspect-video bg-[#111111] group">
+                <div class="relative rounded-3xl overflow-hidden border border-white/[0.08] aspect-[4/3] sm:aspect-video bg-[#111111] group">
                     {% if imagens %}
                         {% for imagem in imagens %}
                             <img
@@ -299,7 +319,7 @@ span.flatpickr-weekday {
                         <button
                             type="button"
                             onclick="abrirLightbox(imagemAtual)"
-                            class="absolute top-4 right-4 z-10 w-11 h-11 rounded-full bg-black/60 border border-white/[0.12] text-white text-xl flex items-center justify-center hover:bg-accent transition"
+                            class="absolute top-4 right-4 z-10 w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-black/60 border border-white/[0.12] text-white text-xl flex items-center justify-center hover:bg-accent transition"
                             aria-label="Aumentar fotografia"
                             title="Aumentar fotografia"
                         >
@@ -310,7 +330,7 @@ span.flatpickr-weekday {
                             <button
                                 type="button"
                                 onclick="mudarImagem(-1)"
-                                class="absolute left-4 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-black/60 border border-white/[0.12] text-white text-3xl flex items-center justify-center hover:bg-accent transition"
+                                class="absolute left-3 sm:left-4 top-1/2 -translate-y-1/2 w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-black/60 border border-white/[0.12] text-white text-3xl flex items-center justify-center hover:bg-accent transition"
                                 aria-label="Imagem anterior"
                             >
                                 ‹
@@ -319,7 +339,7 @@ span.flatpickr-weekday {
                             <button
                                 type="button"
                                 onclick="mudarImagem(1)"
-                                class="absolute right-4 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-black/60 border border-white/[0.12] text-white text-3xl flex items-center justify-center hover:bg-accent transition"
+                                class="absolute right-3 sm:right-4 top-1/2 -translate-y-1/2 w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-black/60 border border-white/[0.12] text-white text-3xl flex items-center justify-center hover:bg-accent transition"
                                 aria-label="Imagem seguinte"
                             >
                                 ›
@@ -347,7 +367,7 @@ span.flatpickr-weekday {
                         <button
                             type="button"
                             onclick="abrirLightbox(0)"
-                            class="absolute top-4 right-4 z-10 w-11 h-11 rounded-full bg-black/60 border border-white/[0.12] text-white text-xl flex items-center justify-center hover:bg-accent transition"
+                            class="absolute top-4 right-4 z-10 w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-black/60 border border-white/[0.12] text-white text-xl flex items-center justify-center hover:bg-accent transition"
                             aria-label="Aumentar fotografia"
                             title="Aumentar fotografia"
                         >
@@ -358,7 +378,7 @@ span.flatpickr-weekday {
             </div>
 
             <aside class="space-y-6">
-                <div class="bg-[#111111] rounded-3xl p-6 border border-white/[0.06]">
+                <div class="bg-[#111111] rounded-3xl p-5 sm:p-6 border border-white/[0.06]">
                     <h3 class="font-bold text-lg uppercase tracking-wider pb-4 border-b border-white/[0.06]">
                         Ficha Técnica
                     </h3>
@@ -412,7 +432,7 @@ span.flatpickr-weekday {
                     </div>
                 </div>
 
-                <div class="bg-[#111111] rounded-3xl p-6 border border-white/[0.06]">
+                <div class="bg-[#111111] rounded-3xl p-5 sm:p-6 border border-white/[0.06]">
                     <h3 class="font-bold text-lg uppercase tracking-wider mb-4">
                         Interessado?
                     </h3>
@@ -429,8 +449,8 @@ span.flatpickr-weekday {
         </section>
 
         {% if carro.vei_descricao %}
-        <section class="mb-20">
-            <div class="bg-[#111111] border border-white/[0.06] rounded-3xl p-8 md:p-10">
+        <section class="mb-16 md:mb-20">
+            <div class="bg-[#111111] border border-white/[0.06] rounded-3xl p-6 sm:p-8 md:p-10">
                 <span class="text-xs font-bold uppercase tracking-widest accent-color">Descrição</span>
                 <h2 class="text-3xl md:text-4xl font-black uppercase tracking-tight mt-2 mb-6">
                     Sobre esta viatura
@@ -442,14 +462,14 @@ span.flatpickr-weekday {
         </section>
         {% endif %}
 
-        <section class="mb-20">
-            <div class="bg-[#111111] border border-white/[0.06] rounded-3xl p-8 md:p-10">
+        <section class="mb-16 md:mb-20">
+            <div class="bg-[#111111] border border-white/[0.06] rounded-3xl p-6 sm:p-8 md:p-10">
                 <span class="text-xs font-bold uppercase tracking-widest accent-color">Garantia Autogémeos</span>
                 <h2 class="text-3xl md:text-4xl font-black uppercase tracking-tight mt-2 mb-6">
                     Compra segura e acompanhamento personalizado
                 </h2>
 
-                <div class="grid md:grid-cols-3 gap-6">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-5 md:gap-6">
                     <div class="bg-black/30 border border-white/[0.04] rounded-2xl p-6">
                         <div class="w-12 h-12 rounded-2xl bg-accent flex items-center justify-center text-xl mb-5">✓</div>
                         <h3 class="font-bold text-lg mb-2">Viatura selecionada</h3>
@@ -479,8 +499,8 @@ span.flatpickr-weekday {
 
         {% else %}
 
-        <section class="text-center py-28">
-            <div class="max-w-xl mx-auto bg-[#111111] border border-white/[0.06] rounded-3xl p-10">
+        <section class="text-center py-20 md:py-28">
+            <div class="max-w-xl mx-auto bg-[#111111] border border-white/[0.06] rounded-3xl p-8 sm:p-10">
                 <div class="w-16 h-16 rounded-2xl bg-accent flex items-center justify-center text-2xl mx-auto mb-6">!</div>
                 <h1 class="text-3xl md:text-4xl font-black uppercase tracking-tight mb-4">
                     Veículo não encontrado
@@ -498,76 +518,76 @@ span.flatpickr-weekday {
     </main>
 
     {% if carro %}
-   <div
-    id="lightbox"
-    class="fixed inset-0 z-[100] hidden bg-black/95 px-2 py-2 md:px-4 md:py-4"
-    onclick="fecharLightbox()"
-    aria-hidden="true"
->
+    <div
+        id="lightbox"
+        class="fixed inset-0 z-[100] hidden bg-black/95 px-2 py-2 md:px-4 md:py-4"
+        onclick="fecharLightbox()"
+        aria-hidden="true"
+    >
         <button
             type="button"
             onclick="fecharLightbox(); event.stopPropagation();"
-            class="absolute top-5 right-5 z-20 w-12 h-12 rounded-full bg-white/10 border border-white/15 text-white text-2xl flex items-center justify-center hover:bg-accent transition"
+            class="absolute top-4 right-4 sm:top-5 sm:right-5 z-20 w-11 h-11 sm:w-12 sm:h-12 rounded-full bg-white/10 border border-white/15 text-white text-2xl flex items-center justify-center hover:bg-accent transition"
             aria-label="Fechar fotografia ampliada"
         >
             ×
         </button>
-<div class="h-full w-full flex flex-col items-center justify-center gap-3" onclick="event.stopPropagation();">
-    <div class="relative w-full h-[92vh] flex items-center justify-center px-12 md:px-20">
-        <button
-            id="lightbox-prev"
-            type="button"
-            onclick="mudarImagemLightbox(-1, event)"
-            class="absolute left-2 md:left-6 top-1/2 -translate-y-1/2 z-20 w-12 h-12 md:w-14 md:h-14 rounded-full bg-white/10 border border-white/15 text-white text-4xl flex items-center justify-center hover:bg-accent transition"
-            aria-label="Fotografia anterior"
-        >
-            ‹
-        </button>
 
-        <img
-            id="lightbox-img"
-            src=""
-            alt="{{ carro.marca }} {{ carro.modelo }}"
-            class="block w-auto h-auto max-w-full max-h-[92vh] object-contain rounded-xl shadow-2xl"
-        >
+        <div class="h-full w-full flex flex-col items-center justify-center gap-3" onclick="event.stopPropagation();">
+            <div class="relative w-full h-[90vh] sm:h-[92vh] flex items-center justify-center px-8 sm:px-12 md:px-20">
+                <button
+                    id="lightbox-prev"
+                    type="button"
+                    onclick="mudarImagemLightbox(-1, event)"
+                    class="absolute left-1 sm:left-2 md:left-6 top-1/2 -translate-y-1/2 z-20 w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 rounded-full bg-white/10 border border-white/15 text-white text-3xl sm:text-4xl flex items-center justify-center hover:bg-accent transition"
+                    aria-label="Fotografia anterior"
+                >
+                    ‹
+                </button>
 
-        <button
-            id="lightbox-next"
-            type="button"
-            onclick="mudarImagemLightbox(1, event)"
-            class="absolute right-2 md:right-6 top-1/2 -translate-y-1/2 z-20 w-12 h-12 md:w-14 md:h-14 rounded-full bg-white/10 border border-white/15 text-white text-4xl flex items-center justify-center hover:bg-accent transition"
-            aria-label="Fotografia seguinte"
-        >
-            ›
-        </button>
-    </div>
+                <img
+                    id="lightbox-img"
+                    src=""
+                    alt="{{ carro.marca }} {{ carro.modelo }}"
+                    class="block w-auto h-auto max-w-full max-h-[86vh] sm:max-h-[92vh] object-contain rounded-xl shadow-2xl"
+                >
 
-    <div class="flex items-center gap-4">
-        <span
-            id="lightbox-counter"
-            class="text-sm font-bold tracking-wider text-gray-300 bg-white/10 border border-white/10 px-4 py-2 rounded-full"
-        >
-            1 / 1
-        </span>
-    </div>
-</div>
+                <button
+                    id="lightbox-next"
+                    type="button"
+                    onclick="mudarImagemLightbox(1, event)"
+                    class="absolute right-1 sm:right-2 md:right-6 top-1/2 -translate-y-1/2 z-20 w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 rounded-full bg-white/10 border border-white/15 text-white text-3xl sm:text-4xl flex items-center justify-center hover:bg-accent transition"
+                    aria-label="Fotografia seguinte"
+                >
+                    ›
+                </button>
+            </div>
+
+            <div class="flex items-center gap-4">
+                <span
+                    id="lightbox-counter"
+                    class="text-sm font-bold tracking-wider text-gray-300 bg-white/10 border border-white/10 px-4 py-2 rounded-full"
+                >
+                    1 / 1
+                </span>
+            </div>
+        </div>
     </div>
     {% endif %}
 
     {% if carro %}
     <div
-    id="modal-simulacao-credito"
-    class="fixed inset-0 z-[120] hidden bg-black/80 backdrop-blur-sm px-4 py-6 overflow-y-auto"
-    onclick="fecharSimulacaoCredito()"
->
-      <div
-    class="min-h-full flex items-center justify-center py-6"
->
-           <div
-    class="w-full max-w-3xl max-h-[90vh] overflow-y-auto bg-[#111111] border border-white/[0.08] rounded-3xl shadow-2xl"
-    onclick="event.stopPropagation();"
->
-                <div class="flex items-start justify-between gap-6 p-6 md:p-8 border-b border-white/[0.06]">
+        id="modal-simulacao-credito"
+        class="fixed inset-0 z-[120] hidden bg-black/80 backdrop-blur-sm px-4 py-5 overflow-y-auto"
+        onclick="fecharSimulacaoCredito()"
+        aria-hidden="true"
+    >
+        <div class="min-h-full flex items-center justify-center py-4">
+            <div
+                class="w-full max-w-3xl max-h-[90vh] overflow-y-auto bg-[#111111] border border-white/[0.08] rounded-3xl shadow-2xl"
+                onclick="event.stopPropagation();"
+            >
+                <div class="flex items-start justify-between gap-4 sm:gap-6 p-5 sm:p-6 md:p-8 border-b border-white/[0.06]">
                     <div>
                         <span class="text-xs font-bold uppercase tracking-widest accent-color">
                             Simulação de Crédito
@@ -585,22 +605,22 @@ span.flatpickr-weekday {
                     <button
                         type="button"
                         onclick="fecharSimulacaoCredito()"
-                        class="w-11 h-11 rounded-full bg-white/[0.05] border border-white/[0.08] text-white text-2xl flex items-center justify-center hover:bg-accent transition"
+                        class="shrink-0 w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-white/[0.05] border border-white/[0.08] text-white text-2xl flex items-center justify-center hover:bg-accent transition"
                         aria-label="Fechar simulação"
                     >
                         ×
                     </button>
                 </div>
 
-                <div class="grid lg:grid-cols-2 gap-0">
-                    <div class="p-6 md:p-8 space-y-5">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-0">
+                    <div class="p-5 sm:p-6 md:p-8 space-y-5">
                         <div>
                             <label class="text-[11px] uppercase font-bold text-gray-500 mb-2 block tracking-wider">
                                 Preço da viatura
                             </label>
 
                             <div class="bg-black/50 border border-white/[0.08] rounded-xl p-4">
-                                <p class="text-3xl font-black accent-color">
+                                <p class="text-3xl font-black accent-color break-words">
                                     <span id="credito-preco-texto">{{ carro.preco }}</span> €
                                 </p>
                             </div>
@@ -639,15 +659,15 @@ span.flatpickr-weekday {
                                 class="w-full bg-black border border-white/[0.08] rounded-xl p-4 text-sm focus:border-accent outline-none text-white transition-colors"
                             >
                                 <option value="12">12 meses</option>
-<option value="24">24 meses</option>
-<option value="36">36 meses</option>
-<option value="48">48 meses</option>
-<option value="60" selected>60 meses</option>
-<option value="72">72 meses</option>
-<option value="84">84 meses</option>
-<option value="96">96 meses</option>
-<option value="108">108 meses</option>
-<option value="120">120 meses</option>
+                                <option value="24">24 meses</option>
+                                <option value="36">36 meses</option>
+                                <option value="48">48 meses</option>
+                                <option value="60" selected>60 meses</option>
+                                <option value="72">72 meses</option>
+                                <option value="84">84 meses</option>
+                                <option value="96">96 meses</option>
+                                <option value="108">108 meses</option>
+                                <option value="120">120 meses</option>
                             </select>
                         </div>
 
@@ -664,13 +684,13 @@ span.flatpickr-weekday {
                         </div>
                     </div>
 
-                    <div class="p-6 md:p-8 bg-black/30 border-t lg:border-t-0 lg:border-l border-white/[0.06] flex flex-col justify-between gap-6">
+                    <div class="p-5 sm:p-6 md:p-8 bg-black/30 border-t lg:border-t-0 lg:border-l border-white/[0.06] flex flex-col justify-between gap-6">
                         <div>
                             <p class="text-[11px] uppercase font-bold text-gray-500 mb-2 block tracking-wider">
                                 Prestação estimada
                             </p>
 
-                            <div class="bg-accent rounded-3xl p-6 mb-5">
+                            <div class="bg-accent rounded-3xl p-5 sm:p-6 mb-5">
                                 <p class="text-white/80 text-xs uppercase font-bold tracking-widest mb-2">
                                     Valor mensal aproximado
                                 </p>
@@ -685,22 +705,22 @@ span.flatpickr-weekday {
                             <div class="space-y-3 text-sm">
                                 <div class="flex justify-between gap-4 border-b border-white/[0.06] pb-3">
                                     <span class="text-gray-500">Valor financiado</span>
-                                    <span class="font-bold text-white"><span id="credito-financiado">0</span> €</span>
+                                    <span class="font-bold text-white text-right"><span id="credito-financiado">0</span> €</span>
                                 </div>
 
                                 <div class="flex justify-between gap-4 border-b border-white/[0.06] pb-3">
                                     <span class="text-gray-500">Entrada inicial</span>
-                                    <span class="font-bold text-white"><span id="credito-entrada-resumo">0</span> €</span>
+                                    <span class="font-bold text-white text-right"><span id="credito-entrada-resumo">0</span> €</span>
                                 </div>
 
                                 <div class="flex justify-between gap-4 border-b border-white/[0.06] pb-3">
                                     <span class="text-gray-500">Prazo escolhido</span>
-                                    <span class="font-bold text-white"><span id="credito-prazo-resumo">60</span> meses</span>
+                                    <span class="font-bold text-white text-right"><span id="credito-prazo-resumo">60</span> meses</span>
                                 </div>
 
                                 <div class="flex justify-between gap-4">
                                     <span class="text-gray-500">Montante total estimado</span>
-                                    <span class="font-bold text-white"><span id="credito-total">0</span> €</span>
+                                    <span class="font-bold text-white text-right"><span id="credito-total">0</span> €</span>
                                 </div>
                             </div>
                         </div>
@@ -729,200 +749,199 @@ span.flatpickr-weekday {
     </div>
     {% endif %}
 
-
-  {% if carro %}
-<div
-    id="modal-test-drive"
-    class="fixed inset-0 z-[130] hidden bg-black/80 backdrop-blur-sm px-4 py-6 overflow-y-auto"
-    onclick="fecharTestDrive()"
-    aria-hidden="true"
->
-    <div class="min-h-full flex items-center justify-center py-6">
-        <div
-            class="w-full max-w-2xl bg-[#111111] border border-white/[0.08] rounded-3xl overflow-hidden shadow-2xl"
-            onclick="event.stopPropagation();"
-        >
-            <div class="flex items-start justify-between gap-6 p-6 md:p-8 border-b border-white/[0.06]">
-                <div>
-                    <span class="text-xs font-bold uppercase tracking-widest accent-color">
-                        Marcação de Test-drive
-                    </span>
-
-                    <h2 class="text-2xl md:text-3xl font-black uppercase tracking-tight mt-2">
-                        {{ carro.marca }} {{ carro.modelo }}
-                    </h2>
-
-                    <p class="text-gray-400 text-sm mt-2">
-                        Escolha uma data e um horário disponível. O pedido fica pendente de confirmação pela nossa equipa.
-                    </p>
-                </div>
-
-                <button
-                    type="button"
-                    onclick="fecharTestDrive()"
-                    class="w-11 h-11 rounded-full bg-white/[0.05] border border-white/[0.08] text-white text-2xl flex items-center justify-center hover:bg-accent transition"
-                    aria-label="Fechar test-drive"
-                >
-                    ×
-                </button>
-            </div>
-
-            <form method="POST" action="/api/test-drive/{{ carro.vei_id }}/" class="p-6 md:p-8 space-y-5">
-                {% csrf_token %}
-
-                <div class="grid md:grid-cols-2 gap-4">
+    {% if carro %}
+    <div
+        id="modal-test-drive"
+        class="fixed inset-0 z-[130] hidden bg-black/80 backdrop-blur-sm px-4 py-5 overflow-y-auto"
+        onclick="fecharTestDrive()"
+        aria-hidden="true"
+    >
+        <div class="min-h-full flex items-center justify-center py-4">
+            <div
+                class="w-full max-w-2xl max-h-[90vh] overflow-y-auto bg-[#111111] border border-white/[0.08] rounded-3xl shadow-2xl"
+                onclick="event.stopPropagation();"
+            >
+                <div class="flex items-start justify-between gap-4 sm:gap-6 p-5 sm:p-6 md:p-8 border-b border-white/[0.06]">
                     <div>
-                        <label for="tdr_nome" class="text-[11px] uppercase font-bold text-gray-500 mb-2 block tracking-wider">
-                            Nome
-                        </label>
-                        <input
-                            type="text"
-                            id="tdr_nome"
-                            name="tdr_nome"
-                            required
-                            class="w-full bg-black border border-white/[0.08] rounded-xl p-4 text-sm focus:border-accent outline-none text-white placeholder-gray-600 transition-colors"
-                            placeholder="O seu nome"
-                        >
+                        <span class="text-xs font-bold uppercase tracking-widest accent-color">
+                            Marcação de Test-drive
+                        </span>
+
+                        <h2 class="text-2xl md:text-3xl font-black uppercase tracking-tight mt-2">
+                            {{ carro.marca }} {{ carro.modelo }}
+                        </h2>
+
+                        <p class="text-gray-400 text-sm mt-2">
+                            Escolha uma data e um horário disponível. O pedido fica pendente de confirmação pela nossa equipa.
+                        </p>
                     </div>
 
-                    <div>
-                        <label for="tdr_telefone" class="text-[11px] uppercase font-bold text-gray-500 mb-2 block tracking-wider">
-                            Telefone
-                        </label>
-                        <input
-                            type="tel"
-                            id="tdr_telefone"
-                            name="tdr_telefone"
-                            required
-                            class="w-full bg-black border border-white/[0.08] rounded-xl p-4 text-sm focus:border-accent outline-none text-white placeholder-gray-600 transition-colors"
-                            placeholder="+351 900 000 000"
-                        >
-                    </div>
-                </div>
-
-                <div>
-                    <label for="tdr_email" class="text-[11px] uppercase font-bold text-gray-500 mb-2 block tracking-wider">
-                        Email
-                    </label>
-                    <input
-                        type="email"
-                        id="tdr_email"
-                        name="tdr_email"
-                        required
-                        class="w-full bg-black border border-white/[0.08] rounded-xl p-4 text-sm focus:border-accent outline-none text-white placeholder-gray-600 transition-colors"
-                        placeholder="email@exemplo.com"
-                    >
-                </div>
-
-                <div>
-                    <label for="tdr_data" class="text-[11px] uppercase font-bold text-gray-500 mb-2 block tracking-wider">
-                        Data pretendida
-                    </label>
-                    <input
-    type="text"
-    id="tdr_data"
-    name="tdr_data"
-    required
-    readonly
-    class="w-full bg-black border border-white/[0.08] rounded-xl p-4 text-sm focus:border-accent outline-none text-white transition-colors cursor-pointer"
-    placeholder="Escolha uma data"
->
-                    <p class="text-xs text-gray-500 mt-2">
-                        Disponível de segunda a sábado. Domingo indisponível.
-                    </p>
-                </div>
-
-                <div>
-                    <p class="text-[11px] uppercase font-bold text-gray-500 mb-3 block tracking-wider">
-                        Horário pretendido
-                    </p>
-
-                    <div class="grid md:grid-cols-2 gap-5">
-                        <div class="bg-black/30 border border-white/[0.06] rounded-2xl p-4">
-                            <p class="text-sm font-bold text-white mb-3">Manhã</p>
-
-                            <div class="grid grid-cols-2 gap-3">
-                                <label class="cursor-pointer">
-    <input type="radio" name="tdr_hora" value="10:00" required class="peer hidden">
-    <span class="block text-center rounded-full border border-white/[0.12] bg-black px-4 py-3 text-sm font-black text-gray-300 peer-checked:bg-accent peer-checked:text-white peer-checked:border-accent peer-checked:shadow-[0_0_28px_rgba(240,100,24,0.35)] hover:border-accent hover:text-white transition">
-        10:00
-    </span>
-</label>
-
-                               <label class="cursor-pointer">
-    <input type="radio" name="tdr_hora" value="12:00" required class="peer hidden">
-    <span class="block text-center rounded-full border border-white/[0.12] bg-black px-4 py-3 text-sm font-black text-gray-300 peer-checked:bg-accent peer-checked:text-white peer-checked:border-accent peer-checked:shadow-[0_0_28px_rgba(240,100,24,0.35)] hover:border-accent hover:text-white transition">
-        12:00
-    </span>
-</label>
-                            </div>
-                        </div>
-
-                        <div class="bg-black/30 border border-white/[0.06] rounded-2xl p-4">
-                            <p class="text-sm font-bold text-white mb-3">Tarde</p>
-
-                            <div class="grid grid-cols-2 gap-3">
-                                <label class="cursor-pointer">
-    <input type="radio" name="tdr_hora" value="10:00" required class="peer hidden">
-    <span class="block text-center rounded-full border border-white/[0.12] bg-black px-4 py-3 text-sm font-black text-gray-300 peer-checked:bg-accent peer-checked:text-white peer-checked:border-accent peer-checked:shadow-[0_0_28px_rgba(240,100,24,0.35)] hover:border-accent hover:text-white transition">
-        15:00
-    </span>
-</label>
-
-                                <label class="cursor-pointer">
-    <input type="radio" name="tdr_hora" value="10:00" required class="peer hidden">
-    <span class="block text-center rounded-full border border-white/[0.12] bg-black px-4 py-3 text-sm font-black text-gray-300 peer-checked:bg-accent peer-checked:text-white peer-checked:border-accent peer-checked:shadow-[0_0_28px_rgba(240,100,24,0.35)] hover:border-accent hover:text-white transition">
-        17:00
-    </span>
-</label>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div>
-                    <label for="tdr_observacoes" class="text-[11px] uppercase font-bold text-gray-500 mb-2 block tracking-wider">
-                        Mensagem opcional
-                    </label>
-                    <textarea
-                        id="tdr_observacoes"
-                        name="tdr_observacoes"
-                        rows="4"
-                        class="w-full bg-black border border-white/[0.08] rounded-xl p-4 text-sm focus:border-accent outline-none text-white placeholder-gray-600 transition-colors resize-none"
-                        placeholder="Pode deixar alguma observação ou preferência de contacto."
-                    ></textarea>
-                </div>
-
-                <div class="bg-white/[0.03] border border-white/[0.08] rounded-2xl p-5">
-                    <p class="text-xs text-gray-400 leading-relaxed">
-                        Horário do stand: segunda a sábado. O pedido será analisado pela equipa Autogémeos e confirmado posteriormente.
-                    </p>
-                </div>
-
-                <div class="flex flex-col md:flex-row gap-3">
                     <button
                         type="button"
                         onclick="fecharTestDrive()"
-                        class="w-full md:w-1/3 bg-white/[0.05] border border-white/[0.08] text-white py-3.5 rounded-xl font-bold text-sm uppercase tracking-wider hover:bg-white/[0.08] transition"
+                        class="shrink-0 w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-white/[0.05] border border-white/[0.08] text-white text-2xl flex items-center justify-center hover:bg-accent transition"
+                        aria-label="Fechar test-drive"
                     >
-                        Cancelar
-                    </button>
-
-                    <button
-                        type="submit"
-                        class="w-full md:w-2/3 bg-accent text-white py-3.5 rounded-xl font-bold text-sm uppercase tracking-wider hover:bg-opacity-90 transition"
-                    >
-                        Enviar pedido
+                        ×
                     </button>
                 </div>
-            </form>
+
+                <form method="POST" action="/api/test-drive/{{ carro.vei_id }}/" class="p-5 sm:p-6 md:p-8 space-y-5">
+                    {% csrf_token %}
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label for="tdr_nome" class="text-[11px] uppercase font-bold text-gray-500 mb-2 block tracking-wider">
+                                Nome
+                            </label>
+                            <input
+                                type="text"
+                                id="tdr_nome"
+                                name="tdr_nome"
+                                required
+                                class="w-full bg-black border border-white/[0.08] rounded-xl p-4 text-sm focus:border-accent outline-none text-white placeholder-gray-600 transition-colors"
+                                placeholder="O seu nome"
+                            >
+                        </div>
+
+                        <div>
+                            <label for="tdr_telefone" class="text-[11px] uppercase font-bold text-gray-500 mb-2 block tracking-wider">
+                                Telefone
+                            </label>
+                            <input
+                                type="tel"
+                                id="tdr_telefone"
+                                name="tdr_telefone"
+                                required
+                                class="w-full bg-black border border-white/[0.08] rounded-xl p-4 text-sm focus:border-accent outline-none text-white placeholder-gray-600 transition-colors"
+                                placeholder="+351 900 000 000"
+                            >
+                        </div>
+                    </div>
+
+                    <div>
+                        <label for="tdr_email" class="text-[11px] uppercase font-bold text-gray-500 mb-2 block tracking-wider">
+                            Email
+                        </label>
+                        <input
+                            type="email"
+                            id="tdr_email"
+                            name="tdr_email"
+                            required
+                            class="w-full bg-black border border-white/[0.08] rounded-xl p-4 text-sm focus:border-accent outline-none text-white placeholder-gray-600 transition-colors"
+                            placeholder="email@exemplo.com"
+                        >
+                    </div>
+
+                    <div>
+                        <label for="tdr_data" class="text-[11px] uppercase font-bold text-gray-500 mb-2 block tracking-wider">
+                            Data pretendida
+                        </label>
+                        <input
+                            type="text"
+                            id="tdr_data"
+                            name="tdr_data"
+                            required
+                            readonly
+                            class="w-full bg-black border border-white/[0.08] rounded-xl p-4 text-sm focus:border-accent outline-none text-white transition-colors cursor-pointer"
+                            placeholder="Escolha uma data"
+                        >
+                        <p class="text-xs text-gray-500 mt-2">
+                            Disponível de segunda a sábado. Domingo indisponível.
+                        </p>
+                    </div>
+
+                    <div>
+                        <p class="text-[11px] uppercase font-bold text-gray-500 mb-3 block tracking-wider">
+                            Horário pretendido
+                        </p>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-5">
+                            <div class="bg-black/30 border border-white/[0.06] rounded-2xl p-4">
+                                <p class="text-sm font-bold text-white mb-3">Manhã</p>
+
+                                <div class="grid grid-cols-2 gap-3">
+                                    <label class="cursor-pointer">
+                                        <input type="radio" name="tdr_hora" value="10:00" required class="peer hidden">
+                                        <span class="block text-center rounded-full border border-white/[0.12] bg-black px-4 py-3 text-sm font-black text-gray-300 peer-checked:bg-accent peer-checked:text-white peer-checked:border-accent peer-checked:shadow-[0_0_28px_rgba(240,100,24,0.35)] hover:border-accent hover:text-white transition">
+                                            10:00
+                                        </span>
+                                    </label>
+
+                                    <label class="cursor-pointer">
+                                        <input type="radio" name="tdr_hora" value="12:00" required class="peer hidden">
+                                        <span class="block text-center rounded-full border border-white/[0.12] bg-black px-4 py-3 text-sm font-black text-gray-300 peer-checked:bg-accent peer-checked:text-white peer-checked:border-accent peer-checked:shadow-[0_0_28px_rgba(240,100,24,0.35)] hover:border-accent hover:text-white transition">
+                                            12:00
+                                        </span>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="bg-black/30 border border-white/[0.06] rounded-2xl p-4">
+                                <p class="text-sm font-bold text-white mb-3">Tarde</p>
+
+                                <div class="grid grid-cols-2 gap-3">
+                                    <label class="cursor-pointer">
+                                        <input type="radio" name="tdr_hora" value="15:00" required class="peer hidden">
+                                        <span class="block text-center rounded-full border border-white/[0.12] bg-black px-4 py-3 text-sm font-black text-gray-300 peer-checked:bg-accent peer-checked:text-white peer-checked:border-accent peer-checked:shadow-[0_0_28px_rgba(240,100,24,0.35)] hover:border-accent hover:text-white transition">
+                                            15:00
+                                        </span>
+                                    </label>
+
+                                    <label class="cursor-pointer">
+                                        <input type="radio" name="tdr_hora" value="17:00" required class="peer hidden">
+                                        <span class="block text-center rounded-full border border-white/[0.12] bg-black px-4 py-3 text-sm font-black text-gray-300 peer-checked:bg-accent peer-checked:text-white peer-checked:border-accent peer-checked:shadow-[0_0_28px_rgba(240,100,24,0.35)] hover:border-accent hover:text-white transition">
+                                            17:00
+                                        </span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label for="tdr_observacoes" class="text-[11px] uppercase font-bold text-gray-500 mb-2 block tracking-wider">
+                            Mensagem opcional
+                        </label>
+                        <textarea
+                            id="tdr_observacoes"
+                            name="tdr_observacoes"
+                            rows="4"
+                            class="w-full bg-black border border-white/[0.08] rounded-xl p-4 text-sm focus:border-accent outline-none text-white placeholder-gray-600 transition-colors resize-none"
+                            placeholder="Pode deixar alguma observação ou preferência de contacto."
+                        ></textarea>
+                    </div>
+
+                    <div class="bg-white/[0.03] border border-white/[0.08] rounded-2xl p-5">
+                        <p class="text-xs text-gray-400 leading-relaxed">
+                            Horário do stand: segunda a sábado. O pedido será analisado pela equipa Autogémeos e confirmado posteriormente.
+                        </p>
+                    </div>
+
+                    <div class="flex flex-col md:flex-row gap-3">
+                        <button
+                            type="button"
+                            onclick="fecharTestDrive()"
+                            class="w-full md:w-1/3 bg-white/[0.05] border border-white/[0.08] text-white py-3.5 rounded-xl font-bold text-sm uppercase tracking-wider hover:bg-white/[0.08] transition"
+                        >
+                            Cancelar
+                        </button>
+
+                        <button
+                            type="submit"
+                            class="w-full md:w-2/3 bg-accent text-white py-3.5 rounded-xl font-bold text-sm uppercase tracking-wider hover:bg-opacity-90 transition"
+                        >
+                            Enviar pedido
+                        </button>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
-</div>
-{% endif %}
+    {% endif %}
 
-    <footer class="bg-[#070707] border-t border-white/[0.06] px-6 md:px-12 py-14">
-        <div class="max-w-7xl mx-auto grid md:grid-cols-3 gap-10">
+    <footer class="bg-[#070707] border-t border-white/[0.06] px-4 sm:px-6 md:px-12 py-12 md:py-14">
+        <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-10">
 
             <div>
                 <a href="/" class="text-2xl font-black tracking-tighter uppercase italic">
@@ -938,7 +957,7 @@ span.flatpickr-weekday {
                 <div class="space-y-3 text-sm text-gray-400">
                     <p>📍 Lisboa, Portugal</p>
                     <p>📞 <a href="tel:+351900000000" class="hover:text-white transition">+351 900 000 000</a></p>
-                    <p>✉️ <a href="mailto:geral@autogemeosinacio.pt" class="hover:text-white transition">geral@autogemeosinacio.pt</a></p>
+                    <p>✉️ <a href="mailto:geral@autogemeosinacio.pt" class="hover:text-white transition break-all">geral@autogemeosinacio.pt</a></p>
                     <p>🕒 Segunda a Sábado: 09h00 - 19h00</p>
                 </div>
             </div>
@@ -979,6 +998,16 @@ span.flatpickr-weekday {
                 "{{ carro.img }}"
             {% endif %}
         ];
+
+        function toggleMenuMobile() {
+            const menu = document.getElementById("menu-mobile");
+
+            if (!menu) {
+                return;
+            }
+
+            menu.classList.toggle("hidden");
+        }
 
         function atualizarGaleria() {
             const slides = document.querySelectorAll('.vehicle-slide');
@@ -1121,26 +1150,6 @@ span.flatpickr-weekday {
             atualizarGaleria();
         }
 
-        document.addEventListener('keydown', function(event) {
-            const lightbox = document.getElementById('lightbox');
-
-            if (!lightbox || lightbox.classList.contains('hidden')) {
-                return;
-            }
-
-            if (event.key === 'Escape') {
-                fecharLightbox();
-            }
-
-            if (event.key === 'ArrowLeft') {
-                mudarImagemLightbox(-1, event);
-            }
-
-            if (event.key === 'ArrowRight') {
-                mudarImagemLightbox(1, event);
-            }
-        });
-    
         const CREDITO_TAN = 11.5;
 
         function formatarMoeda(valor) {
@@ -1231,59 +1240,28 @@ span.flatpickr-weekday {
             if (prazoResumoEl) prazoResumoEl.innerText = prazo;
             if (totalEl) totalEl.innerText = formatarMoeda(totalEstimado);
         }
-</script>
 
+        function abrirTestDrive() {
+            const modal = document.getElementById('modal-test-drive');
+            const inputData = document.getElementById('tdr_data');
 
-    <script>
-        document.addEventListener("keydown", function(event) {
-            if (event.key === "Escape") {
-                fecharSimulacaoCredito();
+            if (!modal) {
+                return;
             }
-        });
 
-      document.addEventListener("DOMContentLoaded", function() {
-    calcularCredito();
+            if (inputData) {
+                const hoje = new Date();
+                const ano = hoje.getFullYear();
+                const mes = String(hoje.getMonth() + 1).padStart(2, '0');
+                const dia = String(hoje.getDate()).padStart(2, '0');
 
-    const inputData = document.getElementById("tdr_data");
+                inputData.min = `${ano}-${mes}-${dia}`;
+            }
 
-    if (inputData && typeof flatpickr !== "undefined") {
-        flatpickr(inputData, {
-            locale: "pt",
-            dateFormat: "Y-m-d",
-            altInput: true,
-            altFormat: "d/m/Y",
-            minDate: "today",
-            disable: [
-                function(date) {
-                    return date.getDay() === 0;
-                }
-            ]
-        });
-    }
-});
-    
-
-      function abrirTestDrive() {
-    const modal = document.getElementById('modal-test-drive');
-    const inputData = document.getElementById('tdr_data');
-
-    if (!modal) {
-        return;
-    }
-
-    if (inputData) {
-        const hoje = new Date();
-        const ano = hoje.getFullYear();
-        const mes = String(hoje.getMonth() + 1).padStart(2, '0');
-        const dia = String(hoje.getDate()).padStart(2, '0');
-
-        inputData.min = `${ano}-${mes}-${dia}`;
-    }
-
-    modal.classList.remove('hidden');
-    modal.setAttribute('aria-hidden', 'false');
-    document.body.classList.add('overflow-hidden');
-}
+            modal.classList.remove('hidden');
+            modal.setAttribute('aria-hidden', 'false');
+            document.body.classList.add('overflow-hidden');
+        }
 
         function fecharTestDrive() {
             const modal = document.getElementById('modal-test-drive');
@@ -1296,7 +1274,54 @@ span.flatpickr-weekday {
             modal.setAttribute('aria-hidden', 'true');
             document.body.classList.remove('overflow-hidden');
         }
-</script>
+
+        document.addEventListener('keydown', function(event) {
+            const lightbox = document.getElementById('lightbox');
+
+            if (event.key === "Escape") {
+                fecharSimulacaoCredito();
+                fecharTestDrive();
+
+                if (lightbox && !lightbox.classList.contains('hidden')) {
+                    fecharLightbox();
+                }
+            }
+
+            if (!lightbox || lightbox.classList.contains('hidden')) {
+                return;
+            }
+
+            if (event.key === 'ArrowLeft') {
+                mudarImagemLightbox(-1, event);
+            }
+
+            if (event.key === 'ArrowRight') {
+                mudarImagemLightbox(1, event);
+            }
+        });
+
+        document.addEventListener("DOMContentLoaded", function() {
+            calcularCredito();
+
+            const inputData = document.getElementById("tdr_data");
+
+            if (inputData && typeof flatpickr !== "undefined") {
+                flatpickr(inputData, {
+                    locale: "pt",
+                    dateFormat: "Y-m-d",
+                    altInput: true,
+                    altFormat: "d/m/Y",
+                    minDate: "today",
+                    disableMobile: true,
+                    disable: [
+                        function(date) {
+                            return date.getDay() === 0;
+                        }
+                    ]
+                });
+            }
+        });
+    </script>
 
 </body>
 </html>
