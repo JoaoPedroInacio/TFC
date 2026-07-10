@@ -1,4 +1,6 @@
 from django.contrib import admin
+from django.core.mail import send_mail
+from django.conf import settings
 from .models import (
     Combustivel,
     Marca,
@@ -135,6 +137,103 @@ class TestDriveAdmin(admin.ModelAdmin):
         "-tdr_data",
         "-tdr_hora",
     )
+
+    def save_model(self, request, obj, form, change):
+        estado_antigo = None
+
+        if change:
+            try:
+                estado_antigo = TestDrive.objects.get(pk=obj.pk).tdr_estado
+            except TestDrive.DoesNotExist:
+                estado_antigo = None
+
+        super().save_model(request, obj, form, change)
+
+        if estado_antigo != obj.tdr_estado:
+            if obj.tdr_estado == TestDrive.ESTADO_CONFIRMADO:
+                assunto = "Test-drive confirmado - Autogémeos"
+
+                mensagem = f"""
+Olá {obj.tdr_nome},
+
+O seu test-drive foi confirmado pela equipa Autogémeos.
+
+Veículo: {obj.tdr_vei.marca} {obj.tdr_vei.modelo}
+Data: {obj.tdr_data.strftime('%d/%m/%Y')}
+Hora: {obj.tdr_hora.strftime('%H:%M')}
+
+Aguardamos por si na data e hora marcada.
+
+Obrigado,
+Autogémeos
+"""
+
+                send_mail(
+                    assunto,
+                    mensagem,
+                    getattr(settings, "DEFAULT_FROM_EMAIL", "tfcautogemeos@gmail.com"),
+                    [obj.tdr_email],
+                    fail_silently=False,
+                )
+
+            elif obj.tdr_estado == TestDrive.ESTADO_CANCELADO:
+                assunto = "Test-drive cancelado - Autogémeos"
+
+                mensagem = f"""
+Olá {obj.tdr_nome},
+
+Informamos que o seu test-drive foi cancelado pela equipa Autogémeos.
+
+Veículo: {obj.tdr_vei.marca} {obj.tdr_vei.modelo}
+Data: {obj.tdr_data.strftime('%d/%m/%Y')}
+Hora: {obj.tdr_hora.strftime('%H:%M')}
+
+Para remarcar, por favor contacte-nos ou faça um novo pedido no website.
+
+Obrigado,
+Autogémeos
+"""
+
+                send_mail(
+                    assunto,
+                    mensagem,
+                    getattr(settings, "DEFAULT_FROM_EMAIL", "tfcautogemeos@gmail.com"),
+                    [obj.tdr_email],
+                    fail_silently=False,
+                )
+            send_mail(
+                assunto,
+                mensagem,
+                getattr(settings, "DEFAULT_FROM_EMAIL", "tfcautogemeos@gmail.com"),
+                [obj.tdr_email],
+                fail_silently=False,
+            )
+
+        elif obj.tdr_estado == TestDrive.ESTADO_CANCELADO:
+            assunto = "Test-drive cancelado - Autogémeos"
+
+            mensagem = f"""
+Olá {obj.tdr_nome},
+
+Informamos que o seu test-drive foi cancelado pela equipa Autogémeos.
+
+Veículo: {obj.tdr_vei.marca} {obj.tdr_vei.modelo}
+Data: {obj.tdr_data.strftime('%d/%m/%Y')}
+Hora: {obj.tdr_hora.strftime('%H:%M')}
+
+Para remarcar, por favor contacte-nos ou faça um novo pedido no website.
+
+Obrigado,
+Autogémeos
+"""
+
+            send_mail(
+                assunto,
+                mensagem,
+                getattr(settings, "DEFAULT_FROM_EMAIL", "tfcautogemeos@gmail.com"),
+                [obj.tdr_email],
+                fail_silently=False,
+            )
 
 @admin.register(Utilizador)
 class UtilizadorAdmin(admin.ModelAdmin):
